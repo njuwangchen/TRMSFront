@@ -1,0 +1,86 @@
+<h1><code ng:non-bindable=""></code>
+<span class="hint"></span>
+</h1>
+<div><p>The exporter feature allows data to be exported from the grid in 
+csv or pdf format.  The exporter can export all data, visible data or selected data.</p>
+
+<p>To use the exporter you need to include the ui-grid-exporter directive on
+your grid.  If you want to export selected rows you must include the ui-grid-selection
+directive on your grid.  If you want to export as PDF you need to have installed pdfMake, 
+available through:
+<pre class="prettyprint linenums">  bower install pdfmake  </pre>
+
+<p>The options and API for exporter can be found at <a href="#/api/ui.grid.exporter">ui.grid.exporter</a>.</p>
+
+<p>The exporter adds menu items to the grid menu, to use the native UI you need to enable
+the grid menu using the gridOption <code>enableGridMenu</code></p>
+
+<p>Note that the option to export selected data is only visible if you have data selected.</p><h2 id="Example">Example</h2>
+<div class="example"><p>In this example we use the native grid menu buttons, and we show both the pdf and csv export options.</p>
+
+<h4>Source</h4>
+<div source-edit="app" source-edit-deps="angular.js app.js" source-edit-html="index.html-55" source-edit-css="main.css" source-edit-js="app.js" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-55" ng-html-wrap-loaded="app angular.js app.js"></pre>
+<script type="text/ng-template" id="index.html-55">
+    <div ng-controller="MainCtrl">
+      <div ui-grid="gridOptions" ui-grid-selection ui-grid-exporter class="grid"></div>
+    </div>
+  </script>
+</div>
+<div class="tab-pane" title="main.css">
+<pre class="prettyprint linenums" ng-set-text="main.css"></pre>
+<style type="text/css" id="main.css">
+    .grid {
+      width: 500px;
+      height: 400px;
+    }
+  </style>
+</div>
+<div class="tab-pane" title="app.js">
+<pre class="prettyprint linenums" ng-set-text="app.js"></pre>
+<script type="text/ng-template" id="app.js">
+    var app = angular.module('app', ['ngAnimate', 'ngTouch', 'ui.grid', 'ui.grid.selection', 'ui.grid.exporter']);
+
+    app.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
+      $scope.gridOptions = {
+        columnDefs: [
+          { field: 'name' },
+          { field: 'gender', visible: false},
+          { field: 'company' }
+        ],
+        enableGridMenu: true,
+        enableSelectAll: true,
+        exporterCsvFilename: 'myFile.csv',
+        exporterPdfDefaultStyle: {fontSize: 9},
+        exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+        exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+        exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+        exporterPdfFooter: function ( currentPage, pageCount ) {
+          return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+        },
+        exporterPdfCustomFormatter: function ( docDefinition ) {
+          docDefinition.styles.headerStyle = { fontSize: 22, bold: true }; 
+          docDefinition.styles.footerStyle = { fontSize: 10, bold: true }; 
+          return docDefinition;
+        },
+        exporterPdfOrientation: 'portrait',
+        exporterPdfPageSize: 'LETTER',
+        exporterPdfMaxGridWidth: 500,
+        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+        onRegisterApi: function(gridApi){ 
+          $scope.gridApi = gridApi;
+        }
+      };
+      
+      $http.get('/data/100.json')
+      .success(function(data) {
+        $scope.gridOptions.data = data;
+      });
+        
+    }]);
+  </script>
+</div>
+</div><h4>Demo</h4>
+<div class="well doc-example-live animator-container" ng-embed-app="app" ng-set-html="index.html-55" ng-eval-javascript="app.js"></div></div>
+</div>

@@ -1,0 +1,18 @@
+<div class="row">
+	<div>
+		<h3>添加评论</h3>
+	</div>
+	<div ng-controller="CommentRateCtrl" style="font-size: 30px;">
+		<rating ng-model="rate"></rating>
+	</div>
+</div>
+<div class="row">
+	<tabset>
+		<tab heading="简单评论">
+			<div ui-view="simpleComment"></div>
+		</tab>
+		<tab heading="细节评论">
+			<div ui-view="detailComment"></div>
+		</tab>
+	</tabset>
+</div>

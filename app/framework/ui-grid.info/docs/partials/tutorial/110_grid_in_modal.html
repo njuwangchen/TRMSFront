@@ -1,0 +1,90 @@
+<h1><code ng:non-bindable=""></code>
+<span class="hint"></span>
+</h1>
+<div><p>Using a grid in a modal popup</p><h2 id="Example">Example</h2>
+<div class="example"><h4>Source</h4>
+<div source-edit="app" source-edit-deps="angular.js app.js" source-edit-html="index.html-33" source-edit-css="main.css" source-edit-js="app.js" source-edit-unit="" source-edit-scenario="scenario.js-34"></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-33" ng-html-wrap-loaded="app angular.js app.js"></pre>
+<script type="text/ng-template" id="index.html-33">
+  <div ng-controller="MainCtrl">
+    <button id="showButton" class="btn btn-success" ng-click="showModal()">Show Modal</button>
+  </div>
+</script>
+</div>
+<div class="tab-pane" title="main.css">
+<pre class="prettyprint linenums" ng-set-text="main.css"></pre>
+<style type="text/css" id="main.css">
+  .grid {
+    width: 300px;
+    height: 250px;
+  }
+</style>
+</div>
+<div class="tab-pane" title="app.js">
+<pre class="prettyprint linenums" ng-set-text="app.js"></pre>
+<script type="text/ng-template" id="app.js">
+  var app = angular.module('app', ['ngTouch', 'ui.grid']);
+
+  app.controller('MainCtrl', ['$rootScope', '$scope', '$http', 'modal', function ($rootScope, $scope, $http, modal) {
+    var myModal = new modal();
+
+    $scope.hideGrid = true;
+
+    $rootScope.gridOptions = {  };
+
+    $http.get('/data/100.json')
+      .success(function(data) {
+        $rootScope.gridOptions.data = data;
+      });
+
+    $scope.showModal = function() {
+      myModal.open();
+    };
+  }]);
+
+  app.factory('modal', ['$compile', '$rootScope', function ($compile, $rootScope) {
+    return function() {
+      var elm;
+      var modal = {
+        open: function() {
+
+          var html = '<div class="modal" ng-style="modalStyle">{{modalStyle}}<div class="modal-dialog"><div class="modal-content"><div class="modal-header"></div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" class="grid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Close</button></div></div></div></div>';
+          elm = angular.element(html);
+          angular.element(document.body).prepend(elm);
+
+          $rootScope.close = function() {
+            modal.close();
+          };
+          
+          $rootScope.modalStyle = {"display": "block"};
+
+          $compile(elm)($rootScope);
+        },
+        close: function() {
+          if (elm) {
+            elm.remove();
+          }
+        }
+      };
+
+      return modal;
+    };
+  }]);
+</script>
+</div>
+<div class="tab-pane" title="End to end test">
+<pre class="prettyprint linenums" ng-set-text="scenario.js-34"></pre>
+<script type="text/ng-template" id="scenario.js-34">
+  var gridTestUtils = require('../../test/e2e/gridTestUtils.spec.js');
+  it('click modal button, grid should show with three columns and some data', function () {
+    element( by.id ( 'showButton' ) ).click();
+    gridTestUtils.expectHeaderColumnCount( 'grid1', 3 );
+    gridTestUtils.expectRowValuesMatch( 'grid1', 0, [ 'Ethel Price', 'female', 'Enersol' ]);
+    element( by.id ( 'buttonClose' ) ).click();
+  });
+</script>
+</div>
+</div><h4>Demo</h4>
+<div class="well doc-example-live animator-container" ng-embed-app="app" ng-set-html="index.html-33" ng-eval-javascript="app.js"></div></div>
+</div>

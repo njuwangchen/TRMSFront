@@ -1,0 +1,231 @@
+<h1><code ng:non-bindable="">PublicApi</code>
+<span class="hint">(api in module <code ng:non-bindable="">ui.grid.core</code>
+)</span>
+</h1>
+<div><h2 id="Description">Description</h2>
+<div class="description"><p>Public Api for the core grid features</p></div>
+<div class="member method"><h2 id="Methods">Methods</h2>
+<ul class="methods"><li><h3 id="addRowHeaderColumn">addRowHeaderColumn(column)</h3>
+<div class="addrowheadercolumn"><p>adds a row header column to the grid</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">column – {object} – </code>
+<p>def</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="addToGridMenu">addToGridMenu(grid, items)</h3>
+<div class="addtogridmenu"><p>add items to the grid menu.  Used by features
+to add their menu items if they are enabled, can also be used by
+end users to add menu items.  This method has the advantage of allowing
+remove again, which can simplify management of which items are included
+in the menu when.  (Noting that in most cases the shown and active functions
+provide a better way to handle visibility of menu items)</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">grid – {Grid} – </code>
+<p>the grid on which we are acting</p></li>
+<li><code ng:non-bindable="">items – {array} – </code>
+<p>menu items in the format as described in the tutorial, with 
+the added note that if you want to use remove you must also specify an <code>id</code> field,
+which is provided when you want to remove an item.  The id should be unique.</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="clearRowInvisible">clearRowInvisible(rowEntity)</h3>
+<div class="clearrowinvisible"><p>Clears any override on visibility for the row so that it returns to 
+using normal filtering and other visibility calculations. <br />
+If the row is currently invisible then sets it to visible and calls
+both grid refresh and emits the rowsVisibleChanged event
+TODO: if a filter is active then we can't just set it to visible?</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">rowEntity – {object} – </code>
+<p>gridOptions.data[] array instance</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="columnVisibilityChanged">columnVisibilityChanged(column)</h3>
+<div class="columnvisibilitychanged"><p>The visibility of a column has changed,
+the column itself is passed out as a parameter of the event. </p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">column – {GridCol} – </code>
+<p>the column that changed</p></li>
+</ul>
+<h4 id="Example">Example</h4>
+<div class="example"><pre class="prettyprint linenums">
+gridApi.core.on.columnVisibilityChanged( $scope, function (column) {
+  // do something
+} );
+</pre></div>
+</div>
+</li>
+<li><h3 id="getVisibleRows">getVisibleRows(grid)</h3>
+<div class="getvisiblerows"><p>Returns all visible rows</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">grid – {Grid} – </code>
+<p>the grid you want to get visible rows from</p></li>
+</ul>
+<h4 id="Returns">Returns</h4>
+<div class="returns"><code ng:non-bindable="">{array}</code>
+– <p>an array of gridRow</p></div>
+</div>
+</li>
+<li><h3 id="handleWindowResize">handleWindowResize()</h3>
+<div class="handlewindowresize"><p>Trigger a grid resize, normally this would be picked
+up by a watch on window size, but in some circumstances it is necessary
+to call this manually</p><h4 id="Returns">Returns</h4>
+<div class="returns"><code ng:non-bindable="">{promise}</code>
+– <p>promise that is resolved when render completes?</p></div>
+</div>
+</li>
+<li><h3 id="notifyDataChange">notifyDataChange(type)</h3>
+<div class="notifydatachange"><p>Notify the grid that a data or config change has occurred,
+where that change isn't something the grid was otherwise noticing.  This 
+might be particularly relevant where you've changed values within the data
+and you'd like cell classes to be re-evaluated, or changed config within 
+the columnDef and you'd like headerCellClasses to be re-evaluated.</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">type – {string} – </code>
+<p>one of the 
+uiGridConstants.dataChange values (ALL, ROW, EDIT, COLUMN), which tells
+us which refreshes to fire.</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="refresh">refresh()</h3>
+<div class="refresh"><p>Refresh the rendered grid on screen.</p></div>
+</li>
+<li><h3 id="refreshRows">refreshRows()</h3>
+<div class="refreshrows"><p>Refresh the rendered grid on screen?  Note: not functional at present</p><h4 id="Returns">Returns</h4>
+<div class="returns"><code ng:non-bindable="">{promise}</code>
+– <p>promise that is resolved when render completes?</p></div>
+</div>
+</li>
+<li><h3 id="removeFromGridMenu">removeFromGridMenu(grid, id)</h3>
+<div class="removefromgridmenu"><p>Remove an item from the grid menu based on a provided id. Assumes
+that the id is unique, removes only the last instance of that id. Does nothing if
+the specified id is not found</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">grid – {Grid} – </code>
+<p>the grid on which we are acting</p></li>
+<li><code ng:non-bindable="">id – {string} – </code>
+<p>the id we'd like to remove from the menu</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="removeFromGridMenu">removeFromGridMenu(grid, id)</h3>
+<div class="removefromgridmenu"><p>Remove an item from the grid menu based on a provided id.  Assumes
+that the id is unique, removes only the last instance of that id.  Does nothing if
+the specified id is not found.  If there is no gridMenuScope or registeredMenuItems
+then do nothing silently - the desired result is those menu items not be present and they
+aren't.</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">grid – {Grid} – </code>
+<p>the grid on which we are acting</p></li>
+<li><code ng:non-bindable="">id – {string} – </code>
+<p>the id we'd like to remove from the menu</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="renderingComplete">renderingComplete(gridApi)</h3>
+<div class="renderingcomplete"><p>Rendering is complete, called at the same
+time as <code>onRegisterApi</code>, but provides a way to obtain
+that same event within features without stopping end
+users from getting at the onRegisterApi method.</p>
+
+<p>Included in gridApi so that it's always there - otherwise
+there is still a timing problem with when a feature can
+call this. </p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">gridApi – {GridApi} – </code>
+<p>the grid api, as normally 
+returned in the onRegisterApi method</p></li>
+</ul>
+<h4 id="Example">Example</h4>
+<div class="example"><pre class="prettyprint linenums">
+gridApi.core.on.renderingComplete( grid );
+</pre></div>
+</div>
+</li>
+<li><h3 id="setRowInvisible">setRowInvisible(rowEntity)</h3>
+<div class="setrowinvisible"><p>Sets an override on the row to make it always invisible,
+which will override any filtering or other visibility calculations. <br />
+If the row is currently visible then sets it to invisible and calls
+both grid refresh and emits the rowsVisibleChanged event</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">rowEntity – {object} – </code>
+<p>gridOptions.data[] array instance</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="sortChanged">sortChanged(grid, sortColumns)</h3>
+<div class="sortchanged"><p>The sort criteria on one or more columns has
+changed.  Provides as parameters the grid and the output of
+getColumnSorting, which is an array of gridColumns
+that have sorting on them, sorted in priority order. </p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">grid – {Grid} – </code>
+<p>the grid</p></li>
+<li><code ng:non-bindable="">sortColumns – {array} – </code>
+<p>an array of columns with 
+sorts on them, in priority order</p></li>
+</ul>
+<h4 id="Example">Example</h4>
+<div class="example"><pre class="prettyprint linenums">
+gridApi.core.on.sortChanged( grid, sortColumns );
+</pre></div>
+</div>
+</li>
+<li><h3 id="sortHandleNulls">sortHandleNulls(a, b)</h3>
+<div class="sorthandlenulls"><p>A null handling method that can be used when building custom sort
+functions</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">a – {object} – </code>
+<p>sort value a</p></li>
+<li><code ng:non-bindable="">b – {object} – </code>
+<p>sort value b</p></li>
+</ul>
+<h4 id="Returns">Returns</h4>
+<div class="returns"><code ng:non-bindable="">{number}</code>
+– <p>null if there were no nulls/undefineds, otherwise returns
+a sort value that should be passed back from the sort function</p></div>
+<h4 id="Example">Example</h4>
+<div class="example"><pre class="prettyprint linenums">
+mySortFn = function(a, b) {
+var nulls = $scope.gridApi.core.sortHandleNulls(a, b);
+if ( nulls !== null ){
+  return nulls;
+} else {
+  // your code for sorting here
+};
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="member event"><h2 id="Events">Events</h2>
+<ul class="events"><li><h3 id="canvasHeightChanged">canvasHeightChanged</h3>
+<div class="canvasheightchanged"><p>is raised when the canvas height has changed
+<br/>
+arguments: oldHeight, newHeight</p><div class="inline"></div>
+<div class="inline"></div>
+</div>
+</li>
+<li><h3 id="filterChanged">filterChanged</h3>
+<div class="filterchanged"><p>is raised after the filter is changed.  The nature
+of the watch expression doesn't allow notification of what changed,
+so the receiver of this event will need to re-extract the filter 
+conditions from the columns.</p><div class="inline"></div>
+<div class="inline"></div>
+</div>
+</li>
+<li><h3 id="rowsRendered">rowsRendered</h3>
+<div class="rowsrendered"><p>is raised after the cache of visible rows is changed.</p><div class="inline"></div>
+<div class="inline"></div>
+</div>
+</li>
+<li><h3 id="rowsVisibleChanged">rowsVisibleChanged</h3>
+<div class="rowsvisiblechanged"><p>is raised after the rows that are visible
+change.  The filtering is zero-based, so it isn't possible
+to say which rows changed (unlike in the selection feature).
+We can plausibly know which row was changed when setRowInvisible
+is called, but in that situation the user already knows which row
+they changed.  When a filter runs we don't know what changed,
+and that is the one that would have been useful.</p><div class="inline"></div>
+<div class="inline"></div>
+</div>
+</li>
+<li><h3 id="scrollEvent">scrollEvent</h3>
+<div class="scrollevent"><p>is raised on a scroll Event.  Called frequently so be careful what you do with it</p><div class="inline"></div>
+<div class="inline"></div>
+</div>
+</li>
+</ul>
+</div>
+</div>

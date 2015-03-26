@@ -1,0 +1,57 @@
+<h1><code ng:non-bindable="">GridOptions</code>
+<span class="hint">(api in module <code ng:non-bindable="">ui.grid.selection</code>
+)</span>
+</h1>
+<div><h2 id="Description">Description</h2>
+<div class="description"><p>GridOptions for selection feature, these are available to be
+set using the ui-grid <a href="#/api/ui.grid.class:GridOptions">gridOptions</a></p></div>
+<div class="member property"><h2 id="Properties">Properties</h2>
+<ul class="properties"><li><h3 id="enableFooterTotalSelected">enableFooterTotalSelected</h3>
+<div class="enablefootertotalselected"><p>Shows the total number of selected items in footer if true.
+<br/>Defaults to true.
+<br/>GridOptions.showFooter must also be set to true.</p></div>
+</li>
+<li><h3 id="enableRowHeaderSelection">enableRowHeaderSelection</h3>
+<div class="enablerowheaderselection"><p>Enable a row header to be used for selection
+<br/>Defaults to true</p></div>
+</li>
+<li><h3 id="enableRowSelection">enableRowSelection</h3>
+<div class="enablerowselection"><p>Enable row selection for entire grid.
+<br/>Defaults to true</p></div>
+</li>
+<li><h3 id="enableSelectAll">enableSelectAll</h3>
+<div class="enableselectall"><p>Enable the select all checkbox at the top of the selectionRowHeader
+<br/>Defaults to true</p></div>
+</li>
+<li><h3 id="enableSelectionBatchEvent">enableSelectionBatchEvent</h3>
+<div class="enableselectionbatchevent"><p>If selected rows are changed in bulk, either via the API or
+via the selectAll checkbox, then a separate event is fired.  Setting this
+option to false will cause the rowSelectionChanged event to be called multiple times
+instead
+<br/>Defaults to true</p></div>
+</li>
+<li><h3 id="isRowSelectable">isRowSelectable</h3>
+<div class="isrowselectable"><p>Makes it possible to specify a method that evaluates for each and sets its "enableSelection" property.</p></div>
+</li>
+<li><h3 id="modifierKeysToMultiSelect">modifierKeysToMultiSelect</h3>
+<div class="modifierkeystomultiselect"><p>Enable multiple row selection only when using the ctrlKey or shiftKey. Requires multiSelect to be true.
+<br/>Defaults to false</p></div>
+</li>
+<li><h3 id="multiSelect">multiSelect</h3>
+<div class="multiselect"><p>Enable multiple row selection for entire grid
+<br/>Defaults to true</p></div>
+</li>
+<li><h3 id="noUnselect">noUnselect</h3>
+<div class="nounselect"><p>Prevent a row from being unselected.  Works in conjunction
+with <code>multiselect = false</code> and <code>gridApi.selection.selectRow()</code> to allow
+you to create a single selection only grid - a row is always selected, you
+can only select different rows, you can't unselect the row.
+<br/>Defaults to false</p></div>
+</li>
+<li><h3 id="selectionRowHeaderWidth">selectionRowHeaderWidth</h3>
+<div class="selectionrowheaderwidth"><p>can be used to set a custom width for the row header selection column
+<br/>Defaults to 30px</p></div>
+</li>
+</ul>
+</div>
+</div>

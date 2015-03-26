@@ -1,0 +1,27 @@
+<div class="container">
+	<div ui-view="nav"></div>
+	<div class="row">
+		<div class="col-md-12">
+			<h1>这是标题区域</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div ui-view="viewLiteratureMeta"></div>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div ui-view="viewLiteratureUpload"></div>
+			</div>
+			<div class="row">
+				<div ui-view="viewLiteratureRelation"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div ui-view="addComment"></div>
+	</div>
+	<div class="row">
+		<div ui-view="showComment"></div>
+	</div>
+</div>

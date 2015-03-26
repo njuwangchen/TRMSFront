@@ -1,0 +1,67 @@
+<h1><code ng:non-bindable="">uiGridColumnMenu</code>
+<span class="hint">(directive in module <code ng:non-bindable="">ui.grid</code>
+)</span>
+</h1>
+<div><h2 id="Description">Description</h2>
+<div class="description"><p>Allows us to interpolate expressions in <code>&lt;style&gt;</code> elements. Angular doesn't do this by default as it can/will/might? break in IE8.</p></div>
+<h2 id="Usage">Usage</h2>
+<div class="usage">as attribute<pre class="prettyprint linenums">&lt;style ui-grid-column-menu&gt;
+   ...
+&lt;/style&gt;</pre>
+</div>
+<div class="member method"><h2 id="Methods">Methods</h2>
+<ul class="methods"><li><h3 id="hideMenu">hideMenu(broadcastTrigger)</h3>
+<div class="hidemenu"><p>Hides the column menu.</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">broadcastTrigger – {boolean} – </code>
+<p>true if we were triggered by a broadcast
+from the menu itself - in which case don't broadcast again as we'll get
+an infinite loop</p></li>
+</ul>
+</div>
+</li>
+<li><h3 id="showMenu">showMenu(column, $columnElement)</h3>
+<div class="showmenu"><p>Shows the column menu.  If the menu is already displayed it
+calls the menu to ask it to hide (it will animate), then it repositions the menu
+to the right place whilst hidden (it will make an assumption on menu width), 
+then it asks the menu to show (it will animate), then it repositions the menu again 
+once we can calculate it's size.</p><h4 id="Parameters">Parameters</h4>
+<ul class="parameters"><li><code ng:non-bindable="">column – {GridCol} – </code>
+<p>the column we want to position below</p></li>
+<li><code ng:non-bindable="">$columnElement – {element} – </code>
+<p>the column element we want to position below</p></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h2 id="Example">Example</h2>
+<div class="example"><h4>Source</h4>
+<div source-edit="app" source-edit-deps="angular.js script.js" source-edit-html="index.html-12" source-edit-css="" source-edit-js="script.js-11" source-edit-unit="" source-edit-scenario="scenario.js-13"></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-12" ng-html-wrap-loaded="app angular.js script.js"></pre>
+<script type="text/ng-template" id="index.html-12">
+
+
+<div ng-controller="MainCtrl">
+  <div ui-grid-menu shown="true"  ></div>
+</div>
+</script>
+</div>
+<div class="tab-pane" title="script.js">
+<pre class="prettyprint linenums" ng-set-text="script.js-11"></pre>
+<script type="text/ng-template" id="script.js-11">
+var app = angular.module('app', ['ui.grid']);
+
+app.controller('MainCtrl', ['$scope', function ($scope) {
+  
+}]);
+</script>
+</div>
+<div class="tab-pane" title="End to end test">
+<pre class="prettyprint linenums" ng-set-text="scenario.js-13"></pre>
+<script type="text/ng-template" id="scenario.js-13">
+</script>
+</div>
+</div><h4>Demo</h4>
+<div class="well doc-example-live animator-container" ng-embed-app="app" ng-set-html="index.html-12" ng-eval-javascript="script.js-11"></div></div>
+</div>
