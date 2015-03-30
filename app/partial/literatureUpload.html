@@ -1,94 +1,100 @@
 <div ng-controller="LiteratureUploadCtrl">
-	<div class="row">
-		<div class="col-md-2">
-			<button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files" pl-url="data/upload.json">上传文件</button>
-		</div>
-		<div class="col-md-8 col-md-offset-1">
-			<progressbar value="percent">
-				<b>{{percent}}%</b>
-			</progressbar>
-		</div>
-	</div>
-	<div class="row" ng-show="{{literatureFile}}">
-		<div class="col-md-11">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>已上传的文件</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{{literatureFile.name}}</td>
-						<td class="text-right"><a href="" class="btn">删除</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <div class="row" ng-show="isEdit">
+        <div class="col-md-2">
+            <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
+                    pl-url="data/upload.json">上传文件
+            </button>
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            <progressbar value="percent">
+                <b>{{percent}}%</b>
+            </progressbar>
+        </div>
+    </div>
+    <div class="row" ng-show="literatureFile">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>已上传的文件</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{literatureFile.name}}</td>
+                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <div ng-controller="VideoUploadCtrl">
-	<div class="row">
-		<div class="col-md-2">
-			<button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files" pl-url="data/upload.json">上传视频</button>
-		</div>
-		<div class="col-md-8 col-md-offset-1">
-			<progressbar value="percent">
-				<b>{{percent}}%</b>
-			</progressbar>
-		</div>
-	</div>
-	<div class="row" ng-show="videoFiles.length">
-		<div class="col-md-11">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>已上传的视频</th>
-						<th class="text-right">大小(KB)</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="video in videoFiles">
-						<td>{{video.name}}</td>
-						<td class="text-right">{{video.size}}</td>
-						<td class="text-right"><a href="" class="btn">删除</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <div class="row" ng-show="isEdit">
+        <div class="col-md-2">
+            <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
+                    pl-url="data/upload.json">上传视频
+            </button>
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            <progressbar value="percent">
+                <b>{{percent}}%</b>
+            </progressbar>
+        </div>
+    </div>
+    <div class="row" ng-show="videoFiles.length">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>已上传的视频</th>
+                    <th class="text-right">大小(KB)</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="video in videoFiles">
+                    <td>{{video.name}}</td>
+                    <td class="text-right">{{video.size}}</td>
+                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <div ng-controller="PptUploadCtrl">
-	<div class="row">
-		<div class="col-md-2">
-			<button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files" pl-url="data/upload.json">上传幻灯片</button>
-		</div>
-		<div class="col-md-8 col-md-offset-1">
-			<progressbar value="percent">
-				<b>{{percent}}%</b>
-			</progressbar>
-		</div>
-	</div>
-	<div class="row" ng-show="pptFiles.length">
-		<div class="col-md-11">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>已上传的幻灯片</th>
-						<th class="text-right">大小(KB)</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="ppt in pptFiles">
-						<td>{{ppt.name}}</td>
-						<td class="text-right">{{ppt.size}}</td>
-						<td class="text-right"><a href="" class="btn">删除</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <div class="row" ng-show="isEdit">
+        <div class="col-md-2">
+            <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
+                    pl-url="data/upload.json">上传幻灯片
+            </button>
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            <progressbar value="percent">
+                <b>{{percent}}%</b>
+            </progressbar>
+        </div>
+    </div>
+    <div class="row" ng-show="pptFiles.length">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>已上传的幻灯片</th>
+                    <th class="text-right">大小(KB)</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="ppt in pptFiles">
+                    <td>{{ppt.name}}</td>
+                    <td class="text-right">{{ppt.size}}</td>
+                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

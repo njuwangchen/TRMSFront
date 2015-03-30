@@ -1,27 +1,30 @@
-<div class="container">
-	<div ui-view="nav"></div>
-	<div class="row">
-		<div class="col-md-12">
-			<h1>这是标题区域</h1>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<div ui-view="viewLiteratureMeta"></div>
-		</div>
-		<div class="col-md-6">
-			<div class="row">
-				<div ui-view="viewLiteratureUpload"></div>
-			</div>
-			<div class="row">
-				<div ui-view="viewLiteratureRelation"></div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div ui-view="addComment"></div>
-	</div>
-	<div class="row">
-		<div ui-view="showComment"></div>
-	</div>
+<div class="container" ng-controller="LiteratureShowCtrl">
+    <div ui-view="nav"></div>
+    <div class="row">
+        <div class="col-md-9">
+            <h2>这是标题区域</h2>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary pull-right" type="button">收藏</button>
+            <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}" ng-click="changeState()">{{getEditLabel()}}</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div ui-view="viewLiteratureMeta" ng-hide="isEdit"></div>
+            <div ui-view="editLiteratureMeta" ng-show="isEdit"></div>
+        </div>
+        <div class="col-md-4">
+            <div ui-view="viewLiteratureUpload"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div ui-view="viewLiteratureRelation"></div>
+    </div>
+    <div class="row">
+        <div ui-view="addComment"></div>
+    </div>
+    <div class="row">
+        <div ui-view="showComment"></div>
+    </div>
 </div>
