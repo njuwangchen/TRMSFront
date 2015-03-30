@@ -1,4 +1,4 @@
-<div class="span5" ng-controller="userLoginCtrl"> 
+<!-- <div class="span5" ng-controller="userLoginCtrl"> 
     <form>
        <fieldset>
               <div class="form-group">
@@ -15,3 +15,45 @@
            </fieldset>
        </form>
    </div>
+ -->
+<div ng-controller="userLoginCtrl">
+<button class="btn btn-primary" type="button">登陆</button>
+<div class="modal fade" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">登陆</h4>
+      </div>
+      <div class="modal-body">
+        <div><form>
+       <fieldset>
+              <div class="form-group">
+                <input class="form-control" placeholder="Account" ng-model="un" 
+                  type="text" autocomplete="off">
+               </div>
+               <div class="form-group">
+                  <input class="form-control" placeholder="Password" ng-model="pw"  
+                    type="password" value="" autocomplete="off">
+               </div>
+               <div>{{errorMessage}}</div>
+           </fieldset>
+       </form></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" ng-click="Login()">登陆</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
+<script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap-transition.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap-modal.js"></script>
+<script>
+  $(function(){
+    $(".btn").click(function(){
+      $("#mymodal").modal("toggle");
+    });
+  });
+</script>

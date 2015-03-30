@@ -94,7 +94,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
 				'':{
 					templateUrl: 'partial/login.html'
 				},
-				'nav@viewLiterature': {
+				'nav@login': {
 					templateUrl: 'partial/nav.html'
 				}
 			}

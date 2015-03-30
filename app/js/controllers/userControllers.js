@@ -3,6 +3,7 @@ var userModule = angular.module('userModule',[]);
 userModule.controller('userLoginCtrl', ['$scope','$http','$location',
 	function($scope,$http,$location)
 	{
+        $scope.errorMessage='';
 		$scope.Login=function()
 		{
 			
