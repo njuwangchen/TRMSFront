@@ -1,9 +1,12 @@
 var literatureModule = angular.module('LiteratureModule', []);
 
-literatureModule.controller('LiteratureListCtrl', function($scope, $http){
+literatureModule.controller('LiteratureListCtrl', ['$scope', '$resource', function($scope, $resource){
 
-	$http.get('data/literatureList.json').success(function(data){
+	var literature = $resource('http://127.0.0.1:5000/api/v1/literatures/:literatureId', {literatureId: '@id'});
+
+	literature.query(function(data){
 		$scope.literatureList = data;
+		console.log($scope.literatureList);
 	});
 
     $scope.gridOptions = {
@@ -17,10 +20,10 @@ literatureModule.controller('LiteratureListCtrl', function($scope, $http){
         	width: 300,
         	cellTemplate: '<div><a ui-sref="viewLiterature">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
-        	field: "creator", 
+        	field: "creator_id",
         	displayName: "创建者"
         }, {
-        	field: "updater", 
+        	field: "updater_id",
         	displayName: "更新者"
         }, {
         	field: "create_time", 
@@ -30,4 +33,4 @@ literatureModule.controller('LiteratureListCtrl', function($scope, $http){
         	displayName: "更新时间"
         }]
     };
-});
+}]);

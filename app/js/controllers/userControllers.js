@@ -14,7 +14,7 @@ userModule.controller('userLoginCtrl', ['$scope','$http','$location',
                 data: { 
                         'username': $scope.un, 
                         'password': $scope.pw 
-                     },
+                     }
             }).
 
             success(function(data, status) {
