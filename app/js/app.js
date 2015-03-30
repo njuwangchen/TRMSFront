@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule','userModule']);
 
 routerApp.run(function($rootScope, $state, $stateParams){
 	$rootScope.$state = $state;
@@ -85,6 +85,17 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
 				},
 				'detailComment@viewLiterature': {
 					templateUrl: 'partial/detailComment.html'
+				}
+			}
+		})
+		.state('login',{
+			url: "/login",
+			views: {
+				'':{
+					templateUrl: 'partial/login.html'
+				},
+				'nav@viewLiterature': {
+					templateUrl: 'partial/nav.html'
 				}
 			}
 		});

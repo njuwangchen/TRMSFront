@@ -1,0 +1,17 @@
+<div class="span5" ng-controller="userLoginCtrl"> 
+    <form>
+       <fieldset>
+              <div class="form-group">
+                <input class="form-control" placeholder="Account" ng-model="un" 
+                  type="text" autocomplete="off">
+               </div>
+               <div class="form-group">
+                  <input class="form-control" placeholder="Password" ng-model="pw"  
+                    type="password" value="" autocomplete="off">
+               </div>
+               <input class="btn btn-lg btn-success btn-block" type="submit" 
+                 ng-click="Login()" value="Login">
+               <div>{{errorMessage}}</div>
+           </fieldset>
+       </form>
+   </div>
