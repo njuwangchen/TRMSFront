@@ -11,7 +11,6 @@ literatureModule.factory('LiteratureService', ['$resource', function ($resource)
 literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService', function ($scope, LiteratureService) {
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
-        console.log($scope.literatureList);
     });
 
     $scope.gridOptions = {

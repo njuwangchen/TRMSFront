@@ -3,6 +3,10 @@ var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.re
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+
+    $rootScope.$watch('$state.$current', function(newVal, oldVal){
+        console.log(newVal.toString());
+    });
 });
 
 routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvider', function ($stateProvider, $urlRouterProvider, plUploadServiceProvider) {
@@ -36,6 +40,40 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'resourceGrid@showAllLiterature': {
                     templateUrl: 'partial/literatureGrid.html'
+                }
+            }
+        })
+        .state('showAllDataSet', {
+            url: '/showAllDataSet',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html'
+                },
+                'nav@showAllDataSet': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showAllDataSet': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showAllDataSet': {
+                    templateUrl: 'partial/dataSetGrid.html'
+                }
+            }
+        })
+        .state('showAllCode', {
+            url: '/showAllCode',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html'
+                },
+                'nav@showAllCode': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showAllCode': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showAllCode': {
+                    templateUrl: 'partial/codeGrid.html'
                 }
             }
         })
@@ -96,9 +134,6 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
             views: {
                 '': {
                     templateUrl: 'partial/login.html'
-                },
-                'nav@login': {
-                    templateUrl: 'partial/nav.html'
                 }
             }
         });
