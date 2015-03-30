@@ -10,7 +10,7 @@ routerApp.run(function ($rootScope, $state, $stateParams) {
 });
 
 routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvider', function ($stateProvider, $urlRouterProvider, plUploadServiceProvider) {
-    $urlRouterProvider.otherwise('/index');
+    //$urlRouterProvider.otherwise('/index');
     $stateProvider
         .state('index', {
             url: '/index',
@@ -95,7 +95,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
             }
         })
         .state('viewLiterature', {
-            url: '/viewLiterature',
+            url: '/viewLiterature/{id: [0-9]{1,8}}',
             views: {
                 '': {
                     templateUrl: 'partial/viewLiterature.html'

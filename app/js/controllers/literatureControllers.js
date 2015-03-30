@@ -22,7 +22,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService'
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewLiterature">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewLiterature({id: row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"
@@ -43,8 +43,14 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', 'LiteratureService',
     $scope.isEdit = true;
 }]);
 
-literatureModule.controller('LiteratureShowCtrl', ['$scope', 'LiteratureService', function ($scope, LiteratureService) {
+literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'LiteratureService', function ($scope, $stateParams, LiteratureService) {
     $scope.isEdit = false;
+
+    var id = $stateParams.id;
+
+    LiteratureService.get({literatureId: id}, function(data){
+        $scope.literature = data;
+    })
 
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
