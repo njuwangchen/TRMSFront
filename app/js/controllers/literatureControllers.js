@@ -24,17 +24,17 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService'
             width: 300,
             cellTemplate: '<div><a ui-sref="viewLiterature">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
-            field: "creator_id",
-            displayName: "创建者"
+            field: "author",
+            displayName: "作者"
         }, {
-            field: "updater_id",
-            displayName: "更新者"
+            field: "publish_year",
+            displayName: "年份"
         }, {
-            field: "create_time",
-            displayName: "创建时间"
+            field: "publisher",
+            displayName: "期刊/会议"
         }, {
-            field: "update_time",
-            displayName: "更新时间"
+            field: "abstract",
+            displayName: "摘要"
         }]
     };
 }]);
