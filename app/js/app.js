@@ -9,8 +9,32 @@ routerApp.run(function ($rootScope, $state, $stateParams) {
     });
 });
 
+routerApp.factory('Time', function(){
+    var currentTime = function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        return currentdate;
+    };
+
+    return {
+        currentTime: currentTime()
+    };
+});
+
 routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvider', function ($stateProvider, $urlRouterProvider, plUploadServiceProvider) {
-    //$urlRouterProvider.otherwise('/index');
+    $urlRouterProvider.otherwise('/index');
     $stateProvider
         .state('index', {
             url: '/index',
@@ -95,7 +119,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
             }
         })
         .state('viewLiterature', {
-            url: '/viewLiterature/{id: [0-9]{1,8}}',
+            url: '/viewLiterature/:id',
             views: {
                 '': {
                     templateUrl: 'partial/viewLiterature.html'

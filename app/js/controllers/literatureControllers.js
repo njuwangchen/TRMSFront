@@ -22,12 +22,12 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService'
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewLiterature({id: row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"
         }, {
-            field: "publish_year",
+            field: "published_year",
             displayName: "年份"
         }, {
             field: "publisher",
@@ -39,8 +39,21 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService'
     };
 }]);
 
-literatureModule.controller('LiteratureAddCtrl', ['$scope', 'LiteratureService', function ($scope, LiteratureService) {
+literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'LiteratureService', 'Time', function ($scope, $state, LiteratureService, Time) {
     $scope.isEdit = true;
+
+    $scope.literature = {};
+
+    $scope.submit = function () {
+        $scope.literature.creator_id = 1;
+        $scope.literature.create_time = Time.currentTime;
+        $scope.literature.literature_type_id = 1;
+
+        LiteratureService.save($scope.literature, function () {
+            console.log("add successful");
+            $state.go('showAllLiterature');
+        });
+    };
 }]);
 
 literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'LiteratureService', function ($scope, $stateParams, LiteratureService) {
@@ -48,19 +61,34 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'Li
 
     var id = $stateParams.id;
 
-    LiteratureService.get({literatureId: id}, function(data){
+    LiteratureService.get({literatureId: id}, function (data) {
         $scope.literature = data;
-    })
+    });
 
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
-    }
+
+        if ($scope.isEdit) {
+            $scope.origin = angular.copy($scope.literature);
+        }
+
+        if (!$scope.isEdit) {
+            $scope.literature = $scope.origin;
+        }
+    };
 
     $scope.getEditLabel = function () {
         if ($scope.isEdit) {
-            return "查看";
+            return "取消";
         } else {
             return "编辑";
         }
-    }
+    };
+
+    $scope.submit = function () {
+        $scope.literature.$update(function () {
+            console.log("update successful");
+            $scope.isEdit = !$scope.isEdit;
+        });
+    };
 }]);
