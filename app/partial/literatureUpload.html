@@ -12,7 +12,7 @@
             </progressbar>
         </div>
     </div>
-    <div class="row" ng-show="literatureFile">
+    <div class="row" ng-show="literatureFile.uri">
         <div class="col-md-12">
             <table class="table">
                 <thead>
@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{literatureFile.name}}</td>
+                    <td><a href="{{getFullDownloadURL()}}">{{literatureFile.uri}}</a></td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>

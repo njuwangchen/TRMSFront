@@ -9,6 +9,15 @@ routerApp.run(function ($rootScope, $state, $stateParams) {
     });
 });
 
+routerApp.factory('RootURL', function(){
+    var rootURL = function getRootURL(){
+        return 'http://127.0.0.1:5000';
+    };
+    return {
+        rootURL: rootURL()
+    };
+});
+
 routerApp.factory('Time', function(){
     var currentTime = function getNowFormatDate() {
         var date = new Date();
@@ -112,9 +121,9 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'literatureMeta@newLiterature': {
                     templateUrl: 'partial/literatureMeta.html'
-                },
-                'literatureUpload@newLiterature': {
-                    templateUrl: 'partial/literatureUpload.html'
+                //},
+                //'literatureUpload@newLiterature': {
+                //    templateUrl: 'partial/literatureUpload.html'
                 }
             }
         })
