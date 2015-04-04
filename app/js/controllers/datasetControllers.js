@@ -69,7 +69,7 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams','datasetServ
     $scope.submit = function () {
         $scope.dataset.$update(function () {
             console.log("update ok");
-            $scope.isEdit = !scope.isEdit;
+            $scope.isEdit = !$scope.isEdit;
         })
     };
 }]);
