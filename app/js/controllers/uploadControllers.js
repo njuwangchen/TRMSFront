@@ -1,13 +1,18 @@
 var uploadModule = angular.module('UploadModule', []);
 
-uploadModule.controller('LiteratureUploadCtrl', function($scope){
+uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', function($scope, $stateParams){
 	$scope.percent = 0;
 	$scope.files = [];
 
-	$scope.literatureFile = {
-		"name": "abcd.pdf",
-	}
-});
+	$scope.params = {
+		'literature_id': $stateParams.id
+	};
+
+	$scope.uploaded = function(){
+		$scope.literatureFile = $scope.files[0];
+	};
+
+}]);
 
 uploadModule.controller('VideoUploadCtrl', function($scope){
 	$scope.percent = 0;
