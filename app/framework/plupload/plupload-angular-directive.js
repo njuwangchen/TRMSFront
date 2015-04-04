@@ -6,7 +6,8 @@ angular.module('plupload.directive', [])
 		var config = {
 			flashPath: 'bower_components/plupload-angular-directive/dist/plupload.flash.swf',
 			silverLightPath: 'bower_components/plupload-angular-directive/dist/plupload.silverlight.xap',
-			uploadPath: 'upload.php'
+			uploadPath: 'upload.php',
+			chunkSize: 0
 		};
 
 		this.setConfig = function(key, val) {
@@ -70,6 +71,9 @@ angular.module('plupload.directive', [])
 				if(!iAttrs.plSilverlightXapUrl){
 					iAttrs.$set('plSilverlightXapUrl', plUploadService.getConfig('silverLightPath'));
 				}
+				if(!iAttrs.plChunkSize){
+					iAttrs.$set('plChunkSize', plUploadService.getConfig('chunkSize'));
+				}
 				if(typeof scope.plFiltersModel=="undefined"){
 					scope.filters = [{title : "Image files", extensions : "jpg,jpeg,gif,png,tiff,pdf"}];
 					//alert('sf');
@@ -87,6 +91,7 @@ angular.module('plupload.directive', [])
 						url : iAttrs.plUrl,
 						flash_swf_url : iAttrs.plFlashSwfUrl,
 						silverlight_xap_url : iAttrs.plSilverlightXapUrl,
+						chunk_size : iAttrs.plChunkSize,
 						filters : scope.filters
 				}
 
