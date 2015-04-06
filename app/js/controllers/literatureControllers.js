@@ -60,7 +60,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'Literatur
     };
 }]);
 
-literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'LiteratureService', function ($scope, $stateParams, LiteratureService) {
+literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'LiteratureService', 'Time', function ($scope, $stateParams, LiteratureService, Time) {
     $scope.isEdit = false;
 
     var id = $stateParams.id;
@@ -85,11 +85,14 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'Li
         if ($scope.isEdit) {
             return "取消";
         } else {
-            return "编辑";
+            return "编辑/上传";
         }
     };
 
     $scope.submit = function () {
+        $scope.literature.updater_id = 1;
+        $scope.literature.update_time = Time.currentTime;
+
         $scope.literature.$update(function () {
             console.log("update successful");
             $scope.isEdit = !$scope.isEdit;
