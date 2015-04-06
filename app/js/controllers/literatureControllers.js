@@ -8,6 +8,10 @@ literatureModule.factory('LiteratureService', ['$resource', function ($resource)
     });
 }]);
 
+literatureModule.factory('VideoService', ['$resource', function($resource){
+    return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
+}]);
+
 literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService', function ($scope, LiteratureService) {
     LiteratureService.query(function (data) {
         $scope.literatureList = data;

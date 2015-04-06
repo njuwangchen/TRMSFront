@@ -35,7 +35,8 @@
     <div class="row" ng-show="isEdit">
         <div class="col-md-2">
             <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
-                    pl-url="/upload">上传视频
+                    pl-url="http://127.0.0.1:5000/uploadVideo" on-file-uploaded="getVideos()"
+                    pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传视频
             </button>
         </div>
         <div class="col-md-9 col-md-offset-1">
@@ -50,13 +51,13 @@
                 <thead>
                 <tr>
                     <th>已上传的视频</th>
-                    <th class="text-right">大小(KB)</th>
+                    <th class="text-right">大小(B)</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="video in videoFiles">
-                    <td>{{video.name}}</td>
+                    <td><a href="{{getFullDownloadURL(video.uri)}}">{{video.uri}}</a></td>
                     <td class="text-right">{{video.size}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
@@ -69,7 +70,8 @@
     <div class="row" ng-show="isEdit">
         <div class="col-md-2">
             <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
-                    pl-url="/upload">上传幻灯片
+                    pl-url="http://127.0.0.1:5000/uploadPpt" on-file-uploaded="getPpts()"
+                    pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传幻灯片
             </button>
         </div>
         <div class="col-md-9 col-md-offset-1">
@@ -84,13 +86,13 @@
                 <thead>
                 <tr>
                     <th>已上传的幻灯片</th>
-                    <th class="text-right">大小(KB)</th>
+                    <th class="text-right">大小(B)</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="ppt in pptFiles">
-                    <td>{{ppt.name}}</td>
+                    <td><a href="{{getFullDownloadURL(ppt.uri)}}">{{ppt.uri}}</a></td>
                     <td class="text-right">{{ppt.size}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>

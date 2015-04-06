@@ -12,7 +12,7 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
         $scope.literatureFile = data;
         $scope.getFullDownloadURL = function () {
             return RootURL.rootURL + $scope.literatureFile.uri;
-        }
+        };
     });
 
     $scope.uploaded = function () {
@@ -23,34 +23,66 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
 
 }]);
 
-uploadModule.controller('VideoUploadCtrl', function ($scope) {
+uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
-    $scope.videoFiles = [
-        {
-            "name": "demo.avi",
-            "size": "102232"
-        },
-        {
-            "name": "demo2.avi",
-            "size": "233444"
-        }
-    ];
-});
+    $scope.videoFiles = '';
 
-uploadModule.controller('PptUploadCtrl', function ($scope) {
+    $scope.params = {
+        'literature_id': $stateParams.id
+    };
+
+    $scope.filter = [
+        {
+            title: 'Video Files',
+            extensions: 'mkv,avi,rmvb,mp4'
+        }
+    ]
+
+    $scope.getVideos = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.videoFiles = data;
+
+                $scope.getFullDownloadURL = function (uri) {
+                    return RootURL.rootURL + uri;
+                };
+            });
+    };
+
+    $scope.getVideos();
+
+}]);
+
+uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
-    $scope.pptFiles = [
+    $scope.pptFiles = '';
+
+    $scope.params = {
+        'literature_id': $stateParams.id
+    };
+
+    $scope.filter = [
         {
-            "name": "1.ppt",
-            "size": "1042"
-        },
-        {
-            "name": "2.ppt",
-            "size": "2334"
+            title: 'Ppt Files',
+            extensions: 'ppt,pptx'
         }
-    ];
-});
+    ]
+
+    $scope.getPpts = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.pptFiles = data;
+
+                $scope.getFullDownloadURL = function (uri) {
+                    return RootURL.rootURL + uri;
+                };
+            });
+    };
+
+    $scope.getPpts();
+
+}]);

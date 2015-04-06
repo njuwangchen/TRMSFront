@@ -172,6 +172,8 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
         });
 
     plUploadServiceProvider.setConfig('flashPath', 'framework/plupload/plupload.flash.swf');
-    plUploadServiceProvider.setConfig('silverLightPaht', 'framework/plupload/plupload.silverlight.xap');
+    plUploadServiceProvider.setConfig('silverLightPath', 'framework/plupload/plupload.silverlight.xap');
+    plUploadServiceProvider.setConfig('chunkSize', '1mb');
+    plUploadServiceProvider.setConfig('uniqueNames', true);
 
 }]);
