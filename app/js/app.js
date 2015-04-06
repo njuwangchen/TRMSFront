@@ -1,16 +1,16 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule','datasetModule','codeModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
-    $rootScope.$watch('$state.$current', function(newVal, oldVal){
-        console.log(newVal.toString());
+    $rootScope.$on('$stateChangeSuccess', function () {
+        $("html, body").animate({scrollTop: 0}, 200);
     });
 });
 
-routerApp.factory('RootURL', function(){
-    var rootURL = function getRootURL(){
+routerApp.factory('RootURL', function () {
+    var rootURL = function getRootURL() {
         return 'http://127.0.0.1:5000';
     };
     return {
@@ -18,7 +18,7 @@ routerApp.factory('RootURL', function(){
     };
 });
 
-routerApp.factory('Time', function(){
+routerApp.factory('Time', function () {
     var currentTime = function getNowFormatDate() {
         var date = new Date();
         var seperator1 = "-";
@@ -121,9 +121,9 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'literatureMeta@newLiterature': {
                     templateUrl: 'partial/literatureMeta.html'
-                //},
-                //'literatureUpload@newLiterature': {
-                //    templateUrl: 'partial/literatureUpload.html'
+                    //},
+                    //'literatureUpload@newLiterature': {
+                    //    templateUrl: 'partial/literatureUpload.html'
                 }
             }
         })

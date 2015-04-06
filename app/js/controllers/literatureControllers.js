@@ -53,9 +53,9 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'Literatur
         $scope.literature.create_time = Time.currentTime;
         $scope.literature.literature_type_id = 1;
 
-        LiteratureService.save($scope.literature, function () {
+        LiteratureService.save($scope.literature, function (data) {
             console.log("add successful");
-            $state.go('showAllLiterature');
+            $state.go('viewLiterature', {id: data.id});
         });
     };
 }]);
