@@ -121,9 +121,6 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'literatureMeta@newLiterature': {
                     templateUrl: 'partial/literatureMeta.html'
-                    //},
-                    //'literatureUpload@newLiterature': {
-                    //    templateUrl: 'partial/literatureUpload.html'
                 }
             }
         })
