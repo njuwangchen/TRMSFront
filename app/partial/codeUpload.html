@@ -2,8 +2,8 @@
     <div class="row" ng-show="isEdit">
         <div class="col-md-2">
             <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
-                    pl-url="http://127.0.0.1:5000/upload" on-file-uploaded="uploaded()"
-                    pl-multi-params-model="params">上传文件
+                    pl-url="http://127.0.0.1:5000/uploadCode" on-file-uploaded="uploadedCode()"
+                    pl-multi-params-model="params">上传代码
             </button>
         </div>
         <div class="col-md-9 col-md-offset-1">
@@ -17,13 +17,15 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>已上传的文件</th>
+                    <th>已上传的代码</th>
+                    <th class="text-right">大小(B)</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><a href="{{getFullDownloadURL()}}">{{codeFile.uri}}</a></td>
+                    <td><a href="{{getFullDownloadURL(code.uri)}}">{{codeFile.uri}}</a></td>
+                    <td class="text-right">{{code.size}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
