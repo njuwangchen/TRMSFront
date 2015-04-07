@@ -11,8 +11,7 @@ codeModule.factory('codeService',['$resource',function($resource){
     });
 }]);
 
-codeModule.controller('codeListCtrl',['$scope','codeService',function($scope,codeService)
-{
+codeModule.controller('codeListCtrl',['$scope','codeService',function($scope,codeService) {
     codeService.query(function (data) {
         $scope.codeList = data;
     });
@@ -34,6 +33,22 @@ codeModule.controller('codeListCtrl',['$scope','codeService',function($scope,cod
             field: "language",
             displayName: "语言"
         }]
+    };
+}]);
+
+codeModule.controller('codeAddCtrl', ['$scope', '$state', 'codeService', 'Time', function ($scope, $state, codeService, Time) {
+    $scope.isEdit = true;
+
+    $scope.code = {};
+
+    $scope.submit = function () {
+        $scope.code.creator_id = 1;
+        $scope.code.create_time = Time.currentTime;
+
+        codeService.save($scope.code, function (data) {
+            console.log("add successful");
+            $state.go('viewCode', {id: data.id});
+        });
     };
 }]);
 
@@ -62,7 +77,7 @@ codeModule.controller('codeShowCtrl',['$scope','$stateParams','codeService', fun
         if($scope.isEdit) {
             return "取消";
         }else{
-            return "编辑";
+            return "编辑/上传";
         }
     };
 

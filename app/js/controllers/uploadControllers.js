@@ -86,3 +86,26 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Ro
     $scope.getPpts();
 
 }]);
+
+uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeService', 'RootURL', function ($scope, $stateParams, codeService, RootURL) {
+    $scope.percent = 0;
+    $scope.files = [];
+
+    $scope.params = {
+        'code_id': $stateParams.id
+    };
+
+    codeService.get({codeId: $stateParams.id}, function (data) {
+        $scope.codeFile = data;
+        $scope.getFullDownloadURL = function () {
+            return RootURL.rootURL + $scope.codeFile.uri;
+        };
+    });
+
+    $scope.uploaded = function () {
+        codeService.get({codeId: $stateParams.id}, function (data) {
+            $scope.codeFile = data;
+        });
+    };
+
+}]);

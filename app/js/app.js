@@ -127,6 +127,55 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 }
             }
         })
+        .state('newCode', {
+            url: '/newCode',
+            views: {
+                '': {
+                    templateUrl: 'partial/newCode.html'
+                },
+                'nav@newCode': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'codeMeta@newCode': {
+                    templateUrl: 'partial/codeMeta.html'
+                }
+            }
+        })
+        .state('viewCode', {
+            url: '/viewCode/:id',
+            views: {
+                '': {
+                    templateUrl: 'partial/viewCode.html'
+                },
+                'nav@viewCode': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'viewCodeMeta@viewCode': {
+                    templateUrl: 'partial/viewCodeMeta.html'
+                },
+                'editCodeMeta@viewCode': {
+                    templateUrl: 'partial/codeMeta.html'
+                },
+                'viewCodeUpload@viewCode': {
+                    templateUrl: 'partial/codeUpload.html'
+                },
+                'viewCodeRelation@viewCode': {
+                    templateUrl: 'partial/codeRelation.html'
+                },
+                'addComment@viewCode': {
+                    templateUrl: 'partial/addComment.html'
+                },
+                'showComment@viewCode': {
+                    templateUrl: 'partial/showComment.html'
+                },
+                'simpleComment@viewCode': {
+                    templateUrl: 'partial/simpleComment.html'
+                },
+                'detailComment@viewCode': {
+                    templateUrl: 'partial/detailComment.html'
+                }
+            }
+        })
         .state('viewLiterature', {
             url: '/viewLiterature/:id',
             views: {
