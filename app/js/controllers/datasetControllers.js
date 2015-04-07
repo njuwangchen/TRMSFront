@@ -26,7 +26,7 @@ datasetModule.controller('datasetListCtrl',['$scope','datasetService',function($
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewDataset({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"
@@ -34,6 +34,22 @@ datasetModule.controller('datasetListCtrl',['$scope','datasetService',function($
             field: "type",
             displayName: "类型"
         }]
+    };
+}]);
+
+datasetModule.controller('datasetAddCtrl', ['$scope', '$state', 'datasetService', 'Time', function ($scope, $state, datasetService, Time) {
+    $scope.isEdit = true;
+
+    $scope.dataset = {};
+
+    $scope.submit = function () {
+        $scope.dataset.creator_id = 1;
+        $scope.dataset.create_time = Time.currentTime;
+
+        datasetService.save($scope.dataset, function (data) {
+            console.log("add successful");
+            $state.go('viewDataSet', {id: data.id});
+        });
     };
 }]);
 
@@ -62,7 +78,7 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams','datasetServ
         if($scope.isEdit) {
             return "取消";
         }else{
-            return "编辑";
+            return "编辑/上传";
         }
     };
 

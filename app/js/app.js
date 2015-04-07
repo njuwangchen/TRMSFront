@@ -127,6 +127,20 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 }
             }
         })
+        .state('newDataSet', {
+            url: '/newDataSet',
+            views: {
+                '': {
+                    templateUrl: 'partial/newDataSet.html'
+                },
+                'nav@newDataSet': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'dataSetMeta@newDataSet': {
+                    templateUrl: 'partial/dataSetMeta.html'
+                }
+            }
+        })
         .state('newCode', {
             url: '/newCode',
             views: {
@@ -138,41 +152,6 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'codeMeta@newCode': {
                     templateUrl: 'partial/codeMeta.html'
-                }
-            }
-        })
-        .state('viewCode', {
-            url: '/viewCode/:id',
-            views: {
-                '': {
-                    templateUrl: 'partial/viewCode.html'
-                },
-                'nav@viewCode': {
-                    templateUrl: 'partial/nav.html'
-                },
-                'viewCodeMeta@viewCode': {
-                    templateUrl: 'partial/viewCodeMeta.html'
-                },
-                'editCodeMeta@viewCode': {
-                    templateUrl: 'partial/codeMeta.html'
-                },
-                'viewCodeUpload@viewCode': {
-                    templateUrl: 'partial/codeUpload.html'
-                },
-                'viewCodeRelation@viewCode': {
-                    templateUrl: 'partial/codeRelation.html'
-                },
-                'addComment@viewCode': {
-                    templateUrl: 'partial/addComment.html'
-                },
-                'showComment@viewCode': {
-                    templateUrl: 'partial/showComment.html'
-                },
-                'simpleComment@viewCode': {
-                    templateUrl: 'partial/simpleComment.html'
-                },
-                'detailComment@viewCode': {
-                    templateUrl: 'partial/detailComment.html'
                 }
             }
         })
@@ -207,6 +186,76 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/simpleComment.html'
                 },
                 'detailComment@viewLiterature': {
+                    templateUrl: 'partial/detailComment.html'
+                }
+            }
+        })
+        .state('viewDataSet', {
+            url: '/viewDataSet/:id',
+            views: {
+                '': {
+                    templateUrl: 'partial/viewDataSet.html'
+                },
+                'nav@viewDataSet': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'viewDataSetMeta@viewDataSet': {
+                    templateUrl: 'partial/viewDataSetMeta.html'
+                },
+                'editDataSetMeta@viewDataSet': {
+                    templateUrl: 'partial/dataSetMeta.html'
+                },
+                'viewDataSetUpload@viewDataSet': {
+                    templateUrl: 'partial/dataSetUpload.html'
+                },
+                'viewDataSetRelation@viewDataSet': {
+                    templateUrl: 'partial/dataSetRelation.html'
+                },
+                'addComment@viewDataSet': {
+                    templateUrl: 'partial/addComment.html'
+                },
+                'showComment@viewDataSet': {
+                    templateUrl: 'partial/showComment.html'
+                },
+                'simpleComment@viewDataSet': {
+                    templateUrl: 'partial/simpleComment.html'
+                },
+                'detailComment@viewDataSet': {
+                    templateUrl: 'partial/detailComment.html'
+                }
+            }
+        })
+        .state('viewCode', {
+            url: '/viewCode/:id',
+            views: {
+                '': {
+                    templateUrl: 'partial/viewCode.html'
+                },
+                'nav@viewCode': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'viewCodeMeta@viewCode': {
+                    templateUrl: 'partial/viewCodeMeta.html'
+                },
+                'editCodeMeta@viewCode': {
+                    templateUrl: 'partial/codeMeta.html'
+                },
+                'viewCodeUpload@viewCode': {
+                    templateUrl: 'partial/codeUpload.html'
+                },
+                'viewCodeRelation@viewCode': {
+                    templateUrl: 'partial/codeRelation.html'
+                },
+                'addComment@viewCode': {
+                    templateUrl: 'partial/addComment.html'
+                },
+                'showComment@viewCode': {
+                    templateUrl: 'partial/showComment.html'
+                },
+                'simpleComment@viewCode': {
+                    templateUrl: 'partial/simpleComment.html'
+                },
+                'detailComment@viewCode': {
                     templateUrl: 'partial/detailComment.html'
                 }
             }

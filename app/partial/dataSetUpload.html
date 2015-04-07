@@ -1,0 +1,35 @@
+<div ng-controller="datasetUploadCtrl">
+    <div class="row" ng-show="isEdit">
+        <div class="col-md-2">
+            <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
+                    pl-url="http://127.0.0.1:5000/uploadDataset" on-file-uploaded="uploadedDataset()"
+                    pl-multi-params-model="params">上传代码
+            </button>
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            <progressbar value="percent">
+                <b>{{percent}}%</b>
+            </progressbar>
+        </div>
+    </div>
+    <div class="row" ng-show="datasetFile.uri">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>已上传的数据集</th>
+                    <th class="text-right">大小(B)</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="{{getFullDownloadURL(dataset.uri)}}">{{datasetFile.uri}}</a></td>
+                    <td class="text-right">{{dataset.size}}</td>
+                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

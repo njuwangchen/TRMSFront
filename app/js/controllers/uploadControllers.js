@@ -109,3 +109,26 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
     };
 
 }]);
+
+uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'datasetService', 'RootURL', function ($scope, $stateParams, datasetService, RootURL) {
+    $scope.percent = 0;
+    $scope.files = [];
+
+    $scope.params = {
+        'data_set_id': $stateParams.id
+    };
+
+    datasetService.get({datasetId: $stateParams.id}, function (data) {
+        $scope.datasetFile = data;
+        $scope.getFullDownloadURL = function () {
+            return RootURL.rootURL + $scope.datasetFile.uri;
+        };
+    });
+
+    $scope.uploaded = function () {
+        datasetService.get({datasetId: $stateParams.id}, function (data) {
+            $scope.datasetFile = data;
+        });
+    };
+
+}]);
