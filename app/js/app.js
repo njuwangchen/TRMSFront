@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -136,6 +136,9 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 'dataSetMeta@newDataSet': {
                     templateUrl: 'partial/dataSetMeta.html'
                 }
+                //'viewDataSetType@newDataSet':{
+                //    templateUrl: 'partial/viewDataSetType.html'
+                //}
             }
         })
         .state('newCode', {

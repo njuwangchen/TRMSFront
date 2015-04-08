@@ -28,10 +28,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="data_set_type" class="col-md-2 control-label">类型</label>
+        <label  class="col-md-2 control-label">类型</label>
 
-        <div class="col-md-10">
-            <input type="text" class="form-control" id="data_set_type" placeholder="请输入类型" ng-model="dataset.data_set_type_id">
+        <div class="col-md-10" ng-controller="dataSetTypeListShowCtrl">
+            <select class="form-control" ng-repeat="type in dataSetTypeList">
+                <option>{{type.name}}</option>
+            </select>
         </div>
     </div>
     <div class="form-group">
