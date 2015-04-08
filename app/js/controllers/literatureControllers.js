@@ -12,7 +12,7 @@ literatureModule.factory('VideoService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
 }]);
 
-literatureModule.controller('LiteratureListCtrl', ['$scope', 'uiGridConstants', 'LiteratureService', function ($scope, uiGridConstants, LiteratureService) {
+literatureModule.controller('LiteratureListCtrl', ['$scope', '$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $modal, $http, uiGridConstants, LiteratureService) {
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
     });
@@ -51,6 +51,33 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'uiGridConstants', 
         $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
     };
 
+    $scope.openQuery = function () {
+        var queryModalInstance = $modal.open({
+            templateUrl: 'partial/literatureQuery.html',
+            controller: 'LiteratureQueryCtrl',
+            size: 'lg'
+        });
+
+        queryModalInstance.result.then(function (query) {
+            console.log(query);
+            $http.post('http://127.0.0.1:5000/api/v1/literatures/query', query).
+                success(function (data) {
+                    $scope.literatureList = data;
+                });
+        }, function () {
+
+        });
+    };
+}]);
+
+literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.literature = {};
+    $scope.submit = function () {
+        $modalInstance.close($scope.literature);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
+    };
 }]);
 
 literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'LiteratureService', 'Time', function ($scope, $state, LiteratureService, Time) {

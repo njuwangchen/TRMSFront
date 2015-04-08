@@ -1,0 +1,67 @@
+<div class="row">
+    <br/>
+</div>
+<form class="form-horizontal" action="" role="form">
+    <div class="form-group">
+        <label for="title" class="col-md-2 control-label">篇名</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="title" placeholder="检索篇名" ng-model="literature.title">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="year" class="col-md-2 control-label">年份</label>
+
+        <div class="col-md-8">
+            <input type="number" class="form-control" id="year" placeholder="检索年份" ng-model="literature.published_year">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="author" class="col-md-2 control-label">作者</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="author" placeholder="检索作者" ng-model="literature.author">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="publisher" class="col-md-2 control-label">出版商</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="publisher" placeholder="检索出版商" ng-model="literature.publisher">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="ISBN" class="col-md-2 control-label">ISBN</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="ISBN" placeholder="检索ISBN" ng-model="literature.ISBN">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="ISSN" class="col-md-2 control-label">ISSN</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="ISSN" placeholder="检索ISSN" ng-model="literature.ISSN">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="DOI" class="col-md-2 control-label">DOI</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="DOI" placeholder="检索DOI" ng-model="literature.DOI">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-8 col-md-offset-2">
+            <button type="submit" class="btn btn-warning pull-right" ng-click="cancel()">取消</button>
+            <button type="submit" class="btn btn-primary pull-right" ng-click="submit()">提交</button>
+        </div>
+    </div>
+</form>
