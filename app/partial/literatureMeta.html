@@ -14,26 +14,17 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="type" class="col-md-2 control-label">类型</label>
+
+        <div class="col-md-10">
+            <select class="form-control" id="type" ng-options="type as type.name for type in literatureTypeList" ng-model="$parent.selectedType"></select>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="year" class="col-md-2 control-label">年份</label>
 
         <div class="col-md-10">
             <input type="number" class="form-control" id="year" placeholder="请输入年份" ng-model="literature.published_year">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="abstract" class="col-md-2 control-label">摘要</label>
-
-        <div class="col-md-10">
-            <!--<input type="text" class="form-control" rows="5" id="abstract" placeholder="请输入摘要">-->
-            <textarea class="form-control" rows="5" id="abstract" placeholder="请输入摘要" ng-model="literature.abstract"></textarea>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="abstractCN" class="col-md-2 control-label">中文摘要</label>
-
-        <div class="col-md-10">
-            <!--<input type="text" class="form-control" id="abstractCN" placeholder="请输入中文摘要">-->
-            <textarea class="form-control" rows="5" id="abstractCN" placeholder="请输入中文摘要" ng-model="literature.abstractCN"></textarea>
         </div>
     </div>
     <div class="form-group">
@@ -62,20 +53,6 @@
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="publisherCN" placeholder="请输入出版商中文名" ng-model="literature.publisherCN">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="key_words" class="col-md-2 control-label">关键字</label>
-
-        <div class="col-md-10">
-            <input type="text" class="form-control" id="key_words" placeholder="请输入关键字" ng-model="literature.key_words">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="key_wordsCN" class="col-md-2 control-label">中文关键字</label>
-
-        <div class="col-md-10">
-            <input type="text" class="form-control" id="key_wordsCN" placeholder="请输入中文关键字" ng-model="literature.key_words_CN">
         </div>
     </div>
     <div class="form-group">
@@ -174,6 +151,36 @@
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="DOI" placeholder="请输入DOI" ng-model="literature.DOI">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="abstract" class="col-md-2 control-label">摘要</label>
+
+        <div class="col-md-10">
+            <!--<input type="text" class="form-control" rows="5" id="abstract" placeholder="请输入摘要">-->
+            <textarea class="form-control" rows="5" id="abstract" placeholder="请输入摘要" ng-model="literature.abstract"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="abstractCN" class="col-md-2 control-label">中文摘要</label>
+
+        <div class="col-md-10">
+            <!--<input type="text" class="form-control" id="abstractCN" placeholder="请输入中文摘要">-->
+            <textarea class="form-control" rows="5" id="abstractCN" placeholder="请输入中文摘要" ng-model="literature.abstractCN"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="key_words" class="col-md-2 control-label">关键字</label>
+
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="key_words" placeholder="请输入关键字" ng-model="literature.key_words">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="key_wordsCN" class="col-md-2 control-label">中文关键字</label>
+
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="key_wordsCN" placeholder="请输入中文关键字" ng-model="literature.key_words_CN">
         </div>
     </div>
     <div class="form-group">

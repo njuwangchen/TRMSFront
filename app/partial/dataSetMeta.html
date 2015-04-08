@@ -30,10 +30,14 @@
     <div class="form-group">
         <label  class="col-md-2 control-label">类型</label>
 
-        <div class="col-md-10" ng-controller="dataSetTypeListShowCtrl">
-            <select class="form-control" ng-repeat="type in dataSetTypeList">
-                <option>{{type.name}}</option>
+        <div class="col-md-5">
+            <select
+                    ng-model="$parent.selectedType"
+                    ng-options="type as type.name for type in dataSetTypeList">
+            <!--<select class="form-control" ng-model="selectedType">-->
+                <!--<option ng-repeat="type in dataSetTypeList" value="{{type.id}}">{{type.name}}</option>-->
             </select>
+                           {{$parent.selectedType.id}}
         </div>
     </div>
     <div class="form-group">

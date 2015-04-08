@@ -52,7 +52,7 @@ codeModule.controller('codeAddCtrl', ['$scope', '$state', 'codeService', 'Time',
     };
 }]);
 
-codeModule.controller('codeShowCtrl',['$scope','$stateParams','codeService', function ($scope, $stateParams, codeService) {
+codeModule.controller('codeShowCtrl',['$scope','$stateParams','codeService', 'Time', function ($scope, $stateParams, codeService, Time) {
     $scope.isEdit = false;
 
     var id = $stateParams.id;
@@ -82,6 +82,9 @@ codeModule.controller('codeShowCtrl',['$scope','$stateParams','codeService', fun
     };
 
     $scope.submit = function () {
+        $scope.code.updater_id = 1;
+        $scope.code.update_time = Time.currentTime;
+
         $scope.code.$update(function () {
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;

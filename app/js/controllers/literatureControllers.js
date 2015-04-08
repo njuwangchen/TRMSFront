@@ -12,7 +12,7 @@ literatureModule.factory('VideoService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
 }]);
 
-literatureModule.controller('LiteratureListCtrl', ['$scope', 'uiGridConstants', 'LiteratureService', function ($scope, uiGridConstants, LiteratureService) {
+literatureModule.controller('LiteratureListCtrl', ['$scope', '$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $modal, $http, uiGridConstants, LiteratureService) {
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
     });
@@ -51,9 +51,44 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'uiGridConstants', 
         $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
     };
 
+    $scope.openQuery = function () {
+        var queryModalInstance = $modal.open({
+            templateUrl: 'partial/literatureQuery.html',
+            controller: 'LiteratureQueryCtrl',
+            size: 'lg'
+        });
+
+        queryModalInstance.result.then(function (query) {
+            console.log(query);
+            $http.post('http://127.0.0.1:5000/api/v1/literatures/query', query).
+                success(function (data) {
+                    $scope.literatureList = data;
+                });
+        }, function () {
+
+        });
+    };
 }]);
 
-literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'LiteratureService', 'Time', function ($scope, $state, LiteratureService, Time) {
+literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.literature = {};
+    $scope.submit = function () {
+        $modalInstance.close($scope.literature);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
+    };
+}]);
+
+literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', 'LiteratureService', 'Time', function ($scope, $state, $http, LiteratureService, Time) {
+    $scope.literatureTypeList = [];
+
+    $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
+        success(function(data){
+            $scope.literatureTypeList = data;
+            $scope.selectedType = $scope.literatureTypeList[0];
+        });
+
     $scope.isEdit = true;
 
     $scope.literature = {};
@@ -61,22 +96,36 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'Literatur
     $scope.submit = function () {
         $scope.literature.creator_id = 1;
         $scope.literature.create_time = Time.currentTime;
-        $scope.literature.literature_type_id = 1;
+        $scope.literature.literature_type_id = $scope.selectedType.id;
 
         LiteratureService.save($scope.literature, function (data) {
-            console.log("add successful");
+            console.log($scope.literature);
             $state.go('viewLiterature', {id: data.id});
         });
     };
 }]);
 
-literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'LiteratureService', 'Time', function ($scope, $stateParams, LiteratureService, Time) {
+literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $stateParams, $http, LiteratureService, Time) {
+    $scope.literatureTypeList = [];
+
     $scope.isEdit = false;
 
     var id = $stateParams.id;
 
     LiteratureService.get({literatureId: id}, function (data) {
         $scope.literature = data;
+
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
+        success(function(data){
+            $scope.literatureTypeList = data;
+
+            for (var i = 0; i < $scope.literatureTypeList.length; i++){
+                if ($scope.literatureTypeList[i].id == $scope.literature.literature_type_id){
+                    $scope.selectedType = $scope.literatureTypeList[i];
+                    break;
+                }
+            }
+        });
     });
 
     $scope.changeState = function () {
@@ -102,9 +151,10 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', 'Li
     $scope.submit = function () {
         $scope.literature.updater_id = 1;
         $scope.literature.update_time = Time.currentTime;
+        $scope.literature.literature_type_id = $scope.selectedType.id;
 
         $scope.literature.$update(function () {
-            console.log("update successful");
+            console.log($scope.literature);
             $scope.isEdit = !$scope.isEdit;
         });
     };
