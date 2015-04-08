@@ -8,17 +8,21 @@ literatureModule.factory('LiteratureService', ['$resource', function ($resource)
     });
 }]);
 
-literatureModule.factory('VideoService', ['$resource', function($resource){
+literatureModule.factory('VideoService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
 }]);
 
-literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService', function ($scope, LiteratureService) {
+literatureModule.controller('LiteratureListCtrl', ['$scope', 'uiGridConstants', 'LiteratureService', function ($scope, uiGridConstants, LiteratureService) {
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
     });
 
     $scope.gridOptions = {
         data: 'literatureList',
+        enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
         enableColumnResizing: true,
         paginationPageSizes: [20, 50, 100],
         paginationPageSize: 20,
@@ -41,6 +45,12 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', 'LiteratureService'
             displayName: "摘要"
         }]
     };
+
+    $scope.toggleFiltering = function () {
+        $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+    };
+
 }]);
 
 literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', 'LiteratureService', 'Time', function ($scope, $state, LiteratureService, Time) {

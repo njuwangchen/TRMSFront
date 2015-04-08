@@ -1,8 +1,0 @@
-{
-  "packageManager": "github",
-  "name": "ui-grid",
-  "repo": "angular-ui/ng-grid",
-  "files": {
-    "include": ["./release/**/*"]
-  }
-}
