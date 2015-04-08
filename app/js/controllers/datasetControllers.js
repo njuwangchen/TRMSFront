@@ -31,32 +31,65 @@ datasetModule.controller('datasetListCtrl',['$scope','datasetService',function($
             field: "size",
             displayName: "大小"
         }, {
-            field: "type",
+            field: "type_name",
             displayName: "类型"
         }]
     };
 }]);
 
-datasetModule.controller('datasetAddCtrl', ['$scope', '$state', 'datasetService', 'Time', function ($scope, $state, datasetService, Time) {
+datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datasetService', 'Time', function ($scope, $http, $state, datasetService, Time) {
     $scope.isEdit = true;
 
     $scope.dataset = {};
 
+    $scope.dataSetTypeList = [];
+
+    $scope.selectedTypeId = 0;
+
+    $scope.getDataSetTypes = function(){
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
+            success(function(data, status, headers, config){
+                $scope.dataSetTypeList = data;
+                $scope.selectedType = $scope.dataSetTypeList[0];
+                //$scope.dataset.data_set_type_id = $scope.dataSetTypeList[0].id;
+            });
+    };
+    $scope.getDataSetTypes();
+
+
     $scope.submit = function () {
         $scope.dataset.creator_id = 1;
         $scope.dataset.create_time = Time.currentTime;
+        $scope.dataset.data_set_type_id = $scope.selectedType.id;
+        //$scope.confirmb = $scope.selectedTypeId;
+        //$scope.test = {
+        //    'id':1,
+        //    'confirm':$scope.selectedTypeId
+        //};
+
 
         datasetService.save($scope.dataset, function (data) {
             console.log("add successful");
+            console.log($scope.selectedType.id);
             $state.go('viewDataSet', {id: data.id});
         });
+        //console.log($scope.test);
     };
 }]);
 
-datasetModule.controller('datasetShowCtrl',['$scope','$stateParams','datasetService', function ($scope, $stateParams, datasetService) {
+datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '$http', 'datasetService', 'typeService', 'Time', function ($scope, $stateParams, $state, $http, datasetService, typeService, Time) {
     $scope.isEdit = false;
 
     var id = $stateParams.id;
+
+    $scope.getDataSetTypes = function(){
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
+            success(function(data, status, headers, config){
+                $scope.dataSetTypeList = data;
+                $scope.selectedType = $scope.dataSetTypeList[0];
+            });
+    };
+    $scope.getDataSetTypes();
 
     datasetService.get({datasetId:id}, function (data) {
         $scope.dataset = data;
@@ -83,9 +116,16 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams','datasetServ
     };
 
     $scope.submit = function () {
+        $scope.dataset.updater_id = 1;
+        $scope.dataset.update_time = Time.currentTime;
+        $scope.dataset.data_set_type_id = $scope.selectedType.id;
+        $scope.dataset.type_name = $scope.selectedType.name;
+
         $scope.dataset.$update(function () {
+            console.log($scope.selectedType.name);
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;
+            //$state.go('viewDataSet', {id: id});
         })
     };
 }]);
