@@ -14,6 +14,13 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="type" class="col-md-2 control-label">类型</label>
+
+        <div class="col-md-10">
+            <select class="form-control" id="type" ng-options="type as type.name for type in literatureTypeList" ng-model="$parent.selectedType"></select>
+        </div>
+    </div>
+    <div class="form-group">
         <label for="year" class="col-md-2 control-label">年份</label>
 
         <div class="col-md-10">
