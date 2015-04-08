@@ -31,8 +31,8 @@
         <label  class="col-md-2 control-label">类型</label>
 
         <div class="col-md-10" ng-controller="dataSetTypeListShowCtrl">
-            <select class="form-control" ng-repeat="type in dataSetTypeList">
-                <option>{{type.name}}</option>
+            <select class="form-control">
+                <option ng-repeat="type in dataSetTypeList">{{type.name}}</option>
             </select>
         </div>
     </div>
