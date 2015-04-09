@@ -95,11 +95,10 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
 
     $scope.submit = function () {
         $scope.literature.creator_id = 1;
-        $scope.literature.create_time = Time.currentTime;
+        $scope.literature.create_time = Time.currentTime(new Date());
         $scope.literature.literature_type_id = $scope.selectedType.id;
 
         LiteratureService.save($scope.literature, function (data) {
-            console.log($scope.literature);
             $state.go('viewLiterature', {id: data.id});
         });
     };
@@ -107,6 +106,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
 
 literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $stateParams, $http, LiteratureService, Time) {
     $scope.literatureTypeList = [];
+    $scope.comment_type_id = 1;
 
     $scope.isEdit = false;
 
@@ -150,7 +150,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
 
     $scope.submit = function () {
         $scope.literature.updater_id = 1;
-        $scope.literature.update_time = Time.currentTime;
+        $scope.literature.update_time = Time.currentTime(new Date());
         $scope.literature.literature_type_id = $scope.selectedType.id;
 
         $scope.literature.$update(function () {

@@ -1,9 +1,9 @@
 /**
  * Created by justsavor on 15/4/3.
  */
-var codeModule = angular.module('codeModule',[]);
+var codeModule = angular.module('codeModule', []);
 
-codeModule.factory('codeService',['$resource',function($resource){
+codeModule.factory('codeService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/codes/:codeId', {codeId: '@id'}, {
         update: {
             method: 'PUT'
@@ -81,7 +81,7 @@ codeModule.controller('codeAddCtrl', ['$scope', '$state', 'codeService', 'Time',
 
     $scope.submit = function () {
         $scope.code.creator_id = 1;
-        $scope.code.create_time = Time.currentTime;
+        $scope.code.create_time = Time.currentTime(new Date());
 
         codeService.save($scope.code, function (data) {
             console.log("add successful");
@@ -90,38 +90,39 @@ codeModule.controller('codeAddCtrl', ['$scope', '$state', 'codeService', 'Time',
     };
 }]);
 
-codeModule.controller('codeShowCtrl',['$scope','$stateParams','codeService', 'Time', function ($scope, $stateParams, codeService, Time) {
+codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', 'codeService', 'Time', function ($scope, $stateParams, codeService, Time) {
     $scope.isEdit = false;
+    $scope.comment_type_id = 3;
 
     var id = $stateParams.id;
 
-    codeService.get({codeId:id}, function (data) {
+    codeService.get({codeId: id}, function (data) {
         $scope.code = data;
     });
 
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
 
-        if($scope.isEdit){
+        if ($scope.isEdit) {
             $scope.origin = angular.copy($scope.code);
         }
 
-        if(!$scope.isEdit){
+        if (!$scope.isEdit) {
             $scope.code = $scope.origin;
         }
     };
 
     $scope.getEditLabel = function () {
-        if($scope.isEdit) {
+        if ($scope.isEdit) {
             return "取消";
-        }else{
+        } else {
             return "编辑/上传";
         }
     };
 
     $scope.submit = function () {
         $scope.code.updater_id = 1;
-        $scope.code.update_time = Time.currentTime;
+        $scope.code.update_time = Time.currentTime(new Date());
 
         $scope.code.$update(function () {
             console.log("update ok");

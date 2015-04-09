@@ -106,7 +106,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
 
     $scope.submit = function () {
         $scope.dataset.creator_id = 1;
-        $scope.dataset.create_time = Time.currentTime;
+        $scope.dataset.create_time = Time.currentTime(new Date());
         $scope.dataset.data_set_type_id = $scope.selectedType.id;
         $scope.dataset.type_name = $scope.selectedType.name;
 
@@ -119,6 +119,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
 
 datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '$http', 'datasetService', 'typeService', 'Time', function ($scope, $stateParams, $state, $http, datasetService, typeService, Time) {
     $scope.isEdit = false;
+    $scope.comment_type_id = 2;
 
     var id = $stateParams.id;
 
@@ -157,7 +158,7 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '
 
     $scope.submit = function () {
         $scope.dataset.updater_id = 1;
-        $scope.dataset.update_time = Time.currentTime;
+        $scope.dataset.update_time = Time.currentTime(new Date());
         $scope.dataset.data_set_type_id = $scope.selectedType.id;
         $scope.dataset.type_name = $scope.selectedType.name;
 
