@@ -8,7 +8,7 @@ userModule.controller('userLoginCtrl', ['$scope','$rootScope','$log', '$modal', 
             var modalInstance = $modal.open({
                 templateUrl: 'myModalContent.html',
                 controller: 'ModalInstanceCtrl',
-                size: size,
+                size: size
             });
 
             modalInstance.result.then(function (loginInfo) {
@@ -28,13 +28,13 @@ userModule.controller('userLoginCtrl', ['$scope','$rootScope','$log', '$modal', 
 
                     success(function (data, status) {
 
-                        $scope.data = data;
                         if (data == 'FALSE') {
                             $scope.errorMessage = '验证失败';
                         } else {
                             //$scope.$apply(function() { $location.path("/index"); });
-                            $scope.errorMessage = '登录成功'
+                            $scope.errorMessage = '登录成功';
                             $rootScope.username = $scope.username;
+                            $rootScope.userId = data;
                             $location.path("/index");
 
                         }
@@ -56,7 +56,7 @@ userModule.controller('userLoginCtrl', ['$scope','$rootScope','$log', '$modal', 
         };
 
 
-    }])
+    }]);
 
 userModule.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 
