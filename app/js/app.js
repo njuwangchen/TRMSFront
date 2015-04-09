@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule', 'reportModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -110,6 +110,23 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 }
             }
         })
+        .state('showAllReport', {
+            url: '/showAllReport',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html'
+                },
+                'nav@showAllReport': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showAllReport': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showAllReport': {
+                    templateUrl: 'partial/reportGrid.html'
+                }
+            }
+        })
         .state('newLiterature', {
             url: '/newLiterature',
             views: {
@@ -152,6 +169,20 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'codeMeta@newCode': {
                     templateUrl: 'partial/codeMeta.html'
+                }
+            }
+        })
+        .state('newReport', {
+            url: '/newReport',
+            views: {
+                '': {
+                    templateUrl: 'partial/newReport.html'
+                },
+                'nav@newReport': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'reportMeta@newReport': {
+                    templateUrl: 'partial/reportMeta.html'
                 }
             }
         })
@@ -256,6 +287,41 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/simpleComment.html'
                 },
                 'detailComment@viewCode': {
+                    templateUrl: 'partial/detailComment.html'
+                }
+            }
+        })
+        .state('viewReport', {
+            url: '/viewReport/:id',
+            views: {
+                '': {
+                    templateUrl: 'partial/viewReport.html'
+                },
+                'nav@viewReport': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'viewReportMeta@viewReport': {
+                    templateUrl: 'partial/viewReportMeta.html'
+                },
+                'editReportMeta@viewReport': {
+                    templateUrl: 'partial/reportMeta.html'
+                },
+                'viewReportUpload@viewReport': {
+                    templateUrl: 'partial/reportUpload.html'
+                },
+                'viewReportRelation@viewReport': {
+                    templateUrl: 'partial/reportRelation.html'
+                },
+                'addComment@viewReport': {
+                    templateUrl: 'partial/addComment.html'
+                },
+                'showComment@viewReport': {
+                    templateUrl: 'partial/showComment.html'
+                },
+                'simpleComment@viewReport': {
+                    templateUrl: 'partial/simpleComment.html'
+                },
+                'detailComment@viewReport': {
                     templateUrl: 'partial/detailComment.html'
                 }
             }

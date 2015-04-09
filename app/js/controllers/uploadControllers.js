@@ -132,3 +132,67 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
     };
 
 }]);
+
+uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
+    $scope.percent = 0;
+    $scope.files = [];
+
+    $scope.reportattachmentFiles = '';
+
+    $scope.params = {
+        'report_id': $stateParams.id
+    };
+
+    $scope.filter = [
+        {
+            title: 'Reportattachment Files',
+            extensions: 'pdf,txt,doc,docx'
+        }
+    ]
+
+    $scope.getReportattachments = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.reportattachmentFiles = data;
+
+                $scope.getFullDownloadURL = function (uri) {
+                    return RootURL.rootURL + uri;
+                };
+            });
+    };
+
+    $scope.getReportattachments();
+
+}]);
+
+uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
+    $scope.percent = 0;
+    $scope.files = [];
+
+    $scope.reportrecordingFiles = '';
+
+    $scope.params = {
+        'report_id': $stateParams.id
+    };
+
+    $scope.filter = [
+        {
+            title: 'Reportrecording Files',
+            extensions: 'mkv,avi,rmvb,mp4,pdf'
+        }
+    ]
+
+    $scope.getReportrecordings = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.reportrecordingFiles = data;
+
+                $scope.getFullDownloadURL = function (uri) {
+                    return RootURL.rootURL + uri;
+                };
+            });
+    };
+
+    $scope.getReportrecordings();
+
+}]);
