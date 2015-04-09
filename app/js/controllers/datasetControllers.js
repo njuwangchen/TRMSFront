@@ -44,14 +44,11 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
 
     $scope.dataSetTypeList = [];
 
-    $scope.selectedTypeId = 0;
-
     $scope.getDataSetTypes = function(){
         $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = $scope.dataSetTypeList[0];
-                //$scope.dataset.data_set_type_id = $scope.dataSetTypeList[0].id;
             });
     };
     $scope.getDataSetTypes();
@@ -61,19 +58,11 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
         $scope.dataset.creator_id = 1;
         $scope.dataset.create_time = Time.currentTime;
         $scope.dataset.data_set_type_id = $scope.selectedType.id;
-        //$scope.confirmb = $scope.selectedTypeId;
-        //$scope.test = {
-        //    'id':1,
-        //    'confirm':$scope.selectedTypeId
-        //};
-
 
         datasetService.save($scope.dataset, function (data) {
             console.log("add successful");
-            console.log($scope.selectedType.id);
             $state.go('viewDataSet', {id: data.id});
         });
-        //console.log($scope.test);
     };
 }]);
 
@@ -122,10 +111,8 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '
         $scope.dataset.type_name = $scope.selectedType.name;
 
         $scope.dataset.$update(function () {
-            console.log($scope.selectedType.name);
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;
-            //$state.go('viewDataSet', {id: id});
         })
     };
 }]);
