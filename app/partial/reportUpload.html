@@ -1,0 +1,66 @@
+<div ng-controller="reportattachmentUploadCtrl">
+    <div class="row" ng-show="isEdit">
+        <div class="col-md-2">
+            <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
+                    pl-url="http://127.0.0.1:5000/uploadReportattachment" on-file-uploaded="getReportattachments()"
+                    pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传附件
+            </button>
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            <progressbar value="percent">
+                <b>{{percent}}%</b>
+            </progressbar>
+        </div>
+    </div>
+    <div class="row" ng-show="reportattachmentFiles.length">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>已上传的附件</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="reportattachment in reportattachmentFiles">
+                    <td><a href="{{getFullDownloadURL(reportattachment.uri)}}">{{reportattachment.uri}}</a></td>
+                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div ng-controller="reportrecordingUploadCtrl">
+    <div class="row" ng-show="isEdit">
+        <div class="col-md-2">
+            <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
+                    pl-url="http://127.0.0.1:5000/uploadReportrecording" on-file-uploaded="getReportrecordings()"
+                    pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传录像
+            </button>
+        </div>
+        <div class="col-md-9 col-md-offset-1">
+            <progressbar value="percent">
+                <b>{{percent}}%</b>
+            </progressbar>
+        </div>
+    </div>
+    <div class="row" ng-show="reportrecordingFiles.length">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>已上传的录像</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="reportrecording in reportrecordingFiles">
+                    <td><a href="{{getFullDownloadURL(reportrecording.uri)}}">{{reportrecording.uri}}</a></td>
+                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="container" ng-controller="reportShowCtrl">
+    <div ui-view="nav"></div>
+    <div class="row">
+        <div class="col-md-9">
+            <h2>{{report.title}}</h2>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary pull-right" type="button">收藏</button>
+            <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}" ng-click="changeState()">{{getEditLabel()}}</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div ui-view="viewReportMeta" ng-hide="isEdit"></div>
+            <div ui-view="editReportMeta" ng-show="isEdit"></div>
+        </div>
+        <div class="col-md-4">
+            <div ui-view="viewReportUpload"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div ui-view="viewReportRelation"></div>
+    </div>
+    <div class="row">
+        <div ui-view="addComment"></div>
+    </div>
+    <div class="row">
+        <div ui-view="showComment"></div>
+    </div>
+</div>
