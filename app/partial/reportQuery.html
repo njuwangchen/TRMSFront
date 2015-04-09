@@ -1,0 +1,51 @@
+<div class="row">
+    <br/>
+</div>
+<form class="form-horizontal" action="" role="form">
+    <div class="form-group">
+        <label for="title" class="col-md-2 control-label">标题</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="title" placeholder="检索标题" ng-model="report.title">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="report_date" class="col-md-2 control-label">报告日期</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="report_date" placeholder="检索报告日期" ng-model="report.report_date">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="reporter" class="col-md-2 control-label">报告人</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="reporter" placeholder="检索报告人" ng-model="report.reporter">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="company" class="col-md-2 control-label">组织</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="company" placeholder="检索组织" ng-model="report.company">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="location" class="col-md-2 control-label">报告地点</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="location" placeholder="检索报告地点" ng-model="report.location">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-8 col-md-offset-2">
+            <button type="submit" class="btn btn-warning pull-right" ng-click="cancel()">取消</button>
+            <button type="submit" class="btn btn-primary pull-right" ng-click="submit()">提交</button>
+        </div>
+    </div>
+</form>

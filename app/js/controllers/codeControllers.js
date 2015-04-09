@@ -11,13 +11,17 @@ codeModule.factory('codeService',['$resource',function($resource){
     });
 }]);
 
-codeModule.controller('codeListCtrl',['$scope','codeService',function($scope,codeService) {
+codeModule.controller('codeListCtrl',['$scope', '$http', '$modal', 'codeService',function($scope, $http, $modal, codeService) {
     codeService.query(function (data) {
         $scope.codeList = data;
     });
 
     $scope.gridOptions = {
         data: 'codeList',
+        enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
         enableColumnResizing: true,
         paginationPageSizes: [20, 50, 100],
         paginationPageSize: 20,
@@ -33,6 +37,40 @@ codeModule.controller('codeListCtrl',['$scope','codeService',function($scope,cod
             field: "language",
             displayName: "语言"
         }]
+    };
+
+    $scope.toggleFiltering = function () {
+        $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+    };
+
+    $scope.openQuery = function () {
+        var queryModalInstance = $modal.open({
+            templateUrl: 'partial/codeQuery.html',
+            controller: 'codeQueryCtrl',
+            size: 'lg'
+        });
+
+        queryModalInstance.result.then(function (query) {
+            console.log(query);
+            $http.post('http://127.0.0.1:5000/api/v1/codes/query', query).
+                success(function (data) {
+                    $scope.codeList = data;
+                });
+        }, function () {
+
+        });
+    };
+
+}]);
+
+codeModule.controller('codeQueryCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.code = {};
+    $scope.submit = function () {
+        $modalInstance.close($scope.code);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
     };
 }]);
 

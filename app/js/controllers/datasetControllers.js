@@ -11,7 +11,7 @@ datasetModule.factory('datasetService',['$resource',function($resource){
     });
 }]);
 
-datasetModule.controller('datasetListCtrl',['$scope','datasetService',function($scope,datasetService)
+datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datasetService',function($scope, $http, $modal, datasetService)
 {
     datasetService.query(function (data) {
         $scope.datasetList = data;
@@ -19,6 +19,10 @@ datasetModule.controller('datasetListCtrl',['$scope','datasetService',function($
 
     $scope.gridOptions = {
         data: 'datasetList',
+        enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
         enableColumnResizing: true,
         paginationPageSizes: [20, 50, 100],
         paginationPageSize: 20,
@@ -34,6 +38,52 @@ datasetModule.controller('datasetListCtrl',['$scope','datasetService',function($
             field: "type_name",
             displayName: "类型"
         }]
+    };
+
+    $scope.toggleFiltering = function () {
+        $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+    };
+
+    $scope.openQuery = function () {
+        var queryModalInstance = $modal.open({
+            templateUrl: 'partial/dataSetQuery.html',
+            controller: 'datasetQueryCtrl',
+            size: 'lg'
+        });
+
+        queryModalInstance.result.then(function (query) {
+            console.log(query);
+            $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', query).
+                success(function (data) {
+                    $scope.datasetList = data;
+                });
+        }, function () {
+
+        });
+    };
+
+
+}]);
+
+datasetModule.controller('datasetQueryCtrl', ['$scope', '$http', '$modalInstance', function ($scope, $http, $modalInstance) {
+    $scope.dataset = {};
+
+    $scope.getDataSetTypes = function(){
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
+            success(function(data, status, headers, config){
+                $scope.dataSetTypeList = data;
+                $scope.selectedType = 0;
+            });
+    };
+    $scope.getDataSetTypes();
+
+    $scope.submit = function () {
+        $scope.dataset.data_set_type_id = $scope.selectedType.id;
+        $modalInstance.close($scope.dataset);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
     };
 }]);
 
@@ -58,6 +108,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
         $scope.dataset.creator_id = 1;
         $scope.dataset.create_time = Time.currentTime;
         $scope.dataset.data_set_type_id = $scope.selectedType.id;
+        $scope.dataset.type_name = $scope.selectedType.name;
 
         datasetService.save($scope.dataset, function (data) {
             console.log("add successful");

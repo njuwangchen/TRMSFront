@@ -1,0 +1,38 @@
+<div class="row">
+    <br/>
+</div>
+<form class="form-horizontal" action="" role="form">
+    <div class="form-group">
+        <label for="title" class="col-md-2 control-label">标题</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="title" placeholder="检索标题" ng-model="dataset.title">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="description" class="col-md-2 control-label">描述</label>
+
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="description" placeholder="检索描述" ng-model="dataset.description">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label  class="col-md-2 control-label">类型</label>
+
+        <div class="col-md-8">
+            <select class="form-control"
+                    ng-model="$parent.$parent.selectedType"
+                    ng-options="type as type.name for type in dataSetTypeList">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-8 col-md-offset-2">
+            <button type="submit" class="btn btn-warning pull-right" ng-click="cancel()">取消</button>
+            <button type="submit" class="btn btn-primary pull-right" ng-click="submit()">提交</button>
+        </div>
+    </div>
+</form>

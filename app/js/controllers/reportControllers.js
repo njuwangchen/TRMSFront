@@ -11,13 +11,17 @@ reportModule.factory('reportService',['$resource',function($resource){
     });
 }]);
 
-reportModule.controller('reportListCtrl',['$scope','reportService',function($scope,reportService) {
+reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportService',function($scope, $http, $modal, reportService) {
     reportService.query(function (data) {
         $scope.reportList = data;
     });
 
     $scope.gridOptions = {
         data: 'reportList',
+        enableFiltering: false,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
         enableColumnResizing: true,
         paginationPageSizes: [20, 50, 100],
         paginationPageSize: 20,
@@ -36,6 +40,39 @@ reportModule.controller('reportListCtrl',['$scope','reportService',function($sco
             field: "company",
             displayName: "组织"
         }]
+    };
+
+    $scope.toggleFiltering = function () {
+        $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+        $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+    };
+
+    $scope.openQuery = function () {
+        var queryModalInstance = $modal.open({
+            templateUrl: 'partial/reportQuery.html',
+            controller: 'reportQueryCtrl',
+            size: 'lg'
+        });
+
+        queryModalInstance.result.then(function (query) {
+            console.log(query);
+            $http.post('http://127.0.0.1:5000/api/v1/reports/query', query).
+                success(function (data) {
+                    $scope.reportList = data;
+                });
+        }, function () {
+
+        });
+    };
+}]);
+
+reportModule.controller('reportQueryCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.report = {};
+    $scope.submit = function () {
+        $modalInstance.close($scope.report);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
     };
 }]);
 
