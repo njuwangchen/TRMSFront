@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule','allModule','favorModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule','allModule','favorModule','reportModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -113,6 +113,25 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 'resourceGrid@showAllCode': {
                     templateUrl: 'partial/codeGrid.html',
                     controller: 'codeListCtrl'
+                }
+            }
+        })
+        .state('showAllReport', {
+            url: '/showAllReport',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html'
+                },
+                'nav@showAllReport': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showAllReport': {
+                    templateUrl: 'partial/resourceType.html',
+                    controller:'allController'
+                },
+                'resourceGrid@showAllReport': {
+                    templateUrl: 'partial/reportGrid.html',
+                    controller: 'reportListCtrl'
                 }
             }
         })
@@ -398,7 +417,22 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/literatureGrid.html'
                 }
             }
+        })
+        .state('newReport', {
+            url: '/newReport',
+            views: {
+                '': {
+                    templateUrl: 'partial/newReport.html'
+                },
+                'nav@newReport': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'reportMeta@newReport': {
+                    templateUrl: 'partial/reportMeta.html'
+                }
+            }
         });
+
 
 
     plUploadServiceProvider.setConfig('flashPath', 'framework/plupload/plupload.flash.swf');
