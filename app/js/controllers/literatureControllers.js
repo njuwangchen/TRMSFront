@@ -12,7 +12,8 @@ literatureModule.factory('VideoService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
 }]);
 
-literatureModule.controller('LiteratureListCtrl', ['$scope', '$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $modal, $http, uiGridConstants, LiteratureService) {
+literatureModule.controller('LiteratureListCtrl', ['$scope','$rootScope' ,'$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $rootScope,$modal, $http, uiGridConstants, LiteratureService) {
+    $rootScope.favorites = [];
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
     });

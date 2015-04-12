@@ -1,9 +1,8 @@
-<div ng-controller="codeListCtrl">
     <div class="row">
         <div class="col-md-8">
             <h3>代码列表</h3>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" ng-show="!isFavor">
             <a ui-sref="newCode" class="btn btn-primary pull-right">添加</a>
             <a class="btn btn-primary pull-right" ng-click="openQuery()">查询</a>
         </div>
@@ -17,4 +16,3 @@
             </div>
         </div>
     </div>
-</div>

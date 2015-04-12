@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule', 'reportModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule','allModule','favorModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -19,7 +19,8 @@ routerApp.factory('RootURL', function () {
 });
 
 routerApp.factory('Time', function () {
-    var currentTime = function getNowFormatDate(date) {
+    var currentTime = function getNowFormatDate() {
+        var date = new Date();
         var seperator1 = "-";
         var seperator2 = ":";
         var month = date.getMonth() + 1;
@@ -37,7 +38,7 @@ routerApp.factory('Time', function () {
     };
 
     return {
-        currentTime: currentTime
+        currentTime: currentTime()
     };
 });
 
@@ -68,10 +69,12 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/nav.html'
                 },
                 'resourceType@showAllLiterature': {
-                    templateUrl: 'partial/resourceType.html'
+                    templateUrl: 'partial/resourceType.html',
+                    controller: 'allController'
                 },
                 'resourceGrid@showAllLiterature': {
-                    templateUrl: 'partial/literatureGrid.html'
+                    templateUrl: 'partial/literatureGrid.html',
+                    controller: 'LiteratureListCtrl'
                 }
             }
         })
@@ -85,10 +88,12 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/nav.html'
                 },
                 'resourceType@showAllDataSet': {
-                    templateUrl: 'partial/resourceType.html'
+                    templateUrl: 'partial/resourceType.html',
+                    controller: 'allController'
                 },
                 'resourceGrid@showAllDataSet': {
-                    templateUrl: 'partial/dataSetGrid.html'
+                    templateUrl: 'partial/dataSetGrid.html',
+                    controller: 'datasetListCtrl'
                 }
             }
         })
@@ -102,27 +107,12 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/nav.html'
                 },
                 'resourceType@showAllCode': {
-                    templateUrl: 'partial/resourceType.html'
+                    templateUrl: 'partial/resourceType.html',
+                    controller: 'allController'
                 },
                 'resourceGrid@showAllCode': {
-                    templateUrl: 'partial/codeGrid.html'
-                }
-            }
-        })
-        .state('showAllReport', {
-            url: '/showAllReport',
-            views: {
-                '': {
-                    templateUrl: 'partial/resourceList.html'
-                },
-                'nav@showAllReport': {
-                    templateUrl: 'partial/nav.html'
-                },
-                'resourceType@showAllReport': {
-                    templateUrl: 'partial/resourceType.html'
-                },
-                'resourceGrid@showAllReport': {
-                    templateUrl: 'partial/reportGrid.html'
+                    templateUrl: 'partial/codeGrid.html',
+                    controller: 'codeListCtrl'
                 }
             }
         })
@@ -168,20 +158,6 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'codeMeta@newCode': {
                     templateUrl: 'partial/codeMeta.html'
-                }
-            }
-        })
-        .state('newReport', {
-            url: '/newReport',
-            views: {
-                '': {
-                    templateUrl: 'partial/newReport.html'
-                },
-                'nav@newReport': {
-                    templateUrl: 'partial/nav.html'
-                },
-                'reportMeta@newReport': {
-                    templateUrl: 'partial/reportMeta.html'
                 }
             }
         })
@@ -332,7 +308,98 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/login.html'
                 }
             }
+        })
+        .state('showFavorLiterature', {
+            url: '/showFavorLiterature',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html',
+                    controller: 'favorLiteratureListCtrl'
+                },
+                'nav@showFavorLiterature': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showFavorLiterature': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showFavorLiterature': {
+                    templateUrl: 'partial/literatureGrid.html'
+                }
+            }
+        })
+        .state('showFavorDataSet', {
+            url: '/showFavorDataSet',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html',
+                    controller: 'favorDatasetListCtrl'
+                },
+                'nav@showFavorDataSet': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showFavorDataSet': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showFavorDataSet': {
+                    templateUrl: 'partial/dataSetGrid.html'
+                }
+            }
+        })
+        .state('showFavorCode', {
+            url: '/showFavorCode',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html',
+                    controller: 'favorCodeListCtrl'
+                },
+                'nav@showFavorCode': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showFavorCode': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showFavorCode': {
+                    templateUrl: 'partial/codeGrid.html'
+                }
+            }
+        })
+        .state('showFavorReport', {
+            url: '/showFavorReport',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html',
+                    controller: 'favorReportListCtrl'
+                },
+                'nav@showFavorReport': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showFavorReport': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showFavorReport': {
+                    templateUrl: 'partial/reportGrid.html'
+                }
+            }
+        })
+        .state('showSomeFavor', {
+            url: '/showSomeFavor/:favorId',
+            views: {
+                '': {
+                    templateUrl: 'partial/resourceList.html',
+                    controller: 'someFavorController'
+                },
+                'nav@showSomeFavor': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'resourceType@showSomeFavor': {
+                    templateUrl: 'partial/resourceType.html'
+                },
+                'resourceGrid@showSomeFavor': {
+                    templateUrl: 'partial/literatureGrid.html'
+                }
+            }
         });
+
 
     plUploadServiceProvider.setConfig('flashPath', 'framework/plupload/plupload.flash.swf');
     plUploadServiceProvider.setConfig('silverLightPath', 'framework/plupload/plupload.silverlight.xap');

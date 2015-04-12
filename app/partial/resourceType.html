@@ -1,10 +1,13 @@
 <div class="row">
 	<div class="col-md-12">
-		<div class="list-group">
-			<a ui-sref="showAllLiterature" class="list-group-item" ng-class="{active: $state.includes('showAllLiterature')}">文献</a>
-			<a ui-sref="showAllDataSet" class="list-group-item" ng-class="{active: $state.includes('showAllDataSet')}">数据集</a>
-			<a ui-sref="showAllCode" class="list-group-item" ng-class="{active: $state.includes('showAllCode')}">代码</a>
-            <a ui-sref="showAllReport" class="list-group-item" ng-class="{activa: $state.includes('showAllReport')}">报告</a>
-		</div>
+ <div class="list-group">
+     <h4 ng-show="isFavor">收藏分类查看</h4>
+            <a ui-sref={{showAll}} class="list-group-item" ui-sref-active="active">文献</a>
+            <a ui-sref={{showDataSet}} class="list-group-item" ui-sref-active="active">数据集</a>
+            <a ui-sref={{showCode}} class="list-group-item" ui-sref-active="active">代码</a>
+            <a ui-sref={{showReport}} class="list-group-item" ui-sref-active="active">报告</a>
+     <h4 ng-show="isFavor">收藏夹</h4>
+            <a ng-repeat="favor in favorites" class="list-group-item" ui-sref="showSomeFavor({favorId:favor.id})" ui-sref-active="active">{{favor.name}}</a>
+        </div>
 	</div>
 </div>
