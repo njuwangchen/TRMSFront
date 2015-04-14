@@ -19,8 +19,7 @@ routerApp.factory('RootURL', function () {
 });
 
 routerApp.factory('Time', function () {
-    var currentTime = function getNowFormatDate() {
-        var date = new Date();
+    var currentTime = function getNowFormatDate(date) {
         var seperator1 = "-";
         var seperator2 = ":";
         var month = date.getMonth() + 1;
@@ -38,7 +37,7 @@ routerApp.factory('Time', function () {
     };
 
     return {
-        currentTime: currentTime()
+        currentTime: currentTime
     };
 });
 
