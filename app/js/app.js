@@ -1,4 +1,6 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule', 'codeModule', 'typeModule','allModule','favorModule','reportModule']);
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination',
+    'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule',
+    'codeModule', 'typeModule','allModule','favorModule','reportModule','tagModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
