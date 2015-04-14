@@ -12,6 +12,11 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12">
+            <h4>{{literature.rank_str}}</h4>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-8">
             <div ui-view="viewLiteratureMeta" ng-hide="isEdit"></div>
             <div ui-view="editLiteratureMeta" ng-show="isEdit"></div>

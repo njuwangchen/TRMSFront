@@ -40,10 +40,10 @@ literatureModule.controller('LiteratureListCtrl', ['$scope','$rootScope' ,'$moda
             displayName: "年份"
         }, {
             field: "publisher",
-            displayName: "期刊/会议"
+            displayName: "期刊(会议)"
         }, {
-            field: "abstract",
-            displayName: "摘要"
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 

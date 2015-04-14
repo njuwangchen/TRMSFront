@@ -37,6 +37,9 @@ datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datase
         }, {
             field: "type_name",
             displayName: "类型"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 

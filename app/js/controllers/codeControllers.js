@@ -36,6 +36,9 @@ codeModule.controller('codeListCtrl', ['$scope', '$http', '$modal', 'codeService
         }, {
             field: "language",
             displayName: "语言"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 

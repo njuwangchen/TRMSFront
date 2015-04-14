@@ -39,6 +39,9 @@ reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportSer
         }, {
             field: "company",
             displayName: "组织"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 
@@ -83,7 +86,7 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state', 'reportService', '
 
     $scope.submit = function () {
         $scope.report.creator_id = 1;
-        $scope.report.create_time = Time.currentTime;
+        $scope.report.create_time = Time.currentTime(new Date());
 
         reportService.save($scope.report, function (data) {
             console.log("add successful");
@@ -94,6 +97,7 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state', 'reportService', '
 
 reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService', 'Time', function ($scope, $stateParams, reportService, Time) {
     $scope.isEdit = false;
+    $scope.comment_type_id = 4;
 
     var id = $stateParams.id;
 
@@ -123,7 +127,7 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService
 
     $scope.submit = function () {
         $scope.report.updater_id = 1;
-        $scope.report.update_time = Time.currentTime;
+        $scope.report.update_time = Time.currentTime(new Date());
 
         $scope.report.$update(function () {
             console.log("update ok");
