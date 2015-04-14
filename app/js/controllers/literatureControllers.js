@@ -31,7 +31,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope','$rootScope' ,'$moda
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"

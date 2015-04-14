@@ -30,7 +30,7 @@ datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datase
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"

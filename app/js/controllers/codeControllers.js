@@ -29,7 +29,7 @@ codeModule.controller('codeListCtrl',['$scope', '$http', '$modal', 'codeService'
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"

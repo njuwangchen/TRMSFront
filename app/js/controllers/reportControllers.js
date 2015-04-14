@@ -29,7 +29,7 @@ reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportSer
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewReport({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewReport({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "reporter",
             displayName: "报告人"
