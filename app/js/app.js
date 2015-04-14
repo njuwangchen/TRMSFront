@@ -432,6 +432,24 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/reportMeta.html'
                 }
             }
+        })
+        .state('showAllUser', {
+           url: '/showAllUser',
+            views: {
+                '': {
+                    templateUrl: 'partial/manageList.html'
+                },
+                'nav@showAllUser': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'manageFunction@showAllUser': {
+                    templateUrl: 'partial/manageFunction.html'
+                },
+                'manageGrid@showAllUser': {
+                    templateUrl: 'partial/userGrid.html',
+                    controller: 'userListCtrl'
+                }
+            }
         });
 
 
