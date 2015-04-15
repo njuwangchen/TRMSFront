@@ -1,7 +1,7 @@
 /**
  * Created by justsavor on 15/4/9.
  */
-var reportModule = angular.module('reportModule',['ui.bootstrap']);
+var reportModule = angular.module('reportModule',[]);
 
 reportModule.factory('reportService',['$resource',function($resource){
     return $resource('http://127.0.0.1:5000/api/v1/reports/:reportId', {reportId: '@id'}, {
@@ -84,36 +84,6 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state', 'reportService', '
 
     $scope.report = {};
 
-    $scope.today = function() {
-        //$scope.report.report_date = Time.currentTime(new Date());
-        $scope.report.report_date = new Date();
-    };
-  $scope.today();
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
-
-  $scope.open = function() {
-    $event.preventDefault();
-    $event.stopPropagation();
-
-    $scope.opened = true;
-  };
-
-  $scope.dateOptions = {
-    formatYear: 'yy',
-    startingDay: 1
-  };
-
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[0];
-
-
-
-
-
     $scope.submit = function () {
         $scope.report.creator_id = 1;
         $scope.report.create_time = Time.currentTime(new Date());
@@ -134,6 +104,7 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService
     reportService.get({reportId:id}, function (data) {
         $scope.report = data;
     });
+
 
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;

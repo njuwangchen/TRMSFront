@@ -7,15 +7,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">报告日期</label>
+        <label for="report_date" class="col-md-2 control-label">报告日期</label>
 
         <div class="col-md-10">
-            <p class="input-group">
-            <input class="form-control" type="text" datepicker-popup="{{format}}" ng-model="report.report_date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" placeholder="请选择日期">
-            <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-            </p>
+                <datepicker720 date-format="yyyy-MM-dd HH:mm:ss">
+                    <input id="report_date" class="form-control" ng-model="report.report_date" type="text" placeholder="请选择日期"/>
+                </datepicker720>
         </div>
     </div>
     <div class="form-group">
