@@ -50,8 +50,7 @@ codeModule.controller('codeListCtrl', ['$scope', '$http', '$modal', 'codeService
     $scope.openQuery = function () {
         var queryModalInstance = $modal.open({
             templateUrl: 'partial/codeQuery.html',
-            controller: 'codeQueryCtrl',
-            size: 'lg'
+            controller: 'codeQueryCtrl'
         });
 
         queryModalInstance.result.then(function (query) {

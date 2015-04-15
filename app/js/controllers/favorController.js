@@ -45,6 +45,9 @@ favorModule.controller('favorDatasetListCtrl', ['$scope','$rootScope','$http', f
         }, {
             field: "type_name",
             displayName: "类型"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 }]);
@@ -90,6 +93,9 @@ favorModule.controller('favorCodeListCtrl', ['$scope','$rootScope','$http', func
         }, {
             field: "language",
             displayName: "语言"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 }]);
@@ -134,6 +140,9 @@ favorModule.controller('favorReportListCtrl', ['$scope','$rootScope','$http', fu
         }, {
             field: "company",
             displayName: "组织"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 }]);
@@ -191,8 +200,8 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
             field: "publisher",
             displayName: "期刊/会议"
         }, {
-            field: "abstract",
-            displayName: "摘要"
+            field: "rank_str",
+            displayName: "评分/人数"
         }]
     };
 

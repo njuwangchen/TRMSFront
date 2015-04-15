@@ -13,7 +13,7 @@ literatureModule.factory('VideoService', ['$resource', function ($resource) {
 }]);
 
 literatureModule.controller('LiteratureListCtrl', ['$scope','$rootScope' ,'$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $rootScope,$modal, $http, uiGridConstants, LiteratureService) {
-    $rootScope.favorites = [];
+
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
     });
@@ -55,8 +55,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope','$rootScope' ,'$moda
     $scope.openQuery = function () {
         var queryModalInstance = $modal.open({
             templateUrl: 'partial/literatureQuery.html',
-            controller: 'LiteratureQueryCtrl',
-            size: 'lg'
+            controller: 'LiteratureQueryCtrl'
         });
 
         queryModalInstance.result.then(function (query) {

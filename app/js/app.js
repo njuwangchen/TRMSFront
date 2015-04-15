@@ -1,6 +1,6 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination',
+var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
     'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule',
-    'codeModule', 'typeModule','allModule','favorModule','reportModule','tagModule']);
+    'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -40,6 +40,26 @@ routerApp.factory('Time', function () {
 
     return {
         currentTime: currentTime
+    };
+});
+
+routerApp.factory('Utility', function () {
+    var array_diff = function (array1, array2) {
+        var hash = {}
+        for (var i = 0; i < array2.length; i++) {
+            hash[array2[i].id] = true;
+        }
+        var result = [];
+        for (var i = 0; i < array1.length; i++) {
+            value = array1[i];
+            if (hash[value.id]) continue;
+            result.push(value);
+        }
+        return result;
+    };
+
+    return {
+        array_diff: array_diff
     };
 });
 
@@ -128,7 +148,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 },
                 'resourceType@showAllReport': {
                     templateUrl: 'partial/resourceType.html',
-                    controller:'allController'
+                    controller: 'allController'
                 },
                 'resourceGrid@showAllReport': {
                     templateUrl: 'partial/reportGrid.html',
@@ -451,7 +471,6 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 }
             }
         });
-
 
 
     plUploadServiceProvider.setConfig('flashPath', 'framework/plupload/plupload.flash.swf');

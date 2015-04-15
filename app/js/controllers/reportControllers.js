@@ -53,8 +53,7 @@ reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportSer
     $scope.openQuery = function () {
         var queryModalInstance = $modal.open({
             templateUrl: 'partial/reportQuery.html',
-            controller: 'reportQueryCtrl',
-            size: 'lg'
+            controller: 'reportQueryCtrl'
         });
 
         queryModalInstance.result.then(function (query) {

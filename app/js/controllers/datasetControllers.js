@@ -51,8 +51,7 @@ datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datase
     $scope.openQuery = function () {
         var queryModalInstance = $modal.open({
             templateUrl: 'partial/dataSetQuery.html',
-            controller: 'datasetQueryCtrl',
-            size: 'lg'
+            controller: 'datasetQueryCtrl'
         });
 
         queryModalInstance.result.then(function (query) {
