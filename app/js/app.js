@@ -1,4 +1,4 @@
-var routerApp = angular.module('routerApp', ['ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
+var routerApp = angular.module('routerApp', ['720kb.datepicker','ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
     'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule',
     'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule']);
 
