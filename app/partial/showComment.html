@@ -1,19 +1,25 @@
 <div>
     <h3>评论列表</h3>
+
     <div class="row" ng-repeat="comment in commentList">
-        <div class="col-md-1"><span>评分：{{comment.star}}</span></div>
-        <div class="col-md-2"><span>评论人：{{comment.commenter_name}}</span></div>
-        <div class="col-md-9"><span class="pull-right">{{comment.comment_time}}</span></div>
-        <div class="col-md-12">
-            <br/>
-            <br/>
+        <div class="col-md-11">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="col-md-2">
+                        <span class="panel-title">评分：{{comment.star}}</span>
+                    </div>
+                    <span class="panel-title">评论人：{{comment.commenter_name}}</span>
+                    <span class="panel-title pull-right">{{comment.comment_time}}</span>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12" ng-show="comment.is_simple">
+                        <span>{{comment.content}}</span>
+                    </div>
+                    <div class="col-md-12" ng-hide="comment.is_simple">
+                        <p ng-repeat="attr in comment.content.split('&')">{{attr}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-12" ng-show="comment.is_simple">
-            <span>{{comment.content}}</span>
-        </div>
-        <div class="col-md-12" ng-hide="comment.is_simple">
-            <p ng-repeat="attr in comment.content.split('&')">{{attr}}</p>
-        </div>
-        <hr/>
     </div>
 </div>
