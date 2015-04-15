@@ -174,13 +174,13 @@ codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', '$http', '$stat
         })
 
         for (var i = 0; i < $scope.allTags.length; i++) {
-            var need_tobe_added = true;
+            var not_found_in_tags_existed = true;
             $scope.tags.forEach(function (tag_existed) {
-                if ($scope.allTags[i]['id'] == tag_existed['id'])
-                    need_tobe_added = false;
+                if ($scope.allTags[i]['id'] == tag_existed['id'] )
+                    not_found_in_tags_existed = false;
             });
 
-            if (need_tobe_added && $scope.allTags[i]['selected']) {
+            if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
                 $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.code.id,
@@ -188,22 +188,31 @@ codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', '$http', '$stat
                 })
                 $scope.tags.push($scope.allTags[i]);
             }
-
-
-            if (!need_tobe_added && !$scope.allTags[i]['selected']) {
+            else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
+                console.log($scope.allTags[i]['name']);
                 $scope.tag_res.forEach(function (element) {
-                    if (element.resource_id == $scope.code.id && element.tag_id == $scope.allTags[i]['id'] && element.type == 5) {
+                    console.log("tag_res . tag_Id:".concat(element.tag_id));
+                    console.log("tag Id in allTags[i]".concat($scope.allTags[i]['id']));
+                    if (element.tag_id == $scope.allTags[i]['id'] && element.type == 5) {
                         $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
                         for (var j = 0; j < $scope.tags.length; j++)
-                            if ($scope.tags[j]['id'] == element.tag_id) {
+                            if ($scope.tags[j]['id'] == element['tag_id']) {
+                                console.log("delete tag")
+                                console.log($scope.tags[j]['name']);
                                 $scope.tags.splice(j, 1);
                                 break;
                             }
                     }
                 })
             }
+
+
+
         }
 
-        $state.go('viewCode', {id: $scope.code.id});
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": $scope.code.id, "type": 5})
+            .success(function (data) {
+                $scope.tag_res = data;
+            });
     };
 }]);
