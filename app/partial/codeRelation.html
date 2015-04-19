@@ -1,15 +1,15 @@
-<div class="row">
+<div class="row" ng-controller="Code_literature_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该代码关联的文献</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first literature</td>
+            <tr ng-repeat="literature in literature_list">
+                <td>{{literature.title}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>

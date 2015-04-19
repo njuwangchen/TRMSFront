@@ -371,4 +371,164 @@ relationModule.controller('Cited_modal_controller', ['$scope', '$modalInstance',
     };
 }]);
 
+relationModule.controller('Data_set_literature_controller', ['$scope', '$stateParams', '$modal', '$http', 'Data_set_literature_service', function ($scope, $stateParams, $modal, $http, Data_set_literature_service) {
+    var data_set_id = $stateParams.id;
+    var data_set_literature = {};
+    data_set_literature.data_set_id = data_set_id;
+
+    $scope.literature_list = [];
+
+    $scope.update_literature_list = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/data_set_literatures/query', {data_set_id: data_set_id}).success(function (data) {
+            $scope.literature_list = data;
+        });
+    };
+
+    $scope.update_literature_list();
+
+    $scope.add = function () {
+        var addLiteratureModal = $modal.open({
+            templateUrl: 'partial/literatureGrid.html',
+            controller: 'Data_set_literature_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return $scope.literature_list;
+                }
+            }
+        });
+
+        addLiteratureModal.result.then(function (literature_id) {
+            data_set_literature.literature_id = literature_id;
+            Data_set_literature_service.save(data_set_literature, function (data) {
+                $scope.update_literature_list();
+            });
+        }, function () {
+
+        });
+    };
+}]);
+
+relationModule.controller('Data_set_literature_modal_controller', ['$scope', '$modalInstance', 'LiteratureService', 'Utility', 'existed', function ($scope, $modalInstance, LiteratureService, Utility, existed) {
+    $scope.isFavor = true;
+
+    LiteratureService.query(function (data) {
+        var result = Utility.array_diff(data, existed);
+        $scope.literatureList = result;
+    });
+
+    $scope.gridOptions = {
+        data: 'literatureList',
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ng-click="grid.appScope.add_literature(row.entity.id)" href>{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "author",
+            displayName: "作者"
+        }, {
+            field: "published_year",
+            displayName: "年份"
+        }, {
+            field: "publisher",
+            displayName: "期刊(会议)"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+    };
+
+    $scope.add_literature = function (literature_id) {
+        $modalInstance.close(literature_id);
+    };
+
+}]);
+
+relationModule.controller('Code_literature_controller', ['$scope', '$stateParams', '$modal', '$http', 'Code_literature_service', function ($scope, $stateParams, $modal, $http, Code_literature_service) {
+    var code_id = $stateParams.id;
+    var code_literature = {};
+    code_literature.code_id = code_id;
+
+    $scope.literature_list = [];
+
+    $scope.update_literature_list = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/code_literatures/query', {code_id: code_id}).success(function (data) {
+            $scope.literature_list = data;
+        });
+    };
+
+    $scope.update_literature_list();
+
+    $scope.add = function () {
+        var addLiteratureModal = $modal.open({
+            templateUrl: 'partial/literatureGrid.html',
+            controller: 'Code_literature_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return $scope.literature_list;
+                }
+            }
+        });
+
+        addLiteratureModal.result.then(function (literature_id) {
+            code_literature.literature_id = literature_id;
+            Code_literature_service.save(code_literature, function (data) {
+                $scope.update_literature_list();
+            });
+        }, function () {
+
+        });
+    };
+}]);
+
+relationModule.controller('Code_literature_modal_controller', ['$scope', '$modalInstance', 'LiteratureService', 'Utility', 'existed', function ($scope, $modalInstance, LiteratureService, Utility, existed) {
+    $scope.isFavor = true;
+
+    LiteratureService.query(function (data) {
+        var result = Utility.array_diff(data, existed);
+        $scope.literatureList = result;
+    });
+
+    $scope.gridOptions = {
+        data: 'literatureList',
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ng-click="grid.appScope.add_literature(row.entity.id)" href>{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "author",
+            displayName: "作者"
+        }, {
+            field: "published_year",
+            displayName: "年份"
+        }, {
+            field: "publisher",
+            displayName: "期刊(会议)"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+    };
+    $scope.add_literature = function (literature_id) {
+        $modalInstance.close(literature_id);
+    };
+
+}]);
 
