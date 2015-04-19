@@ -16,58 +16,58 @@
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-controller="Literature_code_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该文献关联的代码</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first code</td>
+            <tr ng-repeat="code in code_list">
+                <td>{{code.title}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-controller="Cite_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该文献还引用了</th>
                 <th class="text-right">引用关系</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first cite</td>
-                <td class="text-right">赞扬</td>
+            <tr ng-repeat="cite in cite_list">
+                <td>{{cite_literature_list[$index].title}}</td>
+                <td class="text-right">{{cite.type_name}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-controller="Cited_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该文献被引用在</th>
                 <th class="text-right">引用关系</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first cited</td>
-                <td class="text-right">批评</td>
+            <tr ng-repeat="cited in cited_list">
+                <td>{{cited_literature_list[$index].title}}</td>
+                <td class="text-right">{{cited.type_name}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
