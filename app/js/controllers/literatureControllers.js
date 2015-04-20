@@ -12,8 +12,7 @@ literatureModule.factory('VideoService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
 }]);
 
-literatureModule.controller('LiteratureListCtrl', ['$scope','$rootScope' ,'$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $rootScope,$modal, $http, uiGridConstants, LiteratureService) {
-
+literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $rootScope, $modal, $http, uiGridConstants, LiteratureService) {
     LiteratureService.query(function (data) {
         $scope.literatureList = data;
     });
@@ -84,7 +83,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
     $scope.literatureTypeList = [];
 
     $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
-        success(function(data){
+        success(function (data) {
             $scope.literatureTypeList = data;
             $scope.selectedType = $scope.literatureTypeList[0];
         });
@@ -117,16 +116,16 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
         $scope.literature = data;
 
         $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
-        success(function(data){
-            $scope.literatureTypeList = data;
+            success(function (data) {
+                $scope.literatureTypeList = data;
 
-            for (var i = 0; i < $scope.literatureTypeList.length; i++){
-                if ($scope.literatureTypeList[i].id == $scope.literature.literature_type_id){
-                    $scope.selectedType = $scope.literatureTypeList[i];
-                    break;
+                for (var i = 0; i < $scope.literatureTypeList.length; i++) {
+                    if ($scope.literatureTypeList[i].id == $scope.literature.literature_type_id) {
+                        $scope.selectedType = $scope.literatureTypeList[i];
+                        break;
+                    }
                 }
-            }
-        });
+            });
     });
 
     $scope.changeState = function () {

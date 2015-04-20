@@ -1,51 +1,51 @@
-<div class="row">
+<div class="row" ng-controller="Report_literature_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该报告关联的文献</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()" href="" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first literature</td>
+            <tr ng-repeat="literature in literature_list">
+                <td>{{literature.title}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-controller="Report_code_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该报告关联的代码</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()" href="" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first code</td>
+            <tr ng-repeat="code in code_list">
+                <td>{{code.title}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-controller="Report_data_set_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
                 <th>该报告关联的数据集</th>
-                <th class="text-right"><a href="" class="btn" ng-show="isEdit">添加</a></th>
+                <th class="text-right"><a ng-click="add()"  href="" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>first data set</td>
+            <tr ng-repeat="dataset in data_set_list">
+                <td>{{dataset.title}}</td>
                 <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
