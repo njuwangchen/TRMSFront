@@ -9,39 +9,30 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2"><h2 class="text-center">团队资源管理系统</h2></div>
   </div>
-  <div class="col-md-8 col-md-offset-2">
-    <img class="img-responsive" alt="Responsive image" src="data/BingWallpaper.jpg">
-  </div>
-  <div ng-controller="userLoginCtrl">
-    <script type="text/ng-template" id="myModalContent.html">
-      <div class = "modal-header" > <h3 class = "modal-title" >请登录</h3>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <input class="form-control" placeholder="用户名" ng-model="loginInfo.un" 
-                  type="text" autocomplete="off">
-               </div>
-               <div class="form-group">
-                  <input class="form-control" placeholder="密码" ng-model="loginInfo.pw"  
-                    type="password" value="" autocomplete="off">
-               </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+  <div class="col-md-7 col-md-offset-5" ng-controller="userLoginCtrl">
+      <form action="" role="form" class="form-horizontal">
+          <div class="row">
+          <div class="form-group col-md-4 col-md-offset-4">
+              <input class="form-control" placeholder="用户名" ng-model="username"
+                     type="text" autocomplete="off">
+          </div>
+          </div>
+          <div class="row">
+          <div class="form-group col-md-4 col-md-offset-4">
+              <input class="form-control" placeholder="密码" ng-model="password"
+                     type="password" value="" autocomplete="off">
+          </div>
+          </div>
+          <div class="row">
+          <div class="form-group col-md-4 col-md-offset-4">
+              <button class="btn btn-primary" ng-click="ok()">OK</button>
+              <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+          </div>
+          </div>
+      </form>
 
- <!--    <button class="btn btn-default" ng-click="open()">Open me!</button>
-    <button class="btn btn-default" ng-click="open('lg')">Large modal</button> -->
-    <div class="col-md-2 col-md-offset-5">
-    <p></p>
-    <div class="btn-group btn-group-lg" role="group" aria-label="...">
-      <button class="btn btn-default" ng-click="open('sm')">登录</button>
-      <button class="btn btn-default" >退出</button>
-    </div>
 
-    <div ng-show="errorMessage"> {{errorMessage}}</div>
+
   </div>
   </div>
 </div>

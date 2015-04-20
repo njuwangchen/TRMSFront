@@ -109,6 +109,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
     $scope.comment_type_id = 1;
 
     $scope.isEdit = false;
+    $scope.currentType = 1;
 
     var id = $stateParams.id;
 

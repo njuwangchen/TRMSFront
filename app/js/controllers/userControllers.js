@@ -22,77 +22,55 @@ userModule.controller('userListCtrl', ['$scope', 'userService', function($scope,
     $scope.master = {};
 }]);
 
-userModule.controller('userLoginCtrl', ['$scope','$rootScope','$log', '$modal', '$http', '$location',
-    function ($scope,$rootScope,$log, $modal, $http, $location) {
+userModule.controller('userLoginCtrl', ['$scope','$rootScope','$http','$state',
+    function ($scope,$rootScope,$http,$state) {
 
-        $scope.open = function (size) {
 
-            var modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
-                size: size
-            });
+        $rootScope.logout = function () {
+            $rootScope.userId = null;
+            $rootScope.username = null;
 
-            modalInstance.result.then(function (loginInfo) {
-                $scope.username = loginInfo.un;
-                $scope.password = loginInfo.pw;
+            $state.go('login');
+        }
 
-                $http({
+        $scope.ok = function () {
 
-                    method: 'POST',
-                    url: 'http://127.0.0.1:5000/api/v1/users/login',
-                    headers: {'Content-Type': 'application/json'},
-                    data: {
-                        "username": $scope.username,
-                        "password": $scope.password
+            $http({
+
+                method: 'POST',
+                url: 'http://127.0.0.1:5000/api/v1/users/login',
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "username": $scope.username,
+                    "password": $scope.password
+                }
+            }).
+
+                success(function (data, status) {
+
+                    if (data == 'FALSE') {
+                        alert( '验证失败');
+                    } else {
+                        alert('登陆成功')
+                        $rootScope.username = $scope.username;
+                        $rootScope.userId = data;
+                        $state.go("index");
                     }
+
                 }).
 
-                    success(function (data, status) {
+                error(function (data, status) {
+                    $scope.data = data || "FALSE";
+                    $scope.errorMessage = 'Something went wrong';
+                    $state.go("login");
 
-                        if (data == 'FALSE') {
-                            $scope.errorMessage = '验证失败';
-                        } else {
-                            //$scope.$apply(function() { $location.path("/index"); });
-                            $scope.errorMessage = '登录成功';
-                            $rootScope.username = $scope.username;
-                            $rootScope.userId = data;
-                            $location.path("/index");
+                });
+        }
 
-                        }
-
-                    }).
-
-                    error(function (data, status) {
-                        $scope.data = data || "FALSE";
-                        $scope.errorMessage = 'Something went wrong';
-                        $location.path("/login");
-
-                    });
-
-
-                //http
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        };
 
 
     }]);
 
-userModule.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
-
-    $scope.loginInfo = {};
-
-    $scope.ok = function () {
-        
-        $modalInstance.close($scope.loginInfo);
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-}]);
 
 
 
