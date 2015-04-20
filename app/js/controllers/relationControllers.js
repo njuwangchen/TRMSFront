@@ -552,7 +552,7 @@ relationModule.controller('Report_data_set_controller', ['$scope', '$stateParams
     $scope.data_set_list = [];
 
     $scope.update_data_set_list = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/report_data_sets/query', {code_id: code_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/report_data_sets/query', {report_id: report_id}).success(function (data) {
             $scope.data_set_list = data;
         });
     };
@@ -571,7 +571,7 @@ relationModule.controller('Report_data_set_controller', ['$scope', '$stateParams
             }
         });
 
-        addDataSetModalModal.result.then(function (data_set_id) {
+        addDataSetModal.result.then(function (data_set_id) {
             report_data_set.data_set_id = data_set_id;
             Report_data_set_service.save(report_data_set, function (data) {
                 $scope.update_data_set_list();
@@ -630,7 +630,7 @@ relationModule.controller('Report_code_controller', ['$scope', '$stateParams', '
     $scope.code_list = [];
 
     $scope.update_code_list = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/report_codes/query', {code_id: code_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/report_codes/query', {report_id: report_id}).success(function (data) {
             $scope.code_list = data;
         });
     };
@@ -638,8 +638,8 @@ relationModule.controller('Report_code_controller', ['$scope', '$stateParams', '
     $scope.update_code_list();
 
     $scope.add = function () {
-        var addDataSetModal = $modal.open({
-            templateUrl: 'partial/dataSetGrid.html',
+        var addCodeModal = $modal.open({
+            templateUrl: 'partial/codeGrid.html',
             controller: 'Report_code_modal_controller',
             size: 'lg',
             resolve: {
@@ -649,7 +649,7 @@ relationModule.controller('Report_code_controller', ['$scope', '$stateParams', '
             }
         });
 
-        addDataSetModalModal.result.then(function (code_id) {
+        addCodeModal.result.then(function (code_id) {
             report_code.code_id = code_id;
             Report_code_service.save(report_code, function (data) {
                 $scope.update_code_list();
