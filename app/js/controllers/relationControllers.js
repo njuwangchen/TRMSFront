@@ -8,6 +8,18 @@ relationModule.factory('Code_literature_service', ['$resource', function ($resou
     return $resource('http://127.0.0.1:5000/api/v1/code_literatures');
 }]);
 
+relationModule.factory('Report_literature_service', ['$resource', function($resource){
+    return $resource('http://127.0.0.1:5000/api/v1/report_literatures');
+}]);
+
+relationModule.factory('Report_code_service', ['$resource', function($resource){
+    return $resource('http://127.0.0.1:5000/api/v1/report_codes');
+}]);
+
+relationModule.factory('Report_data_set_service', ['$resource', function($resource){
+    return $resource('http://127.0.0.1:5000/api/v1/report_data_sets');
+}]);
+
 relationModule.factory('Cite_service', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/cites');
 }]);
@@ -532,3 +544,238 @@ relationModule.controller('Code_literature_modal_controller', ['$scope', '$modal
 
 }]);
 
+relationModule.controller('Report_data_set_controller', ['$scope', '$stateParams', '$modal', '$http', 'Report_data_set_service', function ($scope, $stateParams, $modal, $http, Report_data_set_service) {
+    var report_id = $stateParams.id;
+    var report_data_set = {};
+    report_data_set.report_id = report_id;
+
+    $scope.data_set_list = [];
+
+    $scope.update_data_set_list = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_data_sets/query', {code_id: code_id}).success(function (data) {
+            $scope.data_set_list = data;
+        });
+    };
+
+    $scope.update_data_set_list();
+
+    $scope.add = function () {
+        var addDataSetModal = $modal.open({
+            templateUrl: 'partial/dataSetGrid.html',
+            controller: 'Report_data_set_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return $scope.data_set_list;
+                }
+            }
+        });
+
+        addDataSetModalModal.result.then(function (data_set_id) {
+            report_data_set.data_set_id = data_set_id;
+            Report_data_set_service.save(report_data_set, function (data) {
+                $scope.update_data_set_list();
+            });
+        }, function () {
+
+        });
+    };
+}]);
+
+relationModule.controller('Report_data_set_modal_controller', ['$scope', '$modalInstance', 'datasetService', 'Utility', 'existed', function ($scope, $modalInstance, datasetService, Utility, existed) {
+    $scope.isFavor = true;
+
+    datasetService.query(function (data) {
+        var result = Utility.array_diff(data, existed);
+        $scope.datasetList = result;
+    });
+
+    $scope.gridOptions = {
+        data: 'datasetList',
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ng-click="grid.appScope.add_data_set(row.entity.id)" href>{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "size",
+            displayName: "大小"
+        }, {
+            field: "type_name",
+            displayName: "类型"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+
+    };
+    $scope.add_data_set = function (data_set_id) {
+        $modalInstance.close(data_set_id);
+    };
+
+}]);
+
+relationModule.controller('Report_code_controller', ['$scope', '$stateParams', '$modal', '$http', 'Report_code_service', function ($scope, $stateParams, $modal, $http, Report_code_service) {
+    var report_id = $stateParams.id;
+    var report_code = {};
+    report_code.report_id = report_id;
+
+    $scope.code_list = [];
+
+    $scope.update_code_list = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_codes/query', {code_id: code_id}).success(function (data) {
+            $scope.code_list = data;
+        });
+    };
+
+    $scope.update_code_list();
+
+    $scope.add = function () {
+        var addDataSetModal = $modal.open({
+            templateUrl: 'partial/dataSetGrid.html',
+            controller: 'Report_code_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return $scope.code_list;
+                }
+            }
+        });
+
+        addDataSetModalModal.result.then(function (code_id) {
+            report_code.code_id = code_id;
+            Report_code_service.save(report_code, function (data) {
+                $scope.update_code_list();
+            });
+        }, function () {
+
+        });
+    };
+}]);
+
+relationModule.controller('Report_code_modal_controller', ['$scope', '$modalInstance', 'codeService', 'Utility', 'existed', function ($scope, $modalInstance, codeService, Utility, existed) {
+    $scope.isFavor = true;
+
+    codeService.query(function (data) {
+        var result = Utility.array_diff(data, existed);
+        $scope.codeList = result;
+    });
+
+    $scope.gridOptions = {
+        data: 'codeList',
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ng-click="grid.appScope.add_code(row.entity.id)" href>{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "size",
+            displayName: "大小"
+        }, {
+            field: "language",
+            displayName: "语言"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+
+    };
+    $scope.add_code = function (code_id) {
+        $modalInstance.close(code_id);
+    };
+
+}]);
+
+relationModule.controller('Report_literature_controller', ['$scope', '$stateParams', '$modal', '$http', 'Report_literature_service', function ($scope, $stateParams, $modal, $http, Report_literature_service) {
+    var report_id = $stateParams.id;
+    var report_literature = {};
+    report_literature.report_id = report_id;
+
+    $scope.literature_list = [];
+
+    $scope.update_literature_list = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_literatures/query', {report_id: report_id}).success(function (data) {
+            $scope.literature_list = data;
+        });
+    };
+
+    $scope.update_literature_list();
+
+    $scope.add = function () {
+        var addLiteratureModal = $modal.open({
+            templateUrl: 'partial/literatureGrid.html',
+            controller: 'Report_literature_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return $scope.literature_list;
+                }
+            }
+        });
+
+        addLiteratureModal.result.then(function (literature_id) {
+            report_literature.literature_id = literature_id;
+            Report_literature_service.save(report_literature, function (data) {
+                $scope.update_literature_list();
+            });
+        }, function () {
+
+        });
+    };
+}]);
+
+relationModule.controller('Report_literature_modal_controller', ['$scope', '$modalInstance', 'LiteratureService', 'Utility', 'existed', function ($scope, $modalInstance, LiteratureService, Utility, existed) {
+    $scope.isFavor = true;
+
+    LiteratureService.query(function (data) {
+        var result = Utility.array_diff(data, existed);
+        $scope.literatureList = result;
+    });
+
+    $scope.gridOptions = {
+        data: 'literatureList',
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ng-click="grid.appScope.add_literature(row.entity.id)" href>{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "author",
+            displayName: "作者"
+        }, {
+            field: "published_year",
+            displayName: "年份"
+        }, {
+            field: "publisher",
+            displayName: "期刊(会议)"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+    };
+    $scope.add_literature = function (literature_id) {
+        $modalInstance.close(literature_id);
+    };
+
+}]);
