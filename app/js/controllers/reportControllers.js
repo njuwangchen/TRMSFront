@@ -97,6 +97,7 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state', 'reportService', '
 reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService', 'Time', function ($scope, $stateParams, reportService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 4;
+    $scope.currentType = 6;
 
     var id = $stateParams.id;
 

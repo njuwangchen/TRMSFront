@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-12">
+        <h4>请选择收藏夹</h4>
+            <div ng-repeat="favor in favorites">
+                <div class="row">
+                    <a href class="col-md-8"  ui-sref-active="active" ng-click="chooseOne(favor)">{{favor.name}}</a>
+                    <a href class="col-md-4" ui-sref-active="active" >删除</a>
+                </div>
+            </div>
+        <a href ng-click="cancel()" ui-sref-active="active">取消</a>
+        <a href ng-click="openNewFavor()" ui-sref-active="active">新建</a>
+    </div>
+</div>

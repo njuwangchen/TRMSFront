@@ -9,5 +9,5 @@ allModule.controller('allController', ['$scope','$rootScope',function ($scope,$r
     $rootScope.showCode = "showAllCode";
     $rootScope.showReport = "showAllReport";
     $rootScope.isFavor = false;
-
+    $rootScope.favorites = null;
 }]);

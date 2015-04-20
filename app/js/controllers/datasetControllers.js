@@ -122,6 +122,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
 datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '$http', 'datasetService', 'typeService', 'Time', function ($scope, $stateParams, $state, $http, datasetService, typeService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 2;
+    $scope.currentType = 4;
 
     var id = $stateParams.id;
 

@@ -2,6 +2,14 @@
  * Created by BAO on 4/8/15.
  */
 var favorModule = angular.module('favorModule',[]);
+//
+//addFavorResService = angular.factory('addFavorResService', function ($http) {
+//
+//    var addFavor = function (resource_id,type,favorite_id) {
+//        $http.post("http://127.0.0.1:5000/api/v1/favorite_resource")
+//    }
+//})
+
 
 favorModule.controller('favorDatasetListCtrl', ['$scope','$rootScope','$http', function ($scope, $rootScope, $http) {
     $rootScope.showAll = "showFavorLiterature";
@@ -11,7 +19,6 @@ favorModule.controller('favorDatasetListCtrl', ['$scope','$rootScope','$http', f
 
     $rootScope.isFavor = true;
 
-    $rootScope.userId = 1;
 
     $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
@@ -59,7 +66,6 @@ favorModule.controller('favorCodeListCtrl', ['$scope','$rootScope','$http', func
     $rootScope.showReport = "showFavorReport";
     $rootScope.isFavor = true;
 
-    $rootScope.userId = 1;
 
     $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
@@ -103,7 +109,6 @@ favorModule.controller('favorCodeListCtrl', ['$scope','$rootScope','$http', func
 favorModule.controller('favorReportListCtrl', ['$scope','$rootScope','$http', function ($scope, $rootScope, $http) {
     $rootScope.isFavor = true;
 
-    $rootScope.userId = 1;
 
     $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
@@ -158,11 +163,6 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
     $rootScope.isFavor = true;
 
 
-    //fake data
-    //获取收藏夹
-
-    $rootScope.userId = 1;
-
     $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
@@ -216,7 +216,6 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
 
     $rootScope.isFavor = true;
 
-    $rootScope.userId = 1;
 
     $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
@@ -290,3 +289,73 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
         }]
     };
 });
+
+favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,Time) {
+
+    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+        .success(function(data){
+            $rootScope.favorites = data;
+        });
+
+    $scope.addFavor = function () {
+        console.log($rootScope.favorites);
+        var modalInstance = $modal.open({
+            templateUrl:"partial/showAndAddFavorites.html",
+            controller:'addFavorCtrlModalInstance',
+            size:'sm'
+        });
+
+
+        modalInstance.result.then(function (selectedFavor) {
+            $scope.selectedFavor = selectedFavor;
+            var favorTime = Time.currentTime(new Date());
+            $http.post('http://127.0.0.1:5000/api/v1/favorite_resources',{"favorite_id":selectedFavor.id,"type":$scope.$parent.currentType,
+                "resource_id":$scope.$parent.currentId,"favorite_time":favorTime});
+        });
+    }
+
+
+});
+
+favorModule.controller('addFavorCtrlModalInstance', function ($scope,$modal,$modalInstance) {
+
+    $scope.chooseOne = function (favor) {
+        $modalInstance.close(favor);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.openNewFavor = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl:"partial/newFavor.html",
+            controller:'newFavorModalInsCtrl',
+            size:'sm'
+        });
+
+        modalInstance.result.then(function (selectedFavor) {
+            console.log(selectedFavor);
+        });
+    }
+
+})
+
+favorModule.controller('newFavorModalInsCtrl', function ($scope,$modalInstance,$http,$rootScope) {
+
+    $scope.submit = function () {
+
+        $rootScope.userId = 1;
+        $http.post("http://127.0.0.1:5000/api/v1/favorites",{"user_id":$rootScope.userId,"name":this.favorName})
+            .success(function (data) {
+                $rootScope.favorites.push(data);
+            })
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+})
