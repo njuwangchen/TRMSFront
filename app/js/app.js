@@ -113,7 +113,7 @@ routerApp.factory("authenticationSvc", function ($http, $q, $window, $rootScope)
                 "accessToken": userInfo.accessToken
             }
         }).then(function (result) {
-            $window.sessionStorage["userInfo"] = null;
+            $window.sessionStorage.clear();
             $rootScope.userName = null;
             $rootScope.userId = null;
             userInfo = null;
