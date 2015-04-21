@@ -1,14 +1,31 @@
-var routerApp = angular.module('routerApp', ['720kb.datepicker','ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
+var routerApp = angular.module('routerApp', ['720kb.datepicker', 'ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
     'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule',
     'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule']);
 
-routerApp.run(function ($rootScope, $state, $stateParams) {
+routerApp.run(function ($rootScope, $state, $stateParams, authenticationSvc) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
-    $rootScope.$on('$stateChangeSuccess', function () {
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         $("html, body").animate({scrollTop: 0}, 200);
     });
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name != 'login') {
+            var userInfo = authenticationSvc.getUserInfo();
+            if (userInfo) {
+                console.log(userInfo);
+            } else {
+                event.preventDefault();
+                $rootScope.$broadcast('NotLogIn');
+            }
+        }
+    });
+
+    $rootScope.$on('NotLogIn', function (event, data) {
+        $state.transitionTo('login');
+    });
+
 });
 
 routerApp.factory('RootURL', function () {
@@ -62,6 +79,82 @@ routerApp.factory('Utility', function () {
         array_diff: array_diff
     };
 });
+
+routerApp.factory("authenticationSvc", function ($http, $q, $window, $rootScope) {
+    var userInfo;
+
+    function login(userName, password) {
+        var deferred = $q.defer();
+
+        $http.get("data/login.json").then(function (result) {
+            userInfo = {
+                accessToken: result.data.accessToken,
+                userName: result.data.userName,
+                userId: result.data.userId
+            };
+            $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
+            $rootScope.userName = userInfo.userName;
+            $rootScope.userId = userInfo.userId;
+            deferred.resolve(userInfo);
+        }, function (error) {
+            deferred.reject(error);
+        });
+
+        return deferred.promise;
+    }
+
+    function logout() {
+        var deferred = $q.defer();
+
+        $http({
+            method: "GET",
+            url: "data/logout.json",
+            headers: {
+                "accessToken": userInfo.accessToken
+            }
+        }).then(function (result) {
+            $window.sessionStorage["userInfo"] = null;
+            $rootScope.userName = null;
+            $rootScope.userId = null;
+            userInfo = null;
+            deferred.resolve(result);
+        }, function (error) {
+            deferred.reject(error);
+        });
+
+        return deferred.promise;
+    }
+
+    function getUserInfo() {
+        return userInfo;
+    }
+
+    function init() {
+        if ($window.sessionStorage["userInfo"]) {
+            userInfo = JSON.parse($window.sessionStorage["userInfo"]);
+            $rootScope.userName = userInfo.userName;
+            $rootScope.userId = userInfo.userId;
+        }
+    }
+
+    init();
+
+    return {
+        login: login,
+        logout: logout,
+        getUserInfo: getUserInfo
+    };
+});
+
+routerApp.factory('authService', ['$q', 'authenticationSvc', function ($q, authenticationSvc) {
+    var userInfo = authenticationSvc.getUserInfo();
+
+    if (userInfo) {
+        return $q.when(userInfo);
+    } else {
+        return $q.reject({authenticated: false});
+    }
+}]);
 
 routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvider', function ($stateProvider, $urlRouterProvider, plUploadServiceProvider) {
     $urlRouterProvider.otherwise('/index');
@@ -454,7 +547,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
             }
         })
         .state('showAllUser', {
-           url: '/showAllUser',
+            url: '/showAllUser',
             views: {
                 '': {
                     templateUrl: 'partial/manageList.html'
