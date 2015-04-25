@@ -1,7 +1,7 @@
 var literatureModule = angular.module('LiteratureModule', []);
 
 literatureModule.factory('LiteratureService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/literatures/:literatureId', {literatureId: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/literatures/:literatureId', {literatureId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -9,7 +9,7 @@ literatureModule.factory('LiteratureService', ['$resource', function ($resource)
 }]);
 
 literatureModule.factory('VideoService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
+    return $resource('http://121.40.106.155:5000/api/v1/videos/:videoId', {videoId: '@id'});
 }]);
 
 literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $rootScope, $modal, $http, uiGridConstants, LiteratureService) {
@@ -59,7 +59,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$mod
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://127.0.0.1:5000/api/v1/literatures/query', query).
+            $http.post('http://121.40.106.155:5000/api/v1/literatures/query', query).
                 success(function (data) {
                     $scope.literatureList = data;
                 });
@@ -82,7 +82,7 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', 
 literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', 'LiteratureService', 'Time', function ($scope, $state, $http, LiteratureService, Time) {
     $scope.literatureTypeList = [];
 
-    $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
+    $http.post('http://121.40.106.155:5000/api/v1/types/query', {name: "", type_id: 1}).
         success(function (data) {
             $scope.literatureTypeList = data;
             $scope.selectedType = $scope.literatureTypeList[0];
@@ -115,7 +115,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
     LiteratureService.get({literatureId: id}, function (data) {
         $scope.literature = data;
 
-        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
+        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name: "", type_id: 1}).
             success(function (data) {
                 $scope.literatureTypeList = data;
 

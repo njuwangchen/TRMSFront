@@ -1,7 +1,7 @@
 var userModule = angular.module('userModule', ['ui.bootstrap']);
 
 userModule.factory('userService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/users/:userId', {userId: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/users/:userId', {userId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -36,7 +36,7 @@ userModule.controller('userLoginCtrl', ['$scope', '$http', '$state', 'authentica
             /*$http({
 
              method: 'POST',
-             url: 'http://127.0.0.1:5000/api/v1/users/login',
+             url: 'http://121.40.106.155:5000/api/v1/users/login',
              headers: {'Content-Type': 'application/json'},
              data: {
              "username": $scope.username,
