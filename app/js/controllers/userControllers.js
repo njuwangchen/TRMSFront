@@ -16,6 +16,7 @@ userModule.controller('userListCtrl', ['$scope', 'userService', function ($scope
     $scope.addState = false;
     $scope.changeState = function () {
         $scope.addState = true;
+        $scope.user = {};
     };
 
     $scope.showEdit = true;
@@ -197,10 +198,7 @@ userModule.directive("save", function ($document, $state, userService) {
                 var privilege = "privilege" + ngModel.$modelValue.privilege;
                 scope.$apply(function () {
                     angular.copy(ngModel.$modelValue, scope.master);
-                    //console.log(scope.master);
                 })
-                //console.log(id);
-
 
                 scope.$apply(function () {
                     userService.save(scope.user, function (data) {

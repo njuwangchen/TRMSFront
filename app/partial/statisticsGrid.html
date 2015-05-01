@@ -1,0 +1,53 @@
+<div>
+    <div class="row">
+        <div class="col-md-8">
+            <h3>统计信息</h3>
+        </div>
+        <!--<div>-->
+            <!--<ul class="nav navbar-nav">-->
+            <!--<li><button type="button" ng-click="showSeven()" class="btn btn-primary" data-toggle="button" aria-pressed="false">最近7天</button></li>-->
+            <!--<li><button type="button" ng-click="showThirty()" class="btn btn-primary" data-toggle="button" aria-pressed="false">最近30天</button></li>-->
+            <!--<li><button type="button" ng-click="showTotal()" class="btn btn-primary" data-toggle="button" aria-pressed="false">总计</button></li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <div class="btn-group" data-toggle="buttons-radio">
+                    <button ng-class="{'active':isActiveSeven}" ng-click="showSeven()" class="btn btn-primary">最近7天</button>
+                    <button ng-class="{'active':isActiveThirty}" ng-click="showThirty()" class="btn btn-primary">最近30天</button>
+                    <button ng-class="{'active':isActiveTotal}" ng-click="showTotal()" class="btn btn-primary">总共</button>
+        </div>
+        <div class="row">
+            <br>
+        </div>
+        <div>
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>用户名</th>
+                        <th>文献创建数</th>
+                        <th>文献更新数</th>
+                        <th>数据集创建数</th>
+                        <th>数据集更新数</th>
+                        <th>代码创建数</th>
+                        <th>代码更新数</th>
+                        <th>报告创建数</th>
+                        <th>报告更新数</th>
+                        <th>评论数</th>
+                    </tr>
+                    <tr ng-repeat="user in userList">
+                        <td width="10%">{{user.name}}</td>
+                        <td width="10%"><a ng-click="showLiteratureCreated()">{{user.countLiteratureCreated}}</a></td>
+                        <td width="10%">{{user.countLiteratureUpdated}}</td>
+                        <td width="10%">{{user.countDataSetCreated}}</td>
+                        <td width="10%">{{user.countDataSetUpdated}}</td>
+                        <td width="10%">{{user.countCodeCreated}}</td>
+                        <td width="10%">{{user.countCodeUpdated}}</td>
+                        <td width="10%">{{user.countReportCreated}}</td>
+                        <td width="10%">{{user.countReportUpdated}}</td>
+                        <td width="10%">{{user.countComment}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

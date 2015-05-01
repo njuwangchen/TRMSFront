@@ -1,6 +1,6 @@
 var routerApp = angular.module('routerApp', ['720kb.datepicker', 'ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
     'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule',
-    'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule']);
+    'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule','statisticsModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams, authenticationSvc) {
     $rootScope.$state = $state;
@@ -561,6 +561,42 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 'manageGrid@showAllUser': {
                     templateUrl: 'partial/userGrid.html',
                     controller: 'userListCtrl'
+                }
+            }
+        })
+        .state('showStatistics', {
+            url: '/showStatistics',
+            views: {
+                '': {
+                    templateUrl: 'partial/manageList.html'
+                },
+                'nav@showStatistics': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'manageFunction@showStatistics': {
+                    templateUrl: 'partial/manageFunction.html'
+                },
+                'manageGrid@showStatistics': {
+                    templateUrl: 'partial/statisticsGrid.html',
+                    controller: 'statisticsCtrl'
+                }
+            }
+        })
+        .state('showSetting', {
+            url: '/showSetting',
+            views: {
+                '': {
+                    templateUrl: 'partial/manageList.html'
+                },
+                'nav@showSetting': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'manageFunction@showSetting': {
+                    templateUrl: 'partial/manageFunction.html'
+                },
+                'manageGrid@showSetting': {
+                    templateUrl: 'partial/setting.html',
+                    //controller: 'settingCtrl'
                 }
             }
         });
