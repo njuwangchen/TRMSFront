@@ -1,7 +1,7 @@
 var commentModule = angular.module('CommentModule', []);
 
 commentModule.factory('CommentService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/comments');
+    return $resource('http://127.0.0.1:5000/api/v1/comments');
 }]);
 
 commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'Time', 'CommentService', function ($scope, $rootScope, $stateParams, $http, Time, CommentService) {
@@ -17,7 +17,7 @@ commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams',
     $scope.commentQuery.resource_id = $stateParams.id;
 
     var updateCommentList = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/comments/query', $scope.commentQuery).
+        $http.post('http://127.0.0.1:5000/api/v1/comments/query', $scope.commentQuery).
             success(function (data) {
                 $scope.commentList = data;
             });

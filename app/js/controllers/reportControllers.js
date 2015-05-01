@@ -4,7 +4,7 @@
 var reportModule = angular.module('reportModule',[]);
 
 reportModule.factory('reportService',['$resource',function($resource){
-    return $resource('http://121.40.106.155:5000/api/v1/reports/:reportId', {reportId: '@id'}, {
+    return $resource('http://127.0.0.1:5000/api/v1/reports/:reportId', {reportId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -58,7 +58,7 @@ reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportSer
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://121.40.106.155:5000/api/v1/reports/query', query).
+            $http.post('http://127.0.0.1:5000/api/v1/reports/query', query).
                 success(function (data) {
                     $scope.reportList = data;
                 });

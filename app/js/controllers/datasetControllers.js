@@ -4,7 +4,7 @@
 var datasetModule = angular.module('datasetModule',[]);
 
 datasetModule.factory('datasetService',['$resource',function($resource){
-    return $resource('http://121.40.106.155:5000/api/v1/data_sets/:datasetId', {datasetId: '@id'}, {
+    return $resource('http://127.0.0.1:5000/api/v1/data_sets/:datasetId', {datasetId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -56,7 +56,7 @@ datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datase
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://121.40.106.155:5000/api/v1/data_sets/query', query).
+            $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', query).
                 success(function (data) {
                     $scope.datasetList = data;
                 });
@@ -72,7 +72,7 @@ datasetModule.controller('datasetQueryCtrl', ['$scope', '$http', '$modalInstance
     $scope.dataset = {};
 
     $scope.getDataSetTypes = function(){
-        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name:"", type_id: 2}).
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = 0;
@@ -97,7 +97,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
     $scope.dataSetTypeList = [];
 
     $scope.getDataSetTypes = function(){
-        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name:"", type_id: 2}).
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = $scope.dataSetTypeList[0];
@@ -127,7 +127,7 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '
     var id = $stateParams.id;
 
     $scope.getDataSetTypes = function(){
-        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name:"", type_id: 2}).
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = $scope.dataSetTypeList[0];

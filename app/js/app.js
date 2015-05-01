@@ -30,7 +30,7 @@ routerApp.run(function ($rootScope, $state, $stateParams, authenticationSvc) {
 
 routerApp.factory('RootURL', function () {
     var rootURL = function getRootURL() {
-        return 'http://121.40.106.155:5000';
+        return 'http://127.0.0.1:5000';
     };
     return {
         rootURL: rootURL()
