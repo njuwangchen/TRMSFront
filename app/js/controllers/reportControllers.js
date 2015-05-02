@@ -52,10 +52,10 @@ reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportSer
             displayName: "报告人"
         }, {
             field: "reporter_title",
-            displayName: "报告人职位"
+            displayName: "职位"
         }, {
             field: "company",
-            displayName: "组织"
+            displayName: "单位"
         }, {
             field: "rank_str",
             displayName: "评分/人数"
