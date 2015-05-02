@@ -32,8 +32,8 @@ datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datase
             width: 300,
             cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
-            field: "size",
-            displayName: "大小"
+            field: "publisher",
+            displayName: "发布者"
         }, {
             field: "type_name",
             displayName: "类型"

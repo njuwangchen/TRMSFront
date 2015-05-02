@@ -31,8 +31,8 @@ codeModule.controller('codeListCtrl', ['$scope', '$http', '$modal', 'codeService
             width: 300,
             cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
-            field: "size",
-            displayName: "大小"
+            field: "publisher",
+            displayName: "发布者"
         }, {
             field: "language",
             displayName: "语言"
