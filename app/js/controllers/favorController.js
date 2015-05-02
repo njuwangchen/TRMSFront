@@ -168,6 +168,15 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
             $rootScope.favorites = data;
             $http.post("http://127.0.0.1:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":1})
                 .success(function (data) {
+                    //准备导出按钮
+                    $scope.favorLiteratureIds = data;
+                    $http.post('http://127.0.0.1:5000/api/v1/literatures/exportBatch',{"ids":$scope.favorLiteratureIds}).
+                        success(function (data) {
+                            var content = data;
+                            var blob = new Blob([ content ], { type : 'text/plain' });
+                            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                        });
+
                     $http.post("http://127.0.0.1:5000/api/v1/literatures/batch",{"ids":data})
                         .success(function (data) {
                             $scope.favorLiteratureList = data;
@@ -225,10 +234,11 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
     $scope.favorList = [];
     $http.post('http://127.0.0.1:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":1})
         .success(function (data) {
-            $http.post('http://127.0.0.1:5000/api/v1/literatures/batch',{"ids":data})
+            $scope.favorLiteratureIds = data;
+
+                $http.post('http://127.0.0.1:5000/api/v1/literatures/batch',{"ids":data})
                 .success(function (data) {
                     $scope.favorLiteratureList = data;
-
                     for(var i =0 ;i <$scope.favorLiteratureList.length;i++)
                             $scope.favorList.push({"title":$scope.favorLiteratureList[i]['title'],"type":"文献"});
 
@@ -288,6 +298,7 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
             displayName:"类型"
         }]
     };
+
 });
 
 favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,Time) {
