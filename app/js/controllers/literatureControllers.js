@@ -15,7 +15,19 @@ literatureModule.factory('LiteratureService', ['$resource', function ($resource)
 }]);
 
 literatureModule.factory('VideoService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'});
+    return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'}, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}]);
+
+literatureModule.factory('PptService', ['$resource', function ($resource) {
+    return $resource('http://127.0.0.1:5000/api/v1/ppts/:pptId', {pptId: '@id'}, {
+        update: {
+            method: 'PUT'
+        }
+    });
 }]);
 
 literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$modal', '$http', 'uiGridConstants', 'LiteratureService', function ($scope, $rootScope, $modal, $http, uiGridConstants, LiteratureService) {

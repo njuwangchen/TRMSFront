@@ -1,6 +1,6 @@
 var uploadModule = angular.module('UploadModule', []);
 
-uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'LiteratureService', 'RootURL', function ($scope, $stateParams, LiteratureService, RootURL) {
+uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'LiteratureService', 'RootURL', 'Time', function ($scope, $stateParams, LiteratureService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -16,14 +16,28 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
     });
 
     $scope.uploaded = function () {
-        LiteratureService.get({literatureId: $stateParams.id}, function (data) {
-            $scope.literatureFile = data;
+        var file = $scope.files.pop();
+        console.log(file);
+        var file_name = file.name;
+
+        var updatedInfo = {};
+        updatedInfo.id = $stateParams.id;
+        updatedInfo.updater_id = 1;
+        updatedInfo.update_time = Time.currentTime(new Date());
+        updatedInfo.create_time = $scope.literatureFile.create_time;
+        updatedInfo.file_name = file_name;
+
+        LiteratureService.update(updatedInfo, function (data) {
+            console.log('update success!');
+            LiteratureService.get({literatureId: $stateParams.id}, function (data) {
+                $scope.literatureFile = data;
+            });
         });
     };
 
 }]);
 
-uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
+uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', 'VideoService', 'RootURL', function ($scope, $stateParams, $http, VideoService, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -38,7 +52,7 @@ uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', '
             title: 'Video Files',
             extensions: 'mkv,avi,rmvb,mp4'
         }
-    ]
+    ];
 
     $scope.getVideos = function () {
         $http.post('http://127.0.0.1:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
@@ -51,11 +65,34 @@ uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', '
             });
     };
 
+    $scope.uploaded = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.videoFiles = data;
+
+                var file = $scope.files.pop();
+                var last_video = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                var size = file.size;
+                last_video.video_name = file_name;
+                last_video.size = file.size;
+
+                var updatedInfo = {};
+                updatedInfo.id = last_video.id;
+                updatedInfo.size = size;
+                updatedInfo.video_name = file_name;
+                VideoService.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
+            });
+    };
+
     $scope.getVideos();
 
 }]);
 
-uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
+uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'PptService', 'RootURL', function ($scope, $stateParams, $http, PptService, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -70,7 +107,7 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Ro
             title: 'Ppt Files',
             extensions: 'ppt,pptx'
         }
-    ]
+    ];
 
     $scope.getPpts = function () {
         $http.post('http://127.0.0.1:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
@@ -83,17 +120,47 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Ro
             });
     };
 
+    $scope.uploaded = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.pptFiles = data;
+
+                var file = $scope.files.pop();
+                var last_ppt = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                var size = file.size;
+                last_ppt.ppt_name = file_name;
+                last_ppt.size = file.size;
+
+                var updatedInfo = {};
+                updatedInfo.id = last_ppt.id;
+                updatedInfo.size = size;
+                updatedInfo.ppt_name = file_name;
+                PptService.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
+            });
+    };
+
     $scope.getPpts();
 
 }]);
 
-uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeService', 'RootURL', function ($scope, $stateParams, codeService, RootURL) {
+uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeService', 'RootURL', 'Time', function ($scope, $stateParams, codeService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
 
     $scope.params = {
         'code_id': $stateParams.id
     };
+
+    $scope.filter = [
+        {
+            title: 'Code Files',
+            extensions: 'zip,rar,7z'
+        }
+    ];
 
     codeService.get({codeId: $stateParams.id}, function (data) {
         $scope.codeFile = data;
@@ -103,20 +170,42 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
     });
 
     $scope.uploaded = function () {
-        codeService.get({codeId: $stateParams.id}, function (data) {
-            $scope.codeFile = data;
+        var file = $scope.files.pop();
+        console.log(file);
+        var file_name = file.name;
+        var size = file.size;
+
+        var updatedInfo = {};
+        updatedInfo.id = $stateParams.id;
+        updatedInfo.updater_id = 1;
+        updatedInfo.update_time = Time.currentTime(new Date());
+        updatedInfo.create_time = $scope.codeFile.create_time;
+        updatedInfo.file_name = file_name;
+        updatedInfo.size = size;
+
+        codeService.update(updatedInfo, function (data) {
+            codeService.get({codeId: $stateParams.id}, function (data) {
+                $scope.codeFile = data;
+            });
         });
     };
 
 }]);
 
-uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'datasetService', 'RootURL', function ($scope, $stateParams, datasetService, RootURL) {
+uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'datasetService', 'RootURL', 'Time', function ($scope, $stateParams, datasetService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
 
     $scope.params = {
         'data_set_id': $stateParams.id
     };
+
+    $scope.filter = [
+        {
+            title: 'Dataset Files',
+            extensions: 'zip,rar,7z'
+        }
+    ];
 
     datasetService.get({datasetId: $stateParams.id}, function (data) {
         $scope.datasetFile = data;
@@ -126,14 +215,28 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
     });
 
     $scope.uploaded = function () {
-        datasetService.get({datasetId: $stateParams.id}, function (data) {
-            $scope.datasetFile = data;
+        var file = $scope.files.pop();
+        console.log(file);
+        var file_name = file.name;
+        var size = file.size;
+
+        var updatedInfo = {};
+        updatedInfo.id = $stateParams.id;
+        updatedInfo.updater_id = 1;
+        updatedInfo.update_time = Time.currentTime(new Date());
+        updatedInfo.create_time = $scope.datasetFile.create_time;
+        updatedInfo.file_name = file_name;
+        updatedInfo.size = size;
+
+        datasetService.update(updatedInfo, function (data) {
+            datasetService.get({datasetId: $stateParams.id}, function (data) {
+                $scope.datasetFile = data;
+            });
         });
     };
-
 }]);
 
-uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
+uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams', '$http', 'AttachmentService', 'RootURL', function ($scope, $stateParams, $http, AttachmentService, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -148,7 +251,7 @@ uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams',
             title: 'Reportattachment Files',
             extensions: 'pdf,txt,doc,docx'
         }
-    ]
+    ];
 
     $scope.getReportattachments = function () {
         $http.post('http://127.0.0.1:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
@@ -161,11 +264,34 @@ uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams',
             });
     };
 
+    $scope.uploaded = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.reportattachmentFiles = data;
+
+                var file = $scope.files.pop();
+                var last_attach = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                var size = file.size;
+                last_attach.attachment_name = file_name;
+                last_attach.size = size;
+
+                var updatedInfo = {};
+                updatedInfo.id = last_attach.id;
+                updatedInfo.size = size;
+                updatedInfo.attachment_name = file_name;
+                AttachmentService.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
+            });
+    };
+
     $scope.getReportattachments();
 
 }]);
 
-uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', '$http', 'RootURL', function ($scope, $stateParams, $http, RootURL) {
+uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', '$http', 'RecordingService', 'RootURL', function ($scope, $stateParams, $http, RecordingService, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -180,7 +306,7 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
             title: 'Reportrecording Files',
             extensions: 'mkv,avi,rmvb,mp4,pdf'
         }
-    ]
+    ];
 
     $scope.getReportrecordings = function () {
         $http.post('http://127.0.0.1:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
@@ -190,6 +316,29 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
                 $scope.getFullDownloadURL = function (uri) {
                     return RootURL.rootURL + uri;
                 };
+            });
+    };
+
+    $scope.uploaded = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.reportrecordingFiles = data;
+
+                var file = $scope.files.pop();
+                var last_record = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                var size = file.size;
+                last_record.recording_name = file_name;
+                last_record.size = size;
+
+                var updatedInfo = {};
+                updatedInfo.id = last_record.id;
+                updatedInfo.size = size;
+                updatedInfo.recording_name = file_name;
+                RecordingService.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
             });
     };
 

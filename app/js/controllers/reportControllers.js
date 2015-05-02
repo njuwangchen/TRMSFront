@@ -11,6 +11,23 @@ reportModule.factory('reportService',['$resource',function($resource){
     });
 }]);
 
+
+literatureModule.factory('AttachmentService', ['$resource', function ($resource) {
+    return $resource('http://127.0.0.1:5000/api/v1/report_attachments/:attachmentId', {attachmentId: '@id'}, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}]);
+
+literatureModule.factory('RecordingService', ['$resource', function ($resource) {
+    return $resource('http://127.0.0.1:5000/api/v1/report_recordings/:recordingId', {recordingId: '@id'}, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}]);
+
 reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportService',function($scope, $http, $modal, reportService) {
     reportService.query(function (data) {
         $scope.reportList = data;

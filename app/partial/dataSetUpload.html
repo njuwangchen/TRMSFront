@@ -2,8 +2,8 @@
     <div class="row" ng-show="isEdit">
         <div class="col-md-2">
             <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
-                    pl-url="http://127.0.0.1:5000/uploadDataset" on-file-uploaded="uploadedDataset()"
-                    pl-multi-params-model="params">上传代码
+                    pl-url="http://127.0.0.1:5000/uploadDataset" on-file-uploaded="uploaded()"
+                    pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传数据集
             </button>
         </div>
         <div class="col-md-9 col-md-offset-1">
@@ -24,8 +24,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><a href="{{getFullDownloadURL(dataset.uri)}}">{{datasetFile.uri}}</a></td>
-                    <td class="text-right">{{dataset.size}}</td>
+                    <td><a href="{{getFullDownloadURL(datasetFile.uri)}}">{{datasetFile.file_name}}</a></td>
+                    <td class="text-right">{{datasetFile.size}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>

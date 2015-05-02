@@ -2,7 +2,7 @@
     <div class="row" ng-show="isEdit">
         <div class="col-md-2">
             <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
-                    pl-url="http://127.0.0.1:5000/uploadReportattachment" on-file-uploaded="getReportattachments()"
+                    pl-url="http://127.0.0.1:5000/uploadReportattachment" on-file-uploaded="uploaded()"
                     pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传附件
             </button>
         </div>
@@ -23,7 +23,8 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="reportattachment in reportattachmentFiles">
-                    <td><a href="{{getFullDownloadURL(reportattachment.uri)}}">{{reportattachment.uri}}</a></td>
+                    <td><a href="{{getFullDownloadURL(reportattachment.uri)}}">{{reportattachment.attachment_name}}</a>
+                    </td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
@@ -35,7 +36,7 @@
     <div class="row" ng-show="isEdit">
         <div class="col-md-2">
             <button class="btn btn-primary" pl-upload pl-progress-model="percent" pl-files-model="files"
-                    pl-url="http://127.0.0.1:5000/uploadReportrecording" on-file-uploaded="getReportrecordings()"
+                    pl-url="http://127.0.0.1:5000/uploadReportrecording" on-file-uploaded="uploaded()"
                     pl-multi-params-model="params" pl-filters-model="filter" pl-max-file-size="10240mb">上传录像
             </button>
         </div>
@@ -56,7 +57,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="reportrecording in reportrecordingFiles">
-                    <td><a href="{{getFullDownloadURL(reportrecording.uri)}}">{{reportrecording.uri}}</a></td>
+                    <td><a href="{{getFullDownloadURL(reportrecording.uri)}}">{{reportrecording.recording_name}}</a></td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
