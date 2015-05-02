@@ -345,3 +345,30 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
     $scope.getReportrecordings();
 
 }]);
+
+
+uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$stateParams', '$rootScope','$http', 'RootURL', function ($scope, $stateParams,$rootScope, $http,RootURL) {
+    $scope.percent = 0;
+    $scope.files = [];
+
+    $scope.params = {
+        'literature_id': $stateParams.id,
+        'user_id':$rootScope.userId
+    };
+    console.log("LiteraturePersonalizedUploadCtrl initliazed")
+
+    $http.post("http://127.0.0.1:5000/api/v1/personalize/query",{"literature_id": $stateParams.id,"user_id":$rootScope.userId})
+        .success(function (data) {
+            $scope.literatureFile = data;
+            console.log($scope.literatureFile);
+            $scope.getFullDownloadURL = function () {
+                return RootURL.rootURL + $scope.literatureFile.uri;
+            };
+        });
+
+    $scope.uploaded = $http.post('http://127.0.0.1:5000/api/v1/personalize/query',{"literature_id": $stateParams.id,"user_id":$rootScope.userId})
+        .success(function (data) {
+            $scope.literatureFile = data;
+        });
+
+}]);
