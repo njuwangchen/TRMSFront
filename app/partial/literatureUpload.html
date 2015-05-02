@@ -51,14 +51,14 @@
                 <thead>
                 <tr>
                     <th>已上传的视频</th>
-                    <th class="text-right">大小(B)</th>
+                    <th class="text-right">大小(MB)</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="video in videoFiles">
                     <td><a href="{{getFullDownloadURL(video.uri)}}">{{video.video_name}}</a></td>
-                    <td class="text-right">{{video.size}}</td>
+                    <td class="text-right">{{(video.size/(1024*1024)).toFixed(2)}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
@@ -86,14 +86,14 @@
                 <thead>
                 <tr>
                     <th>已上传的幻灯片</th>
-                    <th class="text-right">大小(B)</th>
+                    <th class="text-right">大小(MB)</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="ppt in pptFiles">
                     <td><a href="{{getFullDownloadURL(ppt.uri)}}">{{ppt.ppt_name}}</a></td>
-                    <td class="text-right">{{ppt.size}}</td>
+                    <td class="text-right">{{(ppt.size/(1024*1024)).toFixed(2)}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>

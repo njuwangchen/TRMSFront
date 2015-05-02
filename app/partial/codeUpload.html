@@ -18,14 +18,14 @@
                 <thead>
                 <tr>
                     <th>已上传的代码</th>
-                    <th class="text-right">大小(B)</th>
+                    <th class="text-right">大小(MB)</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td><a href="{{getFullDownloadURL(codeFile.uri)}}">{{codeFile.file_name}}</a></td>
-                    <td class="text-right">{{codeFile.size}}</td>
+                    <td class="text-right">{{(codeFile.size/(1024*1024)).toFixed(2)}}</td>
                     <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
