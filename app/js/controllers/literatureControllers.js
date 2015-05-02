@@ -1,5 +1,11 @@
 var literatureModule = angular.module('LiteratureModule', []);
 
+literatureModule.config(['$compileProvider',
+    function ($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+    }]);
+
+
 literatureModule.factory('LiteratureService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/literatures/:literatureId', {literatureId: '@id'}, {
         update: {
@@ -158,4 +164,12 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
             $scope.isEdit = !$scope.isEdit;
         });
     };
+
+    $http.post("http://127.0.0.1:5000/api/v1/literatures/export",{'id':id})
+        .success(function (data) {
+            var content = data;
+            var blob = new Blob([ content ], { type : 'text/plain' });
+            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+        })
+
 }]);

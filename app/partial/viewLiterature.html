@@ -1,10 +1,11 @@
 <div class="container" ng-controller="LiteratureShowCtrl">
     <div ui-view="nav"></div>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <h2>{{literature.title}}</h2>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
+            <a class="btn btn-primary pull-right" type="button" download="export.txt" ng-href="{{exportUrl}}">导出</a>
             <button class="btn btn-primary pull-right" type="button">收藏</button>
             <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}"
                     ng-click="changeState()">{{getEditLabel()}}
