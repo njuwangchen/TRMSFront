@@ -153,3 +153,13 @@
         <span class="col-md-10 ">{{literature.key_words_CN}}</span>
     </h4>
 </div>
+<div class="row">
+    <h4>
+        <span class="col-md-2 label-default label">标签</span>
+            <span class="col-md-10">
+                <div class="row">
+                    <label ng-repeat="tag in tags" class="col-md-2">{{tag.name}}</label>
+                </div>
+            </span>
+    </h4>
+</div>

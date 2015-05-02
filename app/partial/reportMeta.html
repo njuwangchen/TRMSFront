@@ -43,6 +43,23 @@
             <input type="text" class="form-control" id="location" placeholder="请输入地点" ng-model="report.location">
         </div>
     </div>
+
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">标签</label>
+
+        <div class="col-md-10">
+            <input type="text" ng-model="tag_input">
+        </div>
+
+        <div class="col-md-10 col-md-offset-2">
+            <label  class="checkbox-inline" ng-repeat="tag in allTags|filter:tag_input">
+                <input type="checkbox" ng-model="tag.selected">
+                {{tag.name}}
+            </label>
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">
             <button type="submit" class="btn btn-primary pull-right" ng-click="submit()">提交</button>

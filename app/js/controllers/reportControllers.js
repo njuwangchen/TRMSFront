@@ -1,7 +1,7 @@
 /**
  * Created by justsavor on 15/4/9.
  */
-var reportModule = angular.module('reportModule',[]);
+var reportModule = angular.module('reportModule',['tagModule']);
 
 reportModule.factory('reportService',['$resource',function($resource){
     return $resource('http://127.0.0.1:5000/api/v1/reports/:reportId', {reportId: '@id'}, {
@@ -95,10 +95,16 @@ reportModule.controller('reportQueryCtrl', ['$scope', '$modalInstance', function
     };
 }]);
 
-reportModule.controller('reportAddCtrl', ['$scope', '$state', 'reportService', 'Time', function ($scope, $state, reportService, Time) {
+reportModule.controller('reportAddCtrl', ['$scope', '$state','$http', 'reportService','tagService', 'Time', function ($scope, $state,$http, reportService,tagService, Time) {
     $scope.isEdit = true;
-
     $scope.report = {};
+
+
+    tagService.query(function (data) {
+        $scope.allTags = data;
+        console.log($scope.allTags);
+    });
+
 
     $scope.submit = function () {
         $scope.report.creator_id = 1;
@@ -106,12 +112,21 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state', 'reportService', '
 
         reportService.save($scope.report, function (data) {
             console.log("add successful");
+            for (var i = 0; i < $scope.allTags.length; i++) {
+                if ($scope.allTags[i]['selected'])
+                    $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                        "tag_id": $scope.allTags[i]['id'],
+                        "resource_id": data.id,
+                        "type":6
+
+            })
+            }
             $state.go('viewReport', {id: data.id});
         });
     };
 }]);
 
-reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService', 'Time', function ($scope, $stateParams, reportService, Time) {
+reportModule.controller('reportShowCtrl',['$scope','$stateParams','$http','reportService', 'Time', function ($scope, $stateParams, $http,reportService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 4;
     $scope.currentType = 6;
@@ -121,6 +136,31 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService
 
     reportService.get({reportId:id}, function (data) {
         $scope.report = data;
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type":$scope.currentType })
+            .success(function (data) {
+                $scope.tag_res = data;
+                $scope.tagIds = [];
+                data.forEach(function (single_tag_res) {
+                    $scope.tagIds.push(single_tag_res.tag_id)
+                })
+
+                $http.get("http://127.0.0.1:5000/api/v1/tags")
+                    .success(function (data) {
+                        $scope.allTags = data;
+                        $http.post("http://127.0.0.1:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
+                            .success(function (data) {
+                                $scope.tags = data;
+
+                                $scope.allTags.forEach(function (element) {
+                                    $scope.tags.forEach(function (inner_element) {
+                                        if (element.id == inner_element.id)
+                                            element.selected = true;
+                                    });
+                                });
+                            });
+                    });
+
+            });
     });
 
 
@@ -152,5 +192,36 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;
         })
+
+        for (var i = 0; i < $scope.allTags.length; i++) {
+            var not_found_in_tags_existed = true;
+            $scope.tags.forEach(function (tag_existed) {
+                if ($scope.allTags[i]['id'] == tag_existed['id'] )
+                    not_found_in_tags_existed = false;
+            });
+
+            if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
+                $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                    "tag_id": $scope.allTags[i]['id'],
+                    "resource_id": $scope.report.id,
+                    "type": 5
+                })
+                $scope.tags.push($scope.allTags[i]);
+            }
+            else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
+                $scope.tag_res.forEach(function (element) {
+                    if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
+                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
+                        for (var j = 0; j < $scope.tags.length; j++)
+                            if ($scope.tags[j]['id'] == element['tag_id']) {
+                                console.log("delete tag")
+                                console.log($scope.tags[j]['name']);
+                                $scope.tags.splice(j, 1);
+                                break;
+                            }
+                    }
+                })
+            }
+        }
     };
 }]);

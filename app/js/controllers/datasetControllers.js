@@ -1,7 +1,7 @@
 /**
  * Created by BAO on 4/2/15.
  */
-var datasetModule = angular.module('datasetModule',[]);
+var datasetModule = angular.module('datasetModule',['tagModule']);
 
 datasetModule.factory('datasetService',['$resource',function($resource){
     return $resource('http://127.0.0.1:5000/api/v1/data_sets/:datasetId', {datasetId: '@id'}, {
@@ -89,7 +89,7 @@ datasetModule.controller('datasetQueryCtrl', ['$scope', '$http', '$modalInstance
     };
 }]);
 
-datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datasetService', 'Time', function ($scope, $http, $state, datasetService, Time) {
+datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datasetService','tagService', 'Time', function ($scope, $http, $state, datasetService,tagService ,Time) {
     $scope.isEdit = true;
 
     $scope.dataset = {};
@@ -105,6 +105,10 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
     };
     $scope.getDataSetTypes();
 
+    tagService.query(function (data) {
+        $scope.allTags = data;
+        console.log($scope.allTags);
+    });
 
     $scope.submit = function () {
         $scope.dataset.creator_id = 1;
@@ -114,6 +118,16 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$http', '$state', 'datase
 
         datasetService.save($scope.dataset, function (data) {
             console.log("add successful");
+
+            for (var i = 0; i < $scope.allTags.length; i++) {
+                if ($scope.allTags[i]['selected'])
+                    $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                        "tag_id": $scope.allTags[i]['id'],
+                        "resource_id": data.id,
+                        "type": 4
+                    })
+            }
+
             $state.go('viewDataSet', {id: data.id});
         });
     };
@@ -138,6 +152,32 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '
 
     datasetService.get({datasetId:id}, function (data) {
         $scope.dataset = data;
+
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type": $scope.currentType})
+            .success(function (data) {
+                $scope.tag_res = data;
+                $scope.tagIds = [];
+                data.forEach(function (single_tag_res) {
+                    $scope.tagIds.push(single_tag_res.tag_id)
+                })
+
+                $http.get("http://127.0.0.1:5000/api/v1/tags")
+                    .success(function (data) {
+                        $scope.allTags = data;
+                        $http.post("http://127.0.0.1:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
+                            .success(function (data) {
+                                $scope.tags = data;
+
+                                $scope.allTags.forEach(function (element) {
+                                    $scope.tags.forEach(function (inner_element) {
+                                        if (element.id == inner_element.id)
+                                            element.selected = true;
+                                    });
+                                });
+                            });
+                    });
+
+            });
     });
 
     $scope.changeState = function () {
@@ -170,5 +210,36 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;
         })
+
+        for (var i = 0; i < $scope.allTags.length; i++) {
+            var not_found_in_tags_existed = true;
+            $scope.tags.forEach(function (tag_existed) {
+                if ($scope.allTags[i]['id'] == tag_existed['id'] )
+                    not_found_in_tags_existed = false;
+            });
+
+            if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
+                $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                    "tag_id": $scope.allTags[i]['id'],
+                    "resource_id": $scope.dataset.id,
+                    "type": $scope.currentType
+                })
+                $scope.tags.push($scope.allTags[i]);
+            }
+            else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
+                $scope.tag_res.forEach(function (element) {
+                    if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
+                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
+                        for (var j = 0; j < $scope.tags.length; j++)
+                            if ($scope.tags[j]['id'] == element['tag_id']) {
+                                console.log("delete tag")
+                                console.log($scope.tags[j]['name']);
+                                $scope.tags.splice(j, 1);
+                                break;
+                            }
+                    }
+                })
+            }
+        }
     };
 }]);
