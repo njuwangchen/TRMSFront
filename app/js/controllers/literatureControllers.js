@@ -127,6 +127,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
 
     $scope.isEdit = false;
     $scope.currentType = 1;
+    $scope.currentId = $stateParams.id;
 
     var id = $stateParams.id;
 

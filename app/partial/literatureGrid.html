@@ -1,13 +1,13 @@
 <div>
     <div class="row">
         <div class="col-md-8">
-            <h3>文献列表</h3>
+            <h3>收藏列表</h3>
         </div>
         <div class="col-md-4" ng-show="!isFavor">
             <a ui-sref="newLiterature" class="btn btn-primary pull-right">添加</a>
             <a class="btn btn-primary pull-right" ng-click="openQuery()">查询</a>
         </div>
-        <div class="col-md-4" ng-show="isFavor">
+        <div class="col-md-4" ng-show="isFavor&&exportUrl">
             <a class="btn btn-primary pull-right" type="button" download="export.txt" ng-href="{{exportUrl}}">导出所有文献</a>
         </div>
     </div>

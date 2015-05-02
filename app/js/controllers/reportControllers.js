@@ -115,6 +115,7 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','reportService
     $scope.isEdit = false;
     $scope.comment_type_id = 4;
     $scope.currentType = 6;
+    $scope.currentId = $stateParams.id;
 
     var id = $stateParams.id;
 

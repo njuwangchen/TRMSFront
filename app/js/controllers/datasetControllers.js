@@ -123,6 +123,7 @@ datasetModule.controller('datasetShowCtrl',['$scope','$stateParams', '$state', '
     $scope.isEdit = false;
     $scope.comment_type_id = 2;
     $scope.currentType = 4;
+    $scope.currentId = $stateParams.id;
 
     var id = $stateParams.id;
 

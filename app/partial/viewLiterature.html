@@ -6,7 +6,7 @@
         </div>
         <div class="col-md-4">
             <a class="btn btn-primary pull-right" type="button" download="export.txt" ng-href="{{exportUrl}}">导出</a>
-            <button class="btn btn-primary pull-right" type="button">收藏</button>
+            <button class="btn btn-primary pull-right" type="button" ng-controller="addFavorCtrl" ng-click="addFavor()">收藏</button>
             <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}"
                     ng-click="changeState()">{{getEditLabel()}}
             </button>

@@ -172,9 +172,13 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
                     $scope.favorLiteratureIds = data;
                     $http.post('http://127.0.0.1:5000/api/v1/literatures/exportBatch',{"ids":$scope.favorLiteratureIds}).
                         success(function (data) {
-                            var content = data;
-                            var blob = new Blob([ content ], { type : 'text/plain' });
-                            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                            if(data!="")
+                            {
+                                var content = data;
+                                var blob = new Blob([ content ], { type : 'text/plain' });
+                                $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                            }
+
                         });
 
                     $http.post("http://127.0.0.1:5000/api/v1/literatures/batch",{"ids":data})

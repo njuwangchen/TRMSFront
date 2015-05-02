@@ -47,7 +47,11 @@
         <label class="col-md-2 control-label">标签</label>
 
         <div class="col-md-10">
-            <label  class="checkbox-inline" ng-repeat="tag in allTags"  >
+            <input type="text" ng-model="tag_input">
+        </div>
+
+        <div class="col-md-10 col-md-offset-2">
+            <label  class="checkbox-inline" ng-repeat="tag in allTags|filter:tag_input">
                 <input type="checkbox" ng-model="tag.selected">
                 {{tag.name}}
             </label>
