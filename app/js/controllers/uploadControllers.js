@@ -19,6 +19,7 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
         var file = $scope.files.pop();
         console.log(file);
         var file_name = file.name;
+        var target_name = file.target_name;
 
         var updatedInfo = {};
         updatedInfo.id = $stateParams.id;
@@ -26,6 +27,7 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
         updatedInfo.update_time = Time.currentTime(new Date());
         updatedInfo.create_time = $scope.literatureFile.create_time;
         updatedInfo.file_name = file_name;
+        updatedInfo.upload_history = $scope.literatureFile.upload_history + ';' + file_name + ',' + target_name;
 
         LiteratureService.update(updatedInfo, function (data) {
             console.log('update success!');
@@ -174,6 +176,7 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
         console.log(file);
         var file_name = file.name;
         var size = file.size;
+        var target_name = file.target_name;
 
         var updatedInfo = {};
         updatedInfo.id = $stateParams.id;
@@ -182,6 +185,7 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
         updatedInfo.create_time = $scope.codeFile.create_time;
         updatedInfo.file_name = file_name;
         updatedInfo.size = size;
+        updatedInfo.upload_history = $scope.codeFile.upload_history + ';' + file_name + ',' + target_name + ',' + size;
 
         codeService.update(updatedInfo, function (data) {
             codeService.get({codeId: $stateParams.id}, function (data) {
@@ -219,6 +223,7 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
         console.log(file);
         var file_name = file.name;
         var size = file.size;
+        var target_name = file.target_name;
 
         var updatedInfo = {};
         updatedInfo.id = $stateParams.id;
@@ -227,6 +232,7 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
         updatedInfo.create_time = $scope.datasetFile.create_time;
         updatedInfo.file_name = file_name;
         updatedInfo.size = size;
+        updatedInfo.upload_history = $scope.datasetFile.upload_history + ';' + file_name + ',' + target_name + ',' + size;
 
         datasetService.update(updatedInfo, function (data) {
             datasetService.get({datasetId: $stateParams.id}, function (data) {
@@ -347,17 +353,20 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
 }]);
 
 
-uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$stateParams', '$rootScope','$http', 'RootURL', function ($scope, $stateParams,$rootScope, $http,RootURL) {
+uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$stateParams', '$rootScope', '$http', 'RootURL', function ($scope, $stateParams, $rootScope, $http, RootURL) {
     $scope.percent = 0;
     $scope.files = [];
 
     $scope.params = {
         'literature_id': $stateParams.id,
-        'user_id':$rootScope.userId
+        'user_id': $rootScope.userId
     };
     console.log("LiteraturePersonalizedUploadCtrl initliazed")
 
-    $http.post("http://127.0.0.1:5000/api/v1/personalize/query",{"literature_id": $stateParams.id,"user_id":$rootScope.userId})
+    $http.post("http://127.0.0.1:5000/api/v1/personalize/query", {
+        "literature_id": $stateParams.id,
+        "user_id": $rootScope.userId
+    })
         .success(function (data) {
             $scope.literatureFile = data;
             console.log($scope.literatureFile);
@@ -366,7 +375,10 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
             };
         });
 
-    $scope.uploaded = $http.post('http://127.0.0.1:5000/api/v1/personalize/query',{"literature_id": $stateParams.id,"user_id":$rootScope.userId})
+    $scope.uploaded = $http.post('http://127.0.0.1:5000/api/v1/personalize/query', {
+        "literature_id": $stateParams.id,
+        "user_id": $rootScope.userId
+    })
         .success(function (data) {
             $scope.literatureFile = data;
         });
