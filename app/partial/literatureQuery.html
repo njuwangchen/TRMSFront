@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-group">
-        <label for="publisher" class="col-md-2 control-label">出版商</label>
+        <label for="publisher" class="col-md-2 control-label">期刊/会议</label>
 
         <div class="col-md-8">
             <input type="text" class="form-control" id="publisher" placeholder="检索出版商" ng-model="literature.publisher">
@@ -55,6 +55,21 @@
 
         <div class="col-md-8">
             <input type="text" class="form-control" id="DOI" placeholder="检索DOI" ng-model="literature.DOI">
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">标签</label>
+        <div class="col-md-10">
+            <input type="text" ng-model="tag_input">
+        </div>
+
+        <div class="col-md-10 col-md-offset-2" ng-show="tag_input">
+            <label  class="checkbox-inline" ng-repeat="tag in allTags|filter:tag_input">
+                <input type="checkbox" ng-model="tag.selected">
+                {{tag.name}}
+            </label>
         </div>
     </div>
 

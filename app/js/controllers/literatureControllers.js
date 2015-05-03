@@ -77,7 +77,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$mod
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://127.0.0.1:5000/api/v1/literatures/query', query).
+            $http.post('http://127.0.0.1:5000/api/v1/literatures/fuzzysearch', query).
                 success(function (data) {
                     $scope.literatureList = data;
                 });
@@ -87,9 +87,21 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$mod
     };
 }]);
 
-literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance','tagService', function ($scope, $modalInstance,tagService) {
     $scope.literature = {};
+    $scope.tags = [];
+
+    tagService.query(function (data) {
+        $scope.allTags = data;
+    });
+
     $scope.submit = function () {
+        for(var i =0;i<$scope.allTags.length;i++)
+        {
+            if($scope.allTags[i].selected)
+                $scope.tags.push($scope.allTags[i]);
+        }
+        $scope.literature.tags = $scope.tags;
         $modalInstance.close($scope.literature);
     };
     $scope.cancel = function () {
