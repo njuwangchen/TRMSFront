@@ -87,7 +87,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$mod
     };
 }]);
 
-literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance','tagService', function ($scope, $modalInstance,tagService) {
+literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', 'tagService', function ($scope, $modalInstance, tagService) {
     $scope.literature = {};
     $scope.tags = [];
 
@@ -96,9 +96,8 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance','
     });
 
     $scope.submit = function () {
-        for(var i =0;i<$scope.allTags.length;i++)
-        {
-            if($scope.allTags[i].selected)
+        for (var i = 0; i < $scope.allTags.length; i++) {
+            if ($scope.allTags[i].selected)
                 $scope.tags.push($scope.allTags[i]);
         }
         $scope.literature.tags = $scope.tags;
@@ -109,7 +108,7 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance','
     };
 }]);
 
-literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', 'LiteratureService','tagService', 'Time', function ($scope, $state, $http, LiteratureService,tagService, Time) {
+literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', 'LiteratureService', 'tagService', 'Time', function ($scope, $state, $http, LiteratureService, tagService, Time) {
     $scope.literatureTypeList = [];
 
     $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
@@ -128,13 +127,8 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
 
     $scope.literature = {};
 
-    $scope.submit = function () {
-        $scope.literature.creator_id = 1;
-        $scope.literature.create_time = Time.currentTime(new Date());
-        $scope.literature.literature_type_id = $scope.selectedType.id;
-
+    $scope.save = function () {
         LiteratureService.save($scope.literature, function (data) {
-
             for (var i = 0; i < $scope.allTags.length; i++) {
                 if ($scope.allTags[i]['selected'])
                     $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
@@ -146,6 +140,74 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
             $state.go('viewLiterature', {id: data.id});
         });
     };
+
+    $scope.submit = function () {
+        $scope.literature.creator_id = 1;
+        $scope.literature.create_time = Time.currentTime(new Date());
+        $scope.literature.literature_type_id = $scope.selectedType.id;
+
+        if ($scope.literature.literature_type_id == 1 && !$scope.literature.published_year) {
+            KB_Conference($scope.literature.publisher_abbreviation);
+        } else if ($scope.literature.literature_type_id == 1 && $scope.literature.published_year) {
+            KB_Conference_Year($scope.literature.publisher_abbreviation, $scope.literature.published_year);
+        } else if ($scope.literature.published_year && $scope.literature.issue && $scope.literature.literature_type_id == 0) {
+            KB_Journal_Year_Issue($scope.literature.publisher_abbreviation, $scope.literature.published_year, $scope.literature.issue);
+        } else if ($scope.literature.literature_type_id == 0) {
+            KB_Journal($scope.literature.publisher_abbreviation);
+        } else {
+            $scope.save();
+        }
+
+    };
+
+    function KB_Conference(abbreviation) {
+        var query = {};
+        query.abbreviation = abbreviation;
+        $http.post('http://127.0.0.1:5000/api/v1/kb_conference/query', query).success(function (data) {
+            $scope.literature.publisher = data.full;
+            $scope.save();
+        }).error(function (data) {
+            $scope.save();
+        });
+    };
+
+    function KB_Conference_Year(abbreviation, year) {
+        var query = {};
+        query.abbreviation = abbreviation;
+        query.year = year;
+        $http.post('http://127.0.0.1:5000/api/v1/kb_conference_year/query', query).success(function (data) {
+            $scope.literature.location = data.location;
+            $scope.literature.editor = data.editor;
+            $scope.save();
+        }).error(function (data) {
+            $scope.save();
+        });
+    };
+
+    function KB_Journal(abbreviation) {
+        var query = {};
+        query.abbreviation = abbreviation;
+        $http.post('http://127.0.0.1:5000/api/v1/kb_journal/query', query).success(function (data) {
+            $scope.literature.publisher = data.full;
+            $scope.save();
+        }).error(function (data) {
+            $scope.save();
+        });
+    };
+
+    function KB_Journal_Year_Issue(abbreviation, year, issue) {
+        var query = {};
+        query.abbreviation = abbreviation;
+        query.year = year;
+        query.issue = issue;
+        $http.post('http://127.0.0.1:5000/api/v1/kb_journal_year_issue/query', query).success(function (data) {
+            $scope.literature.editor = data.editor;
+            $scope.save();
+        }).error(function (data) {
+            $scope.save();
+        });
+    };
+
 }]);
 
 literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $stateParams, $http, LiteratureService, Time) {
@@ -161,7 +223,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
     LiteratureService.get({literatureId: id}, function (data) {
         $scope.literature = data;
 
-        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id:$scope.currentType}).
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: $scope.currentType}).
             success(function (data) {
                 $scope.literatureTypeList = data;
 
@@ -173,7 +235,10 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
                 }
             });
 
-        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type":$scope.currentType})
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {
+            "resource_id": data.id,
+            "type": $scope.currentType
+        })
             .success(function (data) {
                 $scope.tag_res = data;
                 $scope.tagIds = [];
@@ -233,11 +298,11 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
         for (var i = 0; i < $scope.allTags.length; i++) {
             var not_found_in_tags_existed = true;
             $scope.tags.forEach(function (tag_existed) {
-                if ($scope.allTags[i]['id'] == tag_existed['id'] )
+                if ($scope.allTags[i]['id'] == tag_existed['id'])
                     not_found_in_tags_existed = false;
             });
 
-            if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
+            if (not_found_in_tags_existed && $scope.allTags[i]['selected']) {
                 $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.literature.id,
@@ -261,17 +326,20 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
             }
         }
 
-        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": $scope.literature.id, "type": $scope.currentType})
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {
+            "resource_id": $scope.literature.id,
+            "type": $scope.currentType
+        })
             .success(function (data) {
                 $scope.tag_res = data;
             });
     };
 
-    $http.post("http://127.0.0.1:5000/api/v1/literatures/export",{'id':id})
+    $http.post("http://127.0.0.1:5000/api/v1/literatures/export", {'id': id})
         .success(function (data) {
             var content = data;
-            var blob = new Blob([ content ], { type : 'text/plain' });
-            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+            var blob = new Blob([content], {type: 'text/plain'});
+            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL(blob);
         })
 
 }]);
