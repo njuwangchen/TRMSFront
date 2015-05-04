@@ -564,19 +564,38 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 }
             }
         })
+        //.state('showManageFunctions', {
+        //    url: '/showManageFunctions',
+        //    views: {
+        //        '': {
+        //            templateUrl: 'partial/manageList.html'
+        //        },
+        //        'nav@showStatistics': {
+        //            templateUrl: 'partial/nav.html'
+        //        },
+        //        'manageFunction@showStatistics': {
+        //            templateUrl: 'partial/manageFunction.html'
+        //        },
+        //        'manageGrid@showStatistics': {
+        //            templateUrl: 'partial/statisticsGrid.html',
+        //            controller: 'statisticsCtrl'
+        //        }
+        //    }
+        //})
         .state('showStatistics', {
             url: '/showStatistics',
             views: {
                 '': {
-                    templateUrl: 'partial/manageList.html'
+                    //templateUrl: 'partial/manageList.html'
+                    templateUrl: 'partial/statistics.html',
                 },
                 'nav@showStatistics': {
                     templateUrl: 'partial/nav.html'
                 },
-                'manageFunction@showStatistics': {
-                    templateUrl: 'partial/manageFunction.html'
-                },
-                'manageGrid@showStatistics': {
+                //'manageFunction@showStatistics': {
+                //    templateUrl: 'partial/manageFunction.html'
+                //},
+                'statisticsGrid@showStatistics': {
                     templateUrl: 'partial/statisticsGrid.html',
                     controller: 'statisticsCtrl'
                 }
