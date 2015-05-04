@@ -10,7 +10,7 @@
             <tbody>
             <tr ng-repeat="data_set in data_set_list">
                 <td>{{data_set.title}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(data_set.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
@@ -28,7 +28,7 @@
             <tbody>
             <tr ng-repeat="code in code_list">
                 <td>{{code.title}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(code.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
@@ -48,7 +48,7 @@
             <tr ng-repeat="cite in cite_list">
                 <td>{{cite_literature_list[$index].title}}</td>
                 <td class="text-right">{{cite.type_name}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(cite.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
@@ -68,7 +68,7 @@
             <tr ng-repeat="cited in cited_list">
                 <td>{{cited_literature_list[$index].title}}</td>
                 <td class="text-right">{{cited.type_name}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(cited.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>

@@ -37,6 +37,23 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
         });
     };
 
+    $scope.delete = function () {
+        var deleteInfo = {};
+        deleteInfo.id = $stateParams.id;
+        deleteInfo.updater_id = 1;
+        deleteInfo.update_time = Time.currentTime(new Date());
+        deleteInfo.create_time = $scope.literatureFile.create_time;
+        deleteInfo.file_name = '';
+        deleteInfo.uri = '';
+
+        LiteratureService.update(deleteInfo, function (data) {
+            console.log('delete success!');
+            LiteratureService.get({literatureId: $stateParams.id}, function (data) {
+                $scope.literatureFile = data;
+            });
+        });
+    };
+
 }]);
 
 uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', 'VideoService', 'RootURL', function ($scope, $stateParams, $http, VideoService, RootURL) {
@@ -88,6 +105,12 @@ uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', '
                     console.log('update success!');
                 });
             });
+    };
+
+    $scope.delete = function (id) {
+        VideoService.delete({videoId: id}, function (data) {
+            $scope.getVideos();
+        });
     };
 
     $scope.getVideos();
@@ -145,6 +168,12 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Pp
             });
     };
 
+    $scope.delete = function (id) {
+        PptService.delete({pptId: id}, function (data) {
+            $scope.getPpts();
+        });
+    };
+
     $scope.getPpts();
 
 }]);
@@ -194,6 +223,24 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
         });
     };
 
+    $scope.delete = function () {
+        var deleteInfo = {};
+        deleteInfo.id = $stateParams.id;
+        deleteInfo.updater_id = 1;
+        deleteInfo.update_time = Time.currentTime(new Date());
+        deleteInfo.create_time = $scope.codeFile.create_time;
+        deleteInfo.file_name = '';
+        deleteInfo.size = 0;
+        deleteInfo.uri = '';
+
+        codeService.update(deleteInfo, function (data) {
+            console.log('delete success!');
+            codeService.get({codeId: $stateParams.id}, function (data) {
+                $scope.codeFile = data;
+            });
+        });
+    };
+
 }]);
 
 uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'datasetService', 'RootURL', 'Time', function ($scope, $stateParams, datasetService, RootURL, Time) {
@@ -235,6 +282,24 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
         updatedInfo.upload_history = $scope.datasetFile.upload_history + ';' + file_name + ',' + target_name + ',' + size;
 
         datasetService.update(updatedInfo, function (data) {
+            datasetService.get({datasetId: $stateParams.id}, function (data) {
+                $scope.datasetFile = data;
+            });
+        });
+    };
+
+    $scope.delete = function () {
+        var deleteInfo = {};
+        deleteInfo.id = $stateParams.id;
+        deleteInfo.updater_id = 1;
+        deleteInfo.update_time = Time.currentTime(new Date());
+        deleteInfo.create_time = $scope.datasetFile.create_time;
+        deleteInfo.file_name = '';
+        deleteInfo.size = 0;
+        deleteInfo.uri = '';
+
+        datasetService.update(deleteInfo, function (data) {
+            console.log('delete success!');
             datasetService.get({datasetId: $stateParams.id}, function (data) {
                 $scope.datasetFile = data;
             });
@@ -293,6 +358,12 @@ uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams',
             });
     };
 
+    $scope.delete = function (id) {
+        AttachmentService.delete({attachmentId: id}, function (data) {
+            $scope.getReportattachments();
+        });
+    };
+
     $scope.getReportattachments();
 
 }]);
@@ -348,6 +419,12 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
             });
     };
 
+    $scope.delete = function (id) {
+        RecordingService.delete({recordingId: id}, function (data) {
+            $scope.getReportrecordings();
+        });
+    };
+
     $scope.getReportrecordings();
 
 }]);
@@ -364,8 +441,8 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
     console.log("LiteraturePersonalizedUploadCtrl initliazed")
 
     $http.post("http://127.0.0.1:5000/api/v1/personalize/query", {
-        "literature_id": $stateParams.id,
-        "user_id": $rootScope.userId
+        literature_id: $stateParams.id,
+        user_id: $rootScope.userId
     })
         .success(function (data) {
             $scope.literatureFile = data;
@@ -375,12 +452,16 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
             };
         });
 
-    $scope.uploaded = $http.post('http://127.0.0.1:5000/api/v1/personalize/query', {
-        "literature_id": $stateParams.id,
-        "user_id": $rootScope.userId
-    })
-        .success(function (data) {
-            $scope.literatureFile = data;
-        });
+    $scope.uploaded = function () {
+        $http.post('http://127.0.0.1:5000/api/v1/personalize/query', {
+            literature_id: $stateParams.id,
+            user_id: $rootScope.userId
+        })
+            .success(function (data) {
+                $scope.literatureFile = data;
+                console.log(data);
+            });
+    };
+
 
 }]);

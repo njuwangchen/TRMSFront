@@ -26,7 +26,7 @@
                 <tr>
                     <td><a href="{{getFullDownloadURL(datasetFile.uri)}}">{{datasetFile.file_name}}</a></td>
                     <td class="text-right">{{(datasetFile.size/(1024*1024)).toFixed(2)}}</td>
-                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                    <td class="text-right"><a href ng-click="delete()" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
             </table>

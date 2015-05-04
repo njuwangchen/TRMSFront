@@ -10,7 +10,7 @@
             <tbody>
             <tr ng-repeat="literature in literature_list">
                 <td>{{literature.title}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(literature.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>

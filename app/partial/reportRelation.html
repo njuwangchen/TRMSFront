@@ -10,7 +10,7 @@
             <tbody>
             <tr ng-repeat="literature in literature_list">
                 <td>{{literature.title}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(literature.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
@@ -28,7 +28,7 @@
             <tbody>
             <tr ng-repeat="code in code_list">
                 <td>{{code.title}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(code.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>
@@ -46,7 +46,7 @@
             <tbody>
             <tr ng-repeat="dataset in data_set_list">
                 <td>{{dataset.title}}</td>
-                <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                <td class="text-right"><a href ng-click="delete(dataset.id)" class="btn" ng-show="isEdit">删除</a></td>
             </tr>
             </tbody>
         </table>

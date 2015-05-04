@@ -25,7 +25,7 @@
                 <tr ng-repeat="reportattachment in reportattachmentFiles">
                     <td><a href="{{getFullDownloadURL(reportattachment.uri)}}">{{reportattachment.attachment_name}}</a>
                     </td>
-                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                    <td class="text-right"><a href ng-click="delete(reportattachment.id)" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -58,7 +58,7 @@
                 <tbody>
                 <tr ng-repeat="reportrecording in reportrecordingFiles">
                     <td><a href="{{getFullDownloadURL(reportrecording.uri)}}">{{reportrecording.recording_name}}</a></td>
-                    <td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>
+                    <td class="text-right"><a href ng-click="delete(reportrecording.id)" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
             </table>
