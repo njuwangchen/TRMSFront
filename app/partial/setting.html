@@ -1,84 +1,96 @@
-<div class="row">
+<div class="row" ng-controller="SettingCtrl">
     <h3>系统配置</h3>
+    <div>
     <div class="row">
         <div class="col-md-9">
             <h4><strong>文献配置</strong></h4>
             <h6>当前文献种类：</h6>
         </div>
-        <div class="col-md-3 pull-right">
-            <a class="btn btn-primary">编辑/取消</a>
-            <a class="btn btn-primary pull-right">保存</a>
-        </div>
     </div>
     <div>
         <div class="row">
-            <div class="col-md-8">
-                <select class="form-control">
-
-                </select>
+            <div class="col-md-4">
+                <select class="form-control" ng-model="typeSelected" ng-options="type as type.name for type in literatureTypes"></select>
             </div>
-            <div class="col-md-3">
-                <input type="text"  class="form-control" id="literatureType" placeholder="请输入类型">
+            <dic class="col-md-2 col-md-offset-1">
+                <a class="btn btn-primary pull-right" ng-click="deleteLiteratureType()">删除已选中类型</a>
+            </dic>
+            <div class="col-md-3 ">
+                <input type="text"  class="form-control" id="literatureTypeAdded" ng-model="literatureTypeAdded" placeholder="请输入类型">
             </div>
-            <div class="col-md-1">
-                <a class="btn btn-primary pull-right">添加</a>
+            <div class="col-md-2">
+                <a class="btn btn-primary" ng-click="addLiteratureType()">添加</a>
             </div>
         </div>
-    </div>
-    <div class="row">
         <br>
-    </div>
-    <div>
-        <h5>可选择的文献属性：</h5>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="titleCheckbox" value="title"> 标题
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="authorCheckbox" value="author"> 作者
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="authorCNCheckbox" value="authorCN"> 作者中文名
-        </label>
+        <div>
+            <div class="col-md-10">
+                <h5>可选择的文献属性：</h5>
+                <label class="checkbox-inline" ng-repeat="field in allFields">
+                    <input type="checkbox" id="titleCheckbox" ng-model="Selected[typeSelected.name][field]"> {{field}}
+                </label>
+            </div>
+
+            <div class="col-md-2">
+                <a class="btn btn-primary" ng-click="saveChange()">保存配置</a>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+        </div>
+
     </div>
 
-    <div>
-        <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+
+
+
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h4><strong>详细评价配置</strong></h4>
         </div>
-        <div class="col-md-2">
-            <a class="btn btn-primary">编辑</a>
-            <a class="btn btn-primary pull-right">删除</a>
-        </div>
         <div class="col-md-3">
-            <input type="text"  class="form-control" id="commentType" placeholder="请输入属性">
+            <a class="btn btn-primary" ng-click="editComment()">{{isEditTexts}}</a>
+            <a class="btn btn-primary pull-right" ng-click="deleteCommentField()">删除已选中属性</a>
+        </div>
+        <div class="col-md-3 ">
+            <input type="text"  class="form-control" id="commentType" ng-model="commentFieldNameAdded" placeholder="请输入属性">
         </div>
         <div class="col-md-1">
-            <a class="btn btn-primary pull-right">添加</a>
+            <a class="btn btn-primary pull-right" ng-click="addCommentField()">添加</a>
         </div>
-    </div>
-    <div>
-        <h5>可选择的评价属性：</h5>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="comment1"> 待解决
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="comment2"> 改进
-        </label>
     </div>
 
     <div>
-        <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+        <div class="col-md-10">
+        <h5>可选择的评价属性：</h5>
+        <label class="checkbox-inline" ng-show="!isEdit_Comment" ng-repeat="commentField in commentFields">
+            <input type="checkbox" ng-model="commentField.selected"> {{commentField.name}}
+        </label>
+        <form class="form-inline" ng-show="isEdit_Comment">
+            <div class="form-group" ng-repeat="commentField in commentFields">
+                <input type="text" class="form-control" ng-model="commentField.name">
+            </div>
+        </form>
+        </div>
+
+        <div class="col-md-2">
+            <a class="btn btn-primary" ng-click="saveCommentChanges()">保存配置</a>
+        </div>
+
+        <div class="col-md-12">
+            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+        </div>
     </div>
+
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h4><strong>引用配置</strong></h4>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <a class="btn btn-primary">编辑</a>
-            <a class="btn btn-primary pull-right">删除</a>
+            <a class="btn btn-primary pull-right">删除已选中类型</a>
         </div>
         <div class="col-md-3">
             <input type="text"  class="form-control" id="citeType" placeholder="请输入类型">
@@ -87,7 +99,7 @@
             <a class="btn btn-primary pull-right">添加</a>
         </div>
     </div>
-    <div>
+    <div class="col-md-10">
         <h5>可选择的引用类型：</h5>
         <label class="checkbox-inline">
             <input type="checkbox" id="cite1"> 提及
@@ -95,5 +107,9 @@
         <label class="checkbox-inline">
             <input type="checkbox" id="cite2"> 同意
         </label>
+    </div>
+
+    <div class="col-md-2">
+        <a class="btn btn-primary">保存配置</a>
     </div>
 </div>
