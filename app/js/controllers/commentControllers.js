@@ -7,7 +7,7 @@ commentModule.factory('CommentService', ['$resource', function ($resource) {
 commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'Time', 'CommentService', function ($scope, $rootScope, $stateParams, $http, Time, CommentService) {
     $scope.comment = {};
     $scope.comment.star = 3;
-    $scope.comment.commenter_id = 1;
+    $scope.comment.commenter_id = $rootScope.userId;
     $scope.comment.type = $scope.comment_type_id;
     $scope.comment.resource_id = $stateParams.id;
 

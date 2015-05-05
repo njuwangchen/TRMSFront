@@ -1,6 +1,6 @@
 var routerApp = angular.module('routerApp', ['720kb.datepicker', 'ui.router', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize',
     'ui.bootstrap', 'ngResource', 'plupload.directive', 'LiteratureModule', 'UploadModule', 'CommentModule', 'userModule', 'datasetModule',
-    'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule','statisticsModule']);
+    'codeModule', 'typeModule', 'allModule', 'favorModule', 'reportModule', 'tagModule', 'RelationModule', 'statisticsModule']);
 
 routerApp.run(function ($rootScope, $state, $stateParams, authenticationSvc) {
     $rootScope.$state = $state;
@@ -86,15 +86,14 @@ routerApp.factory("authenticationSvc", function ($http, $q, $window, $rootScope)
     function login(userName, password) {
         var deferred = $q.defer();
 
-        $http.get("data/login.json").then(function (result) {
-            userInfo = {
-                accessToken: result.data.accessToken,
-                userName: result.data.userName,
-                userId: result.data.userId
-            };
-            $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
-            $rootScope.userName = userInfo.userName;
-            $rootScope.userId = userInfo.userId;
+        $http.post("http://127.0.0.1:5000/api/v1/users/login", {
+            username: userName,
+            password: password
+        }).then(function (result) {
+            userInfo = result.data;
+            //$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
+            //$rootScope.userName = userInfo.name;
+            //$rootScope.userId = userInfo.id;
             deferred.resolve(userInfo);
         }, function (error) {
             deferred.reject(error);
@@ -104,25 +103,26 @@ routerApp.factory("authenticationSvc", function ($http, $q, $window, $rootScope)
     }
 
     function logout() {
-        var deferred = $q.defer();
-
-        $http({
-            method: "GET",
-            url: "data/logout.json",
-            headers: {
-                "accessToken": userInfo.accessToken
-            }
-        }).then(function (result) {
-            $window.sessionStorage.clear();
-            $rootScope.userName = null;
-            $rootScope.userId = null;
-            userInfo = null;
-            deferred.resolve(result);
-        }, function (error) {
-            deferred.reject(error);
-        });
-
-        return deferred.promise;
+        //var deferred = $q.defer();
+        //
+        //$http({
+        //    method: "GET",
+        //    url: "data/logout.json",
+        //    headers: {
+        //        "accessToken": userInfo.accessToken
+        //    }
+        //}).then(function (result) {
+        $window.sessionStorage.clear();
+        $rootScope.userName = null;
+        $rootScope.userId = null;
+        $rootScope.userPrivilege = null;
+        userInfo = null;
+        //    deferred.resolve(result);
+        //}, function (error) {
+        //    deferred.reject(error);
+        //});
+        //
+        //return deferred.promise;
     }
 
     function getUserInfo() {
@@ -132,8 +132,9 @@ routerApp.factory("authenticationSvc", function ($http, $q, $window, $rootScope)
     function init() {
         if ($window.sessionStorage["userInfo"]) {
             userInfo = JSON.parse($window.sessionStorage["userInfo"]);
-            $rootScope.userName = userInfo.userName;
-            $rootScope.userId = userInfo.userId;
+            $rootScope.userName = userInfo.name;
+            $rootScope.userId = userInfo.id;
+            $rootScope.userPrivilege = userInfo.privilege;
         }
     }
 

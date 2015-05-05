@@ -7,7 +7,7 @@
     <br/>
 
     <div class="row" ng-controller="userLoginCtrl">
-        <form role="form">
+        <form role="form" name="login_form" novalidate>
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
@@ -16,8 +16,20 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
-                        <input class="form-control" id="name" placeholder="请输入您的用户名" ng-model="username"
-                               type="text" autocomplete="off">
+                        <input class="form-control" id="name" name="name" placeholder="请输入您的用户名" ng-model="username"
+                               type="text" autocomplete="off" ng-focus="userNotExist=false" required>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" ng-show="login_form.name.$dirty && login_form.name.$invalid">
+                    <div class="col-md-4 col-md-offset-4">
+                        <alert type="danger" ng-show="login_form.name.$error.required">用户名不能为空</alert>
+                    </div>
+                </div>
+                <div class="row" ng-show="userNotExist">
+                    <div class="col-md-4 col-md-offset-4">
+                        <alert type="danger">这个用户名不存在</alert>
                     </div>
                 </div>
             </div>
@@ -29,16 +41,32 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
-                        <input class="form-control" id="password" placeholder="请输入您的密码" ng-model="password"
-                               type="password" value="" autocomplete="off">
+                        <input class="form-control" id="password" name="password" placeholder="请输入您的密码"
+                               ng-model="password"
+                               type="password" value="" autocomplete="off" ng-focus="passwdNotRight=false" required>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" ng-show="login_form.password.$dirty && login_form.password.$invalid">
+                    <div class="col-md-4 col-md-offset-4">
+                        <alert type="danger" ng-show="login_form.password.$error.required">密码不可以为空</alert>
+                    </div>
+                </div>
+                <div class="row" ng-show="passwdNotRight">
+                    <div class="col-md-4 col-md-offset-4">
+                        <alert type="danger">密码不正确</alert>
                     </div>
                 </div>
             </div>
             <br/>
+
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
-                        <button class="btn btn-primary btn-block btn-lg" ng-click="ok()">登录</button>
+                        <button class="btn btn-primary btn-block btn-lg" ng-click="ok()"
+                                ng-disabled="login_form.name.$invalid || login_form.password.$invalid">登录
+                        </button>
                     </div>
                 </div>
             </div>

@@ -23,49 +23,31 @@ userModule.controller('userListCtrl', ['$scope', 'userService', function ($scope
     $scope.master = {};
 }]);
 
-userModule.controller('userLoginCtrl', ['$scope', '$http', '$state', 'authenticationSvc',
-    function ($scope, $http, $state, authenticationSvc) {
+userModule.controller('userLoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$window', 'authenticationSvc',
+    function ($scope, $rootScope, $http, $state, $window, authenticationSvc) {
+
+        $scope.userNotExist = false;
+        $scope.passwdNotRight = false;
 
         $scope.logout = function () {
-            authenticationSvc.logout().then(function (result) {
-                $state.go('login');
-            });
+            authenticationSvc.logout();
+            $state.go('login');
         };
 
         $scope.ok = function () {
-
-            /*$http({
-
-             method: 'POST',
-             url: 'http://127.0.0.1:5000/api/v1/users/login',
-             headers: {'Content-Type': 'application/json'},
-             data: {
-             "username": $scope.username,
-             "password": $scope.password
-             }
-             }).
-
-             success(function (data, status) {
-
-             if (data == 'FALSE') {
-             alert('验证失败');
-             } else {
-             alert('登陆成功')
-             $rootScope.username = $scope.username;
-             $rootScope.userId = data;
-             $state.go("index");
-             }
-
-             }).
-
-             error(function (data, status) {
-             $scope.data = data || "FALSE";
-             $scope.errorMessage = 'Something went wrong';
-             $state.go("login");
-
-             });*/
             authenticationSvc.login($scope.username, $scope.password).then(function (userInfo) {
-                $state.go('index');
+                console.log(userInfo);
+                if (userInfo.isSucceed) {
+                    $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
+                    $rootScope.userName = userInfo.name;
+                    $rootScope.userId = userInfo.id;
+                    $rootScope.userPrivilege = userInfo.privilege;
+                    $state.go('index');
+                } else if (userInfo.userNotExist) {
+                    $scope.userNotExist = true;
+                } else if (userInfo.passwdNotRight) {
+                    $scope.passwdNotRight = true;
+                }
             });
         };
     }]);

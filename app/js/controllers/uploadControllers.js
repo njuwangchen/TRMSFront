@@ -1,6 +1,6 @@
 var uploadModule = angular.module('UploadModule', []);
 
-uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'LiteratureService', 'RootURL', 'Time', function ($scope, $stateParams, LiteratureService, RootURL, Time) {
+uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$rootScope', '$stateParams', 'LiteratureService', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, LiteratureService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -23,7 +23,7 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
 
         var updatedInfo = {};
         updatedInfo.id = $stateParams.id;
-        updatedInfo.updater_id = 1;
+        updatedInfo.updater_id = $rootScope.userId;
         updatedInfo.update_time = Time.currentTime(new Date());
         updatedInfo.create_time = $scope.literatureFile.create_time;
         updatedInfo.file_name = file_name;
@@ -40,7 +40,7 @@ uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$stateParams', 'Lite
     $scope.delete = function () {
         var deleteInfo = {};
         deleteInfo.id = $stateParams.id;
-        deleteInfo.updater_id = 1;
+        deleteInfo.updater_id = $rootScope.userId;
         deleteInfo.update_time = Time.currentTime(new Date());
         deleteInfo.create_time = $scope.literatureFile.create_time;
         deleteInfo.file_name = '';
@@ -178,7 +178,7 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Pp
 
 }]);
 
-uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeService', 'RootURL', 'Time', function ($scope, $stateParams, codeService, RootURL, Time) {
+uploadModule.controller('codeUploadCtrl', ['$scope', '$rootScope', '$stateParams', 'codeService', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, codeService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -209,7 +209,7 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
 
         var updatedInfo = {};
         updatedInfo.id = $stateParams.id;
-        updatedInfo.updater_id = 1;
+        updatedInfo.updater_id = $rootScope.userId;
         updatedInfo.update_time = Time.currentTime(new Date());
         updatedInfo.create_time = $scope.codeFile.create_time;
         updatedInfo.file_name = file_name;
@@ -226,7 +226,7 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
     $scope.delete = function () {
         var deleteInfo = {};
         deleteInfo.id = $stateParams.id;
-        deleteInfo.updater_id = 1;
+        deleteInfo.updater_id = $rootScope.userId;
         deleteInfo.update_time = Time.currentTime(new Date());
         deleteInfo.create_time = $scope.codeFile.create_time;
         deleteInfo.file_name = '';
@@ -243,7 +243,7 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$stateParams', 'codeServic
 
 }]);
 
-uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'datasetService', 'RootURL', 'Time', function ($scope, $stateParams, datasetService, RootURL, Time) {
+uploadModule.controller('datasetUploadCtrl', ['$scope', '$rootScope', '$stateParams', 'datasetService', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, datasetService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -274,7 +274,7 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
 
         var updatedInfo = {};
         updatedInfo.id = $stateParams.id;
-        updatedInfo.updater_id = 1;
+        updatedInfo.updater_id = $rootScope.userId;
         updatedInfo.update_time = Time.currentTime(new Date());
         updatedInfo.create_time = $scope.datasetFile.create_time;
         updatedInfo.file_name = file_name;
@@ -291,7 +291,7 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$stateParams', 'dataset
     $scope.delete = function () {
         var deleteInfo = {};
         deleteInfo.id = $stateParams.id;
-        deleteInfo.updater_id = 1;
+        deleteInfo.updater_id = $rootScope.userId;
         deleteInfo.update_time = Time.currentTime(new Date());
         deleteInfo.create_time = $scope.datasetFile.create_time;
         deleteInfo.file_name = '';

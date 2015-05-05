@@ -108,7 +108,7 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', 
     };
 }]);
 
-literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', 'LiteratureService', 'tagService', 'Time', function ($scope, $state, $http, LiteratureService, tagService, Time) {
+literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$state', '$http', 'LiteratureService', 'tagService', 'Time', function ($scope, $rootScope, $state, $http, LiteratureService, tagService, Time) {
     $scope.literatureTypeList = [];
 
     $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
@@ -142,7 +142,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
     };
 
     $scope.submit = function () {
-        $scope.literature.creator_id = 1;
+        $scope.literature.creator_id = $rootScope.userId;
         $scope.literature.create_time = Time.currentTime(new Date());
         $scope.literature.literature_type_id = $scope.selectedType.id;
 
@@ -210,7 +210,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$state', '$http', '
 
 }]);
 
-literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $stateParams, $http, LiteratureService, Time) {
+literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $rootScope, $stateParams, $http, LiteratureService, Time) {
     $scope.literatureTypeList = [];
     $scope.comment_type_id = 1;
 
@@ -286,7 +286,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$stateParams', '$h
     };
 
     $scope.submit = function () {
-        $scope.literature.updater_id = 1;
+        $scope.literature.updater_id = $rootScope.userId;
         $scope.literature.update_time = Time.currentTime(new Date());
         $scope.literature.literature_type_id = $scope.selectedType.id;
 

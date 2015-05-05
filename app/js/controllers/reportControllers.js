@@ -1,9 +1,9 @@
 /**
  * Created by justsavor on 15/4/9.
  */
-var reportModule = angular.module('reportModule',['tagModule']);
+var reportModule = angular.module('reportModule', ['tagModule']);
 
-reportModule.factory('reportService',['$resource',function($resource){
+reportModule.factory('reportService', ['$resource', function ($resource) {
     return $resource('http://127.0.0.1:5000/api/v1/reports/:reportId', {reportId: '@id'}, {
         update: {
             method: 'PUT'
@@ -28,7 +28,7 @@ literatureModule.factory('RecordingService', ['$resource', function ($resource) 
     });
 }]);
 
-reportModule.controller('reportListCtrl',['$scope','$http', '$modal', 'reportService',function($scope, $http, $modal, reportService) {
+reportModule.controller('reportListCtrl', ['$scope', '$http', '$modal', 'reportService', function ($scope, $http, $modal, reportService) {
     reportService.query(function (data) {
         $scope.reportList = data;
     });
@@ -95,7 +95,7 @@ reportModule.controller('reportQueryCtrl', ['$scope', '$modalInstance', function
     };
 }]);
 
-reportModule.controller('reportAddCtrl', ['$scope', '$state','$http', 'reportService','tagService', 'Time', function ($scope, $state,$http, reportService,tagService, Time) {
+reportModule.controller('reportAddCtrl', ['$scope', '$rootScope', '$state', '$http', 'reportService', 'tagService', 'Time', function ($scope, $rootScope, $state, $http, reportService, tagService, Time) {
     $scope.isEdit = true;
     $scope.report = {};
 
@@ -107,7 +107,7 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state','$http', 'reportSer
 
 
     $scope.submit = function () {
-        $scope.report.creator_id = 1;
+        $scope.report.creator_id = $rootScope.userId;
         $scope.report.create_time = Time.currentTime(new Date());
 
         reportService.save($scope.report, function (data) {
@@ -117,16 +117,18 @@ reportModule.controller('reportAddCtrl', ['$scope', '$state','$http', 'reportSer
                     $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                         "tag_id": $scope.allTags[i]['id'],
                         "resource_id": data.id,
-                        "type":6
+                        "type": 6
 
-            })
+                    });
             }
             $state.go('viewReport', {id: data.id});
         });
     };
-}]);
+}
+])
+;
 
-reportModule.controller('reportShowCtrl',['$scope','$stateParams','$http','reportService', 'Time', function ($scope, $stateParams, $http,reportService, Time) {
+reportModule.controller('reportShowCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'reportService', 'Time', function ($scope, $rootScope, $stateParams, $http, reportService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 4;
     $scope.currentType = 6;
@@ -134,15 +136,18 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','$http','repor
 
     var id = $stateParams.id;
 
-    reportService.get({reportId:id}, function (data) {
+    reportService.get({reportId: id}, function (data) {
         $scope.report = data;
-        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type":$scope.currentType })
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {
+            "resource_id": data.id,
+            "type": $scope.currentType
+        })
             .success(function (data) {
                 $scope.tag_res = data;
                 $scope.tagIds = [];
                 data.forEach(function (single_tag_res) {
                     $scope.tagIds.push(single_tag_res.tag_id)
-                })
+                });
 
                 $http.get("http://127.0.0.1:5000/api/v1/tags")
                     .success(function (data) {
@@ -167,25 +172,25 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','$http','repor
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
 
-        if($scope.isEdit){
+        if ($scope.isEdit) {
             $scope.origin = angular.copy($scope.report);
         }
 
-        if(!$scope.isEdit){
+        if (!$scope.isEdit) {
             $scope.report = $scope.origin;
         }
     };
 
     $scope.getEditLabel = function () {
-        if($scope.isEdit) {
+        if ($scope.isEdit) {
             return "取消";
-        }else{
+        } else {
             return "编辑/上传";
         }
     };
 
     $scope.submit = function () {
-        $scope.report.updater_id = 1;
+        $scope.report.updater_id = $rootScope.userId;
         $scope.report.update_time = Time.currentTime(new Date());
 
         $scope.report.$update(function () {
@@ -196,16 +201,16 @@ reportModule.controller('reportShowCtrl',['$scope','$stateParams','$http','repor
         for (var i = 0; i < $scope.allTags.length; i++) {
             var not_found_in_tags_existed = true;
             $scope.tags.forEach(function (tag_existed) {
-                if ($scope.allTags[i]['id'] == tag_existed['id'] )
+                if ($scope.allTags[i]['id'] == tag_existed['id'])
                     not_found_in_tags_existed = false;
             });
 
-            if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
+            if (not_found_in_tags_existed && $scope.allTags[i]['selected']) {
                 $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.report.id,
                     "type": 5
-                })
+                });
                 $scope.tags.push($scope.allTags[i]);
             }
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {

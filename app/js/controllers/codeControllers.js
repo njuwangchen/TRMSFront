@@ -76,7 +76,7 @@ codeModule.controller('codeQueryCtrl', ['$scope', '$modalInstance', function ($s
     };
 }]);
 
-codeModule.controller('codeAddCtrl', ['$scope', '$state', '$modal', '$http', '$timeout', 'codeService', 'tagService', 'Time', function ($scope, $state, $modal, $http, $timeout, codeService, tagService, Time) {
+codeModule.controller('codeAddCtrl', ['$scope', '$rootScope', '$state', '$modal', '$http', '$timeout', 'codeService', 'tagService', 'Time', function ($scope, $rootScope, $state, $modal, $http, $timeout, codeService, tagService, Time) {
     $scope.isEdit = true;
 
     $scope.code = {};
@@ -88,7 +88,7 @@ codeModule.controller('codeAddCtrl', ['$scope', '$state', '$modal', '$http', '$t
 
 
     $scope.submit = function () {
-        $scope.code.creator_id = 1;
+        $scope.code.creator_id = $rootScope.userId;
         $scope.code.create_time = Time.currentTime(new Date());
 
 
@@ -107,7 +107,7 @@ codeModule.controller('codeAddCtrl', ['$scope', '$state', '$modal', '$http', '$t
     };
 }]);
 
-codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', '$http', '$state', 'codeService', 'Time', function ($scope, $stateParams, $http, $state, codeService, Time) {
+codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$state', 'codeService', 'Time', function ($scope, $rootScope, $stateParams, $http, $state, codeService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 3;
     $scope.currentType = 5;
@@ -124,7 +124,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', '$http', '$stat
                 $scope.tagIds = [];
                 data.forEach(function (single_tag_res) {
                     $scope.tagIds.push(single_tag_res.tag_id)
-                })
+                });
 
                 $http.get("http://127.0.0.1:5000/api/v1/tags")
                     .success(function (data) {
@@ -166,7 +166,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', '$http', '$stat
     };
 
     $scope.submit = function () {
-        $scope.code.updater_id = 1;
+        $scope.code.updater_id = $rootScope.userId;
         $scope.code.update_time = Time.currentTime(new Date());
 
         $scope.code.$update(function () {
@@ -186,7 +186,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$stateParams', '$http', '$stat
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.code.id,
                     "type": 5
-                })
+                });
                 $scope.tags.push($scope.allTags[i]);
             }
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
