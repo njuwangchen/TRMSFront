@@ -1,5 +1,14 @@
 var uploadModule = angular.module('UploadModule', []);
 
+uploadModule.factory('personalizeService', ['$resource', function ($resource) {
+    return $resource('http://127.0.0.1:5000/api/v1/personalize/:personalizeId', {personalizeId: '@id'}, {
+            update: {
+                method: 'PUT'
+            }
+        }
+    )
+}]);
+
 uploadModule.controller('LiteratureUploadCtrl', ['$scope', '$rootScope', '$stateParams', 'LiteratureService', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, LiteratureService, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
@@ -430,7 +439,7 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
 }]);
 
 
-uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$stateParams', '$rootScope', '$http', 'RootURL', function ($scope, $stateParams, $rootScope, $http, RootURL) {
+uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$stateParams', '$rootScope', '$http', 'RootURL', 'personalizeService', function ($scope, $stateParams, $rootScope, $http, RootURL, personalizeService) {
     $scope.percent = 0;
     $scope.files = [];
 
@@ -438,7 +447,6 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
         'literature_id': $stateParams.id,
         'user_id': $rootScope.userId
     };
-    console.log("LiteraturePersonalizedUploadCtrl initliazed")
 
     $http.post("http://127.0.0.1:5000/api/v1/personalize/query", {
         literature_id: $stateParams.id,
@@ -459,8 +467,34 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
         })
             .success(function (data) {
                 $scope.literatureFile = data;
-                console.log(data);
+
+                var file = $scope.files.pop();
+                //var last_personalize = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                //last_personalize.fileName = file_name;
+                $scope.literatureFile.fileName = file_name;
+
+                var updatedInfo = {};
+                updatedInfo.id = $scope.literatureFile.id;
+                updatedInfo.fileName = file_name;
+                personalizeService.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
             });
+    };
+
+    $scope.delete = function () {
+        $scope.literatureFile.uri = null;
+        $scope.literatureFile.fileName = null;
+
+        var updatedInfo = {};
+        updatedInfo.id = $scope.literatureFile.id;
+        updatedInfo.uri = '';
+        updatedInfo.fileName = '';
+        personalizeService.update(updatedInfo, function (data) {
+            console.log('update success!');
+        });
     };
 
 

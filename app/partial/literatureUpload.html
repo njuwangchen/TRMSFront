@@ -126,8 +126,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><a href="{{getFullDownloadURL()}}">{{literatureFile.uri}}</a></td>
-                    <!--<td class="text-right"><a href="" class="btn" ng-show="isEdit">删除</a></td>-->
+                    <td><a href="{{getFullDownloadURL()}}">{{literatureFile.fileName}}</a></td>
+                    <td class="text-right"><a href ng-click="delete()" class="btn" ng-show="isEdit">删除</a></td>
                 </tr>
                 </tbody>
             </table>

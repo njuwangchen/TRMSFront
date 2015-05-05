@@ -107,11 +107,10 @@ codeModule.controller('codeAddCtrl', ['$scope', '$rootScope', '$state', '$modal'
     };
 }]);
 
-codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$stateParams', '$http', '$state', 'codeService', 'Time', function ($scope, $rootScope, $stateParams, $http, $state, codeService, Time) {
+codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$stateParams', '$http', '$state', 'codeService', 'Time', function ($scope, $rootScope, $modal, $stateParams, $http, $state, codeService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 3;
     $scope.currentType = 5;
-
 
     var id = $stateParams.id;
 
@@ -153,7 +152,11 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$stateParams', '
         }
 
         if (!$scope.isEdit) {
+            var from_literature_id = $scope.code.from_literature_id;
+            var from_literature_name = $scope.code.from_literature_name;
             $scope.code = $scope.origin;
+            $scope.code.from_literature_id = from_literature_id;
+            $scope.code.from_literature_name = from_literature_name;
         }
     };
 
@@ -172,16 +175,16 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$stateParams', '
         $scope.code.$update(function () {
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;
-        })
+        });
 
         for (var i = 0; i < $scope.allTags.length; i++) {
             var not_found_in_tags_existed = true;
             $scope.tags.forEach(function (tag_existed) {
-                if ($scope.allTags[i]['id'] == tag_existed['id'] )
+                if ($scope.allTags[i]['id'] == tag_existed['id'])
                     not_found_in_tags_existed = false;
             });
 
-            if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
+            if (not_found_in_tags_existed && $scope.allTags[i]['selected']) {
                 $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.code.id,
@@ -195,13 +198,13 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$stateParams', '
                         $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
                         for (var j = 0; j < $scope.tags.length; j++)
                             if ($scope.tags[j]['id'] == element['tag_id']) {
-                                console.log("delete tag")
+                                console.log("delete tag");
                                 console.log($scope.tags[j]['name']);
                                 $scope.tags.splice(j, 1);
                                 break;
                             }
                     }
-                })
+                });
             }
         }
 
@@ -209,5 +212,56 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$stateParams', '
             .success(function (data) {
                 $scope.tag_res = data;
             });
+    };
+
+    $scope.add_from_literature = function () {
+        var addLiteratureModal = $modal.open({
+            templateUrl: 'partial/literatureGrid.html',
+            controller: 'Code_literature_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return [];
+                }
+            }
+        });
+
+        addLiteratureModal.result.then(function (literature_id) {
+            var updatedInfo = {};
+            updatedInfo.id = $stateParams.id;
+            updatedInfo.updater_id = $rootScope.userId;
+            updatedInfo.update_time = Time.currentTime(new Date());
+            updatedInfo.create_time = $scope.code.create_time;
+            updatedInfo.from_literature_id = literature_id;
+
+            codeService.update(updatedInfo, function (data) {
+                codeService.get({codeId: $stateParams.id}, function (data) {
+                    $scope.code.from_literature_id = data.from_literature_id;
+                    $scope.code.from_literature_name = data.from_literature_name;
+                });
+            });
+
+        }, function () {
+
+        });
+    };
+
+    $scope.delete_from_literature = function () {
+        var updatedInfo = {};
+        updatedInfo.id = $stateParams.id;
+        updatedInfo.updater_id = $rootScope.userId;
+        updatedInfo.update_time = Time.currentTime(new Date());
+        updatedInfo.create_time = $scope.code.create_time;
+        updatedInfo.from_literature_id = 0;
+
+        codeService.update(updatedInfo, function (data) {
+            codeService.get({codeId: $stateParams.id}, function (data) {
+                $scope.code.from_literature_id = data.from_literature_id;
+                $scope.code.from_literature_name = data.from_literature_name;
+            });
+        });
+
+    }, function () {
+
     };
 }]);

@@ -133,7 +133,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$rootScope', '$http', '$s
     };
 }]);
 
-datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$stateParams', '$state', '$http', 'datasetService', 'typeService', 'Time', function ($scope, $rootScope, $stateParams, $state, $http, datasetService, typeService, Time) {
+datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$stateParams', '$state', '$http', 'datasetService', 'typeService', 'Time', function ($scope, $rootScope, $modal, $stateParams, $state, $http, datasetService, typeService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 2;
     $scope.currentType = 4;
@@ -188,7 +188,11 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$stateParam
         }
 
         if(!$scope.isEdit){
+            var from_literature_id = $scope.dataset.from_literature_id;
+            var from_literature_name = $scope.dataset.from_literature_name;
             $scope.dataset = $scope.origin;
+            $scope.dataset.from_literature_id = from_literature_id;
+            $scope.dataset.from_literature_name = from_literature_name;
         }
     };
 
@@ -209,7 +213,7 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$stateParam
         $scope.dataset.$update(function () {
             console.log("update ok");
             $scope.isEdit = !$scope.isEdit;
-        })
+        });
 
         for (var i = 0; i < $scope.allTags.length; i++) {
             var not_found_in_tags_existed = true;
@@ -223,23 +227,74 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$stateParam
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.dataset.id,
                     "type": $scope.currentType
-                })
+                });
                 $scope.tags.push($scope.allTags[i]);
             }
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
                 $scope.tag_res.forEach(function (element) {
                     if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
-                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
+                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id));
                         for (var j = 0; j < $scope.tags.length; j++)
                             if ($scope.tags[j]['id'] == element['tag_id']) {
-                                console.log("delete tag")
+                                console.log("delete tag");
                                 console.log($scope.tags[j]['name']);
                                 $scope.tags.splice(j, 1);
                                 break;
                             }
                     }
-                })
+                });
             }
         }
+    };
+
+    $scope.add_from_literature = function () {
+        var addLiteratureModal = $modal.open({
+            templateUrl: 'partial/literatureGrid.html',
+            controller: 'Data_set_literature_modal_controller',
+            size: 'lg',
+            resolve: {
+                existed: function () {
+                    return [];
+                }
+            }
+        });
+
+        addLiteratureModal.result.then(function (literature_id) {
+            var updatedInfo = {};
+            updatedInfo.id = $stateParams.id;
+            updatedInfo.updater_id = $rootScope.userId;
+            updatedInfo.update_time = Time.currentTime(new Date());
+            updatedInfo.create_time = $scope.dataset.create_time;
+            updatedInfo.from_literature_id = literature_id;
+
+            datasetService.update(updatedInfo, function (data) {
+                datasetService.get({datasetId: $stateParams.id}, function (data) {
+                    $scope.dataset.from_literature_id = data.from_literature_id;
+                    $scope.dataset.from_literature_name = data.from_literature_name;
+                });
+            });
+
+        }, function () {
+
+        });
+    };
+
+    $scope.delete_from_literature = function () {
+        var updatedInfo = {};
+        updatedInfo.id = $stateParams.id;
+        updatedInfo.updater_id = $rootScope.userId;
+        updatedInfo.update_time = Time.currentTime(new Date());
+        updatedInfo.create_time = $scope.dataset.create_time;
+        updatedInfo.from_literature_id = 0;
+
+        datasetService.update(updatedInfo, function (data) {
+            datasetService.get({datasetId: $stateParams.id}, function (data) {
+                $scope.dataset.from_literature_id = data.from_literature_id;
+                $scope.dataset.from_literature_name = data.from_literature_name;
+            });
+        });
+
+    }, function () {
+
     };
 }]);

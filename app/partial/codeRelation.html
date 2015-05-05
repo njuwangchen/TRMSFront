@@ -1,9 +1,27 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>提出该代码的文献</th>
+                <th class="text-right"><a ng-click="add_from_literature()" class="btn" ng-show="isEdit">选择</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-show="code.from_literature_id">
+                <td>{{code.from_literature_name}}</td>
+                <td class="text-right"><a href class="btn" ng-click="delete_from_literature()" ng-show="isEdit">删除</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <div class="row" ng-controller="Code_literature_controller">
     <div class="col-md-12">
         <table class="table">
             <thead>
             <tr>
-                <th>该代码关联的文献</th>
+                <th>使用该代码的文献</th>
                 <th class="text-right"><a ng-click="add()" class="btn" ng-show="isEdit">添加</a></th>
             </tr>
             </thead>
