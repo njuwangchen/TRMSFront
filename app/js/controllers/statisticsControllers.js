@@ -3,258 +3,233 @@
  */
 var statisticsModule = angular.module('statisticsModule', []);
 
-statisticsModule.controller('statisticsCtrl', ['$scope', 'userService', '$http', '$modal', function($scope, userService, $http, $modal){
+statisticsModule.controller('statisticsCtrl', ['$scope', 'userService', '$http', '$modal', '$rootScope', function($scope, userService, $http, $modal, $rootScope){
     $scope.userList=[];
-    $scope.literatureList=[];
 
-    $scope.isActiveSeven = false;
+    $rootScope.isFavor = true;
+
+    $scope.days=7;
+
+    $scope.isActiveSeven = true;
     $scope.isActiveThirty = false;
     $scope.isActiveTotal = false;
+    $scope.isActiveSixmonths = false;
 
-    userService.query(function (data) {
-        $scope.userList = data;
+    count(7);
 
+    $scope.showSeven = function(){
+        count(7);
+        $scope.days=7;
+        $scope.isActiveSeven = true;
+        $scope.isActiveThirty = false;
+        $scope.isActiveTotal = false;
+        $scope.isActiveSixmonths = false;
+    };
 
+    $scope.showThirty = function(){
+        count(30);
+        $scope.days=30;
+        $scope.isActiveSeven = false;
+        $scope.isActiveThirty = true;
+        $scope.isActiveTotal = false;
+        $scope.isActiveSixmonths = false;
+    };
 
-        var today = new Date();
-        today.setDate(today.getDate()-7);
+    $scope.showTotal = function(){
+        count(100000);
+        $scope.days=100000;
+        $scope.isActiveSeven = false;
+        $scope.isActiveThirty = false;
+        $scope.isActiveTotal = true;
+        $scope.isActiveSixmonths = false;
+    };
 
-        count(data, today);
+    $scope.showSixmonths = function () {
+        count(180);
+        $scope.days=180;
+        $scope.isActiveSeven = false;
+        $scope.isActiveThirty = false;
+        $scope.isActiveTotal = false;
+        $scope.isActiveSixmonths = true;
+    }
 
-    });
-        $scope.showSeven = function(){
-            userService.query(function (data) {
-                $scope.userList = data;
-                var today = new Date();
-                today.setDate(today.getDate()-7);
-                count(data, today);
+    function count(days){
+        $http.get('http://127.0.0.1:5000/api/v1/statistics/'+ days)
+            .success(function(data){
+                $scope.statisticsList = data;
             });
-            $scope.isActiveSeven = true;
-            $scope.isActiveThirty = false;
-            $scope.isActiveTotal = false;
-        };
+    }
 
-        $scope.showThirty = function(){
-            userService.query(function (data) {
-                $scope.userList = data;
-                var today = new Date();
-                today.setDate(today.getDate()-30);
-                count(data, today);
-            });
-            $scope.isActiveSeven = false;
-            $scope.isActiveThirty = true;
-            $scope.isActiveTotal = false;
-        };
-
-        $scope.showTotal = function(){
-            userService.query(function (data) {
-                $scope.userList = data;
-                var today = new Date();
-                today.setDate(today.getDate()-1000000);
-                count(data, today);
-            });
-            $scope.isActiveSeven = false;
-            $scope.isActiveThirty = false;
-            $scope.isActiveTotal = true;
-        };
-
-        function count(data, today) {
-
-            for (var p = 0; p < data.length; p++) {
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/literatures/query', {creator_id: id})
-                        .success(function (data) {
-                            var countLiteratureCreated = 0;
-
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['create_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countLiteratureCreated += 1;
-                                }
-                            }
-                            //console.log(countLiteratureCreated);
-                            $scope.userList[p]['countLiteratureCreated'] = countLiteratureCreated;
-                            console.log($scope.userList[p]['countLiteratureCreated']);
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/literatures/query', {updater_id: id})
-                        .success(function (data) {
-                            var countLiteratureUpdated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['update_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countLiteratureUpdated += 1;
-                                }
-                            }
-                            //console.log(countLiteratureUpdated);
-                            $scope.userList[p]['countLiteratureUpdated'] = countLiteratureUpdated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', {creator_id: id})
-                        .success(function (data) {
-                            var countDataSetCreated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['create_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countDataSetCreated += 1;
-                                }
-                            }
-                            //console.log(countDataSetCreated);
-                            $scope.userList[p]['countDataSetCreated'] = countDataSetCreated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', {updater_id: id})
-                        .success(function (data) {
-                            var countDataSetUpdated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['update_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countDataSetUpdated += 1;
-                                }
-                            }
-                            //console.log(countDataSetUpdated);
-                            $scope.userList[p]['countDataSetUpdated'] = countDataSetUpdated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/codes/query', {creator_id: id})
-                        .success(function (data) {
-                            var countCodeCreated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['create_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countCodeCreated += 1;
-                                }
-                            }
-                            //console.log(countCodeCreated);
-                            $scope.userList[p]['countCodeCreated'] = countCodeCreated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/codes/query', {updater_id: id})
-                        .success(function (data) {
-                            var countCodeUpdated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['update_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countCodeUpdated += 1;
-                                }
-                            }
-                            //console.log(countCodeUpdated);
-                            $scope.userList[p]['countCodeUpdated'] = countCodeUpdated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/reports/query', {creator_id: id})
-                        .success(function (data) {
-                            var countReportCreated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['create_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countReportCreated += 1;
-                                }
-                            }
-                            //console.log(countReportCreated);
-                            $scope.userList[p]['countReportCreated'] = countReportCreated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/reports/query', {updater_id: id})
-                        .success(function (data) {
-                            var countReportUpdated = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['update_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countReportUpdated += 1;
-                                }
-                            }
-                            //console.log(countReportUpdated);
-                            $scope.userList[p]['countReportUpdated'] = countReportUpdated;
-                        });
-
-
-                })(data[p]['id'], p);
-
-                (function (id, p) {
-
-                    $http.post('http://127.0.0.1:5000/api/v1/comments/query', {commenter_id: id})
-                        .success(function (data) {
-                            var countComment = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var createTime = new Date(Date.parse(data[i]['comment_time'].replace(/-/g, "/")));
-                                if (createTime >= today) {
-                                    countComment += 1;
-                                }
-                            }
-                            //console.log(countComment);
-                            $scope.userList[p]['countComment'] = countComment;
-                        });
-
-
-                })(data[p]['id'], p);
-
-            }
-        }
-
-        $scope.showLiteratureCreated = function(){
-            var addLiteratureModal = $modal.open({
+    $scope.showLiterature = function(userId,days){
+        var addLiteratureModal = $modal.open({
             templateUrl: 'partial/literatureGrid.html',
             controller: 'literature_modal_controller',
             size: 'lg',
             resolve: {
-                existed: function () {
-                    return $scope.literatureList;
+                userId: function(){
+                    return userId;
+                },
+                days: function(){
+                    return days;
                 }
             }
         });
-        };
+    };
 
+    $scope.showDataSet = function(userId,days){
+        var addDataSetModal = $modal.open({
+            templateUrl: 'partial/dataSetGrid.html',
+            controller: 'dataSet_modal_controller',
+            size: 'lg',
+            resolve: {
+                userId: function(){
+                    return userId;
+                },
+                days: function(){
+                    return days;
+                }
+            }
+        });
+    }
+
+    $scope.showCode = function(userId,days){
+        var addCodeModal = $modal.open({
+            templateUrl: 'partial/codeGrid.html',
+            controller: 'code_modal_controller',
+            size: 'lg',
+            resolve: {
+                userId: function(){
+                    return userId;
+                },
+                days: function(){
+                    return days;
+                }
+            }
+        });
+    }
+
+    $scope.showReport = function(userId,days){
+        var addReportModal = $modal.open({
+            templateUrl: 'partial/reportGrid.html',
+            controller: 'report_modal_controller',
+            size: 'lg',
+            resolve: {
+                userId: function(){
+                    return userId;
+                },
+                days: function(){
+                    return days;
+                }
+            }
+        });
+    }
+
+    $scope.showSimpleComment = function(userId,days){
+        var addCommentModal = $modal.open({
+            templateUrl: 'partial/commentGrid.html',
+            controller: 'simpleComment_modal_controller',
+            size: 'lg',
+            resolve: {
+                userId: function(){
+                    return userId;
+                },
+                days: function(){
+                    return days;
+                }
+            }
+        });
+    }
+
+    $scope.showComplexComment = function(userId,days){
+        var addCommentModal = $modal.open({
+            templateUrl: 'partial/commentGrid.html',
+            controller: 'complexComment_modal_controller',
+            size: 'lg',
+            resolve: {
+                userId: function(){
+                    return userId;
+                },
+                days: function(){
+                    return days;
+                }
+            }
+        });
+    }
 
 
 }]);
 
-statisticsModule.controller('literature_modal_controller', ['$scope', '$modalInstance', 'LiteratureService', 'Utility', 'existed', function ($scope, $modalInstance, LiteratureService, Utility, existed) {
+statisticsModule.controller('literature_modal_controller', ['$scope', '$modalInstance', '$http', 'LiteratureService', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, LiteratureService, Utility, userId, days) {
 
-    LiteratureService.query(function (data) {
-        var result = Utility.array_diff(data, existed);
-        $scope.literatureList = result;
-    });
+    var literatureList = [];
+    $scope.literatureList = [];
+
+    $scope.getDetails = function (userId, days){
+        $http.post('http://127.0.0.1:5000/api/v1/literatures/query', {creator_id: userId})
+                        .success(function (data) {
+                literatureList = data;
+                $http.post('http://127.0.0.1:5000/api/v1/literatures/query', {updater_id: userId})
+                    .success(function(data){
+                        literatureList.concat(literatureList, data);
+                        $scope.updateLiteratureList(days);
+                });
+            });
+    }
+    $scope.getDetails(userId, days);
+
+    function isContain(list,obj){
+        for(var i=0;i<list.length;i++){
+            if(list[i]==obj){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    $scope.updateLiteratureList = function(days){
+        var today=new Date();
+        today = today.setDate(today.getDate()-days);
+        for(var i=0;i<literatureList.length;i++){
+            var createTime = new Date(Date.parse(literatureList[i]['create_time'].replace(/-/g, "/")));
+            if(createTime >= today){
+                $scope.literatureList.push(literatureList[i]);
+            }
+        }
+        if($scope.literatureList.length>0) {
+            for (var i = 0; i < literatureList.length; i++) {
+                if(literatureList[i]['update_time']==null){
+                    continue;
+                }
+                var temp = $scope.literatureList;
+                var updateTime = new Date(Date.parse(literatureList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+
+                    if(isContain(temp,literatureList[i])){
+                        continue;
+                    }
+                    else{
+                        $scope.literatureList.push(literatureList[i]);
+                    }
+
+                }
+            }
+        }
+        else{
+            for (var i = 0; i < literatureList.length; i++) {
+                if(literatureList[i]['update_time']==null){
+                    continue;
+                }
+                var updateTime = new Date(Date.parse(literatureList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+                        $scope.literatureList.push(literatureList[i]);
+                }
+            }
+        }
+    }
 
     $scope.gridOptions = {
-        data: 'literatureList',
+        data: $scope.literatureList,
         enableFiltering: true,
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
@@ -266,7 +241,8 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewLiterature({id:row.entity.id})" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            //cellTemplate: '<div class="ui-grid-cell-contents"><a target="_blank" ui-sref="viewLiterature({id:row.entity.id})" >{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"
@@ -282,3 +258,415 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
         }]
     };
 }]);
+
+statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstance', '$http', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, Utility, userId, days) {
+
+    var dataSetList = [];
+    $scope.dataSetList = [];
+
+    $scope.getDetails = function (userId, days){
+        $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', {creator_id: userId})
+                        .success(function (data) {
+                dataSetList = data;
+                $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', {updater_id: userId})
+                    .success(function(data){
+                        dataSetList.concat(dataSetList, data);
+                        $scope.updateDataSetList(days);
+                });
+            });
+    }
+    $scope.getDetails(userId, days);
+
+    function isContain(list,obj){
+        for(var i=0;i<list.length;i++){
+            if(list[i]==obj){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.updateDataSetList = function(days){
+        var today=new Date();
+        today = today.setDate(today.getDate()-days);
+        for(var i=0;i<dataSetList.length;i++){
+            var createTime = new Date(Date.parse(dataSetList[i]['create_time'].replace(/-/g, "/")));
+            if(createTime >= today){
+                $scope.dataSetList.push(dataSetList[i]);
+            }
+        }
+        if($scope.dataSetList.length>0) {
+            for (var i = 0; i < dataSetList.length; i++) {
+                if(dataSetList[i]['update_time']==null){
+                    continue;
+                }
+                var temp = $scope.dataSetList;
+                var updateTime = new Date(Date.parse(dataSetList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+
+                    if(isContain(temp,dataSetList[i])){
+                        continue;
+                    }
+                    else{
+                        $scope.dataSetList.push(dataSetList[i]);
+                    }
+
+                }
+            }
+        }
+        else{
+            for (var i = 0; i < dataSetList.length; i++) {
+                if(dataSetList[i]['update_time']==null){
+                    continue;
+                }
+                var updateTime = new Date(Date.parse(dataSetList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+                        $scope.dataSetList.push(dataSetList[i]);
+                }
+            }
+        }
+    }
+
+    $scope.gridOptions = {
+        data: $scope.dataSetList,
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "publisher",
+            displayName: "发布者"
+        }, {
+            field: "type_name",
+            displayName: "类型"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+    };
+}]);
+
+statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance', '$http', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, Utility, userId, days) {
+
+    var codeList = [];
+    $scope.codeList = [];
+
+    $scope.getDetails = function (userId, days){
+        $http.post('http://127.0.0.1:5000/api/v1/codes/query', {creator_id: userId})
+                        .success(function (data) {
+                codeList = data;
+                $http.post('http://127.0.0.1:5000/api/v1/codes/query', {updater_id: userId})
+                    .success(function(data){
+                        codeList.concat(codeList, data);
+                        $scope.updateCodeList(days);
+                });
+            });
+    }
+    $scope.getDetails(userId, days);
+
+    function isContain(list,obj){
+        for(var i=0;i<list.length;i++){
+            if(list[i]==obj){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.updateCodeList = function(days){
+        var today=new Date();
+        today = today.setDate(today.getDate()-days);
+        for(var i=0;i<codeList.length;i++){
+            var createTime = new Date(Date.parse(codeList[i]['create_time'].replace(/-/g, "/")));
+            if(createTime >= today){
+                $scope.codeList.push(codeList[i]);
+            }
+        }
+        if($scope.codeList.length>0) {
+            for (var i = 0; i < codeList.length; i++) {
+                if(codeList[i]['update_time']==null){
+                    continue;
+                }
+                var temp = $scope.codeList;
+                var updateTime = new Date(Date.parse(codeList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+
+                    if(isContain(temp,codeList[i])){
+                        continue;
+                    }
+                    else{
+                        $scope.codeList.push(codeList[i]);
+                    }
+
+                }
+            }
+        }
+        else{
+            for (var i = 0; i < codeList.length; i++) {
+                if(codeList[i]['update_time']==null){
+                    continue;
+                }
+                var updateTime = new Date(Date.parse(codeList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+                        $scope.codeList.push(codeList[i]);
+                }
+            }
+        }
+    }
+
+    $scope.gridOptions = {
+        data: $scope.codeList,
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "publisher",
+            displayName: "发布者"
+        }, {
+            field: "language",
+            displayName: "语言"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+    };
+}]);
+
+statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstance', '$http', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, Utility, userId, days) {
+
+    var reportList = [];
+    $scope.reportList = [];
+
+    $scope.getDetails = function (userId, days){
+        $http.post('http://127.0.0.1:5000/api/v1/reports/query', {creator_id: userId})
+                        .success(function (data) {
+                reportList = data;
+                $http.post('http://127.0.0.1:5000/api/v1/reports/query', {updater_id: userId})
+                    .success(function(data){
+                        reportList.concat(reportList, data);
+                        $scope.updateReportList(days);
+                });
+            });
+    }
+    $scope.getDetails(userId, days);
+
+    function isContain(list,obj){
+        for(var i=0;i<list.length;i++){
+            if(list[i]==obj){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.updateReportList = function(days){
+        var today=new Date();
+        today = today.setDate(today.getDate()-days);
+        for(var i=0;i<reportList.length;i++){
+            var createTime = new Date(Date.parse(reportList[i]['create_time'].replace(/-/g, "/")));
+            if(createTime >= today){
+                $scope.reportList.push(reportList[i]);
+            }
+        }
+        if($scope.reportList.length>0) {
+            for (var i = 0; i < reportList.length; i++) {
+                if(reportList[i]['update_time']==null){
+                    continue;
+                }
+                var temp = $scope.reportList;
+                var updateTime = new Date(Date.parse(reportList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+
+                    if(isContain(temp,reportList[i])){
+                        continue;
+                    }
+                    else{
+                        $scope.reportList.push(reportList[i]);
+                    }
+                }
+            }
+        }
+        else{
+            for (var i = 0; i < reportList.length; i++) {
+                if(reportList[i]['update_time']==null){
+                    continue;
+                }
+                var updateTime = new Date(Date.parse(reportList[i]['update_time'].replace(/-/g, "/")));
+                if (updateTime >= today) {
+                        $scope.reportList.push(reportList[i]);
+                }
+            }
+        }
+    }
+
+    $scope.gridOptions = {
+        data: $scope.reportList,
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "title",
+            displayName: "标题",
+            width: 300,
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }, {
+            field: "reporter",
+            displayName: "报告人"
+        }, {
+            field: "reporter_title",
+            displayName: "职位"
+        }, {
+            field: "company",
+            displayName: "单位"
+        }, {
+            field: "rank_str",
+            displayName: "评分/人数"
+        }]
+    };
+}]);
+
+statisticsModule.controller('simpleComment_modal_controller', ['$scope', '$modalInstance', '$http', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, Utility, userId, days) {
+
+    var commentList = [];
+    $scope.commentList = [];
+
+    $scope.getDetails = function(userId, days){
+        $http.post('http://127.0.0.1:5000/api/v1/comments/query', {commenter_id: userId}).success(function(data){
+            commentList = data;
+            var today=new Date();
+            today = today.setDate(today.getDate()-days);
+            for(var i=0;i<data.length;i++){
+                var createTime = new Date(Date.parse(data[i]['comment_time'].replace(/-/g, "/")));
+                if(createTime >= today){
+                    if(data[i]['is_simple']){
+                        $scope.commentList.push(data[i]);
+                    }
+                }
+            }
+        });
+    };
+    $scope.getDetails(userId,days);
+
+    function getUrl(type){
+        if(type==1){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+        else if(type==2){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+        else if(type==3){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+        else if(type==4){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+    }
+
+
+    $scope.gridOptions = {
+        data: $scope.commentList,
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "resource_name",
+            displayName: "标题",
+            width: 300,
+            //cellTemplate: getUrl(grid.getCellValue(row, col))
+        }, {
+            field: "resource_type_name",
+            displayName: "资源种类"
+        }, {
+            field: "comment_time",
+            displayName: "评论时间"
+        }]
+    };
+}]);
+
+statisticsModule.controller('complexComment_modal_controller', ['$scope', '$modalInstance', '$http', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, Utility, userId, days) {
+
+    var commentList = [];
+    $scope.commentList = [];
+
+    $scope.getDetails = function(userId, days){
+        $http.post('http://127.0.0.1:5000/api/v1/comments/query', {commenter_id: userId}).success(function(data){
+            commentList = data;
+            var today=new Date();
+            today = today.setDate(today.getDate()-days);
+            for(var i=0;i<data.length;i++){
+                var createTime = new Date(Date.parse(data[i]['comment_time'].replace(/-/g, "/")));
+                if(createTime >= today){
+                    if(!data[i]['is_simple']){
+                        $scope.commentList.push(data[i]);
+                    }
+                }
+            }
+        });
+    };
+    $scope.getDetails(userId,days);
+
+    function getUrl(type){
+        if(type==1){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+        else if(type==2){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+        else if(type==3){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+        else if(type==4){
+            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+        }
+    }
+
+
+    $scope.gridOptions = {
+        data: $scope.commentList,
+        enableFiltering: true,
+        onRegisterApi: function (gridApi) {
+            $scope.gridApi = gridApi;
+        },
+        enableColumnResizing: true,
+        paginationPageSizes: [20, 50, 100],
+        paginationPageSize: 20,
+        columnDefs: [{
+            field: "resource_name",
+            displayName: "标题",
+            width: 300,
+            //cellTemplate: getUrl(grid.getCellValue(row, col))
+        }, {
+            field: "resource_type_name",
+            displayName: "资源种类"
+        }, {
+            field: "comment_time",
+            displayName: "评论时间"
+        }]
+    };
+}]);
+

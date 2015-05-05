@@ -1,12 +1,13 @@
-<div>
+<div class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <h3>统计信息</h3>
         </div>
         <div class="btn pull-right" data-toggle="buttons-radio">
-                    <button ng-class="{'active':isActiveSeven}" ng-click="showSeven()" class="btn btn-primary">最近7天</button>
-                    <button ng-class="{'active':isActiveThirty}" ng-click="showThirty()" class="btn btn-primary">最近30天</button>
-                    <button ng-class="{'active':isActiveTotal}" ng-click="showTotal()" class="btn btn-primary">总共</button>
+            <button ng-class="{'active':isActiveSeven}" ng-click="showSeven()" class="btn btn-primary">最近一周</button>
+            <button ng-class="{'active':isActiveThirty}" ng-click="showThirty()" class="btn btn-primary">最近一月</button>
+            <button ng-class="{'active':isActiveSixmonths}" ng-click="showSixmonths()" class="btn btn-primary">最近半年</button>
+            <button ng-class="{'active':isActiveTotal}" ng-click="showTotal()" class="btn btn-primary">总共</button>
         </div>
         <div class="row">
             <br>
@@ -20,15 +21,17 @@
                         <th>数据集创建/更新</th>
                         <th>代码创建/更新</th>
                         <th>报告创建/更新</th>
-                        <th>评论</th>
+                        <th>简单评论</th>
+                        <th>详细评论</th>
                     </tr>
                     <tr ng-repeat="statistics in statisticsList">
-                        <td width="15">{{statistics.userName}}</td>
+                        <td width="10%">{{statistics.userName}}</td>
                         <td width="15%"><a ng-click="showLiterature(statistics.userId,days)">{{statistics.countLiterature}}</a></td>
                         <td width="15%"><a ng-click="showDataSet(statistics.userId,days)">{{statistics.countDataSet}}</a></td>
                         <td width="15%"><a ng-click="showCode(statistics.userId,days)">{{statistics.countCode}}</a></td>
                         <td width="15%"><a ng-click="showReport(statistics.userId,days)">{{statistics.countReport}}</a></td>
-                        <td width="15%"><a ng-click="showComment(statistics.userId,days)">{{statistics.countComment}}</a></td>
+                        <td width="15%"><a ng-click="showSimpleComment(statistics.userId,days)">{{statistics.countSimpleComment}}</a></td>
+                        <td width="15%"><a ng-click="showComplexComment(statistics.userId,days)">{{statistics.countComplexComment}}</a></td>
                     </tr>
                 </table>
             </div>
