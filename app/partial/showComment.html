@@ -16,7 +16,7 @@
                         <span>{{comment.content}}</span>
                     </div>
                     <div class="col-md-12" ng-hide="comment.is_simple">
-                        <p ng-repeat="attr in comment.content.split('&')">{{attr}}</p>
+                        <p ng-repeat="attr in comment.content.split('&') track by $index">{{attr}}</p>
                     </div>
                 </div>
             </div>

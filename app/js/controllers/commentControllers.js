@@ -6,7 +6,7 @@ commentModule.factory('CommentService', ['$resource', function ($resource) {
 
 commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'Time', 'CommentService', function ($scope, $rootScope, $stateParams, $http, Time, CommentService) {
     $scope.comment = {};
-    $scope.comment.star = 3;
+    $scope.comment.star = 0;
     $scope.comment.commenter_id = $rootScope.userId;
     $scope.comment.type = $scope.comment_type_id;
     $scope.comment.resource_id = $stateParams.id;
@@ -32,19 +32,18 @@ commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams',
         $scope.comment.is_simple = 1;
         CommentService.save($scope.comment, function (data) {
             updateCommentList();
-            $scope.comment.star = 3;
+            $scope.comment.star = 0;
         });
         this.simpleContent = '';
     };
 
     $scope.detailSubmit = function () {
         $scope.comment.comment_time = Time.currentTime(new Date());
-
         $scope.comment.content = this.attr1 + '&' + this.attr2 + '&' + this.attr3;
         $scope.comment.is_simple = 0;
         CommentService.save($scope.comment, function (data) {
             updateCommentList();
-            $scope.comment.star = 3;
+            $scope.comment.star = 0;
         });
         this.attr1 = this.attr2 = this.attr3 = '';
     };
