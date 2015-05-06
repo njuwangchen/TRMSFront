@@ -70,15 +70,15 @@ userModule.directive("edit", function ($document) {
                 var obj = $("#" + name);
                 obj.removeClass("inactive");
                 obj.addClass("inactive");
-                obj.removeAttr("readOnly");
+                //obj.removeAttr("readOnly");
                 var obj1 = $("#" + password);
                 obj1.removeClass("inactive");
                 obj1.addClass("active");
-                obj1.removeAttr("readOnly");
+                //obj1.removeAttr("readOnly");
                 var obj2 = $("#" + privilege);
                 obj2.removeClass("inactive");
                 obj2.addClass("active");
-                obj2.removeAttr("readOnly");
+                //obj2.removeAttr("readOnly");
                 scope.$apply(function () {
                     scope.showEdit = false;
                 })
@@ -93,12 +93,24 @@ userModule.directive("update", function ($document) {
         require: 'ngModel',
         link: function (scope, element, attrs, ngModel) {
             element.bind("click", function () {
-                alert(ngModel.$modelValue + " is updated, Update your value here.");
+                //alert(ngModel.$modelValue + " is updated, Update your value here.");
                 var name = "txt_name_" + ngModel.$modelValue.name;
+                var password = "txt_password_" + ngModel.$modelValue.password;
+                var privilege = "txt_privilege_" + ngModel.$modelValue.privilege;
+                alert("用户：" + ngModel.$modelValue.name +" 信息已更新");
                 var obj = $("#" + name);
                 obj.removeClass("active");
                 obj.addClass("inactive");
-                obj.attr("readOnly", true);
+                //obj.attr("readOnly", true);
+                var obj1 = $("#" + password);
+                obj1.removeClass("active");
+                obj1.addClass("inactive");
+                //obj1.attr("readOnly", true);
+                var obj2 = $("#" + privilege);
+                obj2.removeClass("active");
+                obj2.addClass("inactive");
+                //obj2.attr("readOnly", true);
+
                 scope.$apply(function () {
                     scope.user.$update(function () {
                         scope.showEdit = true;
@@ -127,15 +139,15 @@ userModule.directive("cancel", function ($document) {
                 var obj = $("#" + name);
                 obj.removeClass("active");
                 obj.addClass("inactive");
-                obj.prop("readOnly", true);
+                //obj.prop("readOnly", true);
                 var obj1 = $("#" + password);
                 obj1.removeClass("active");
                 obj1.addClass("inactive");
-                obj1.prop("readOnly", true);
+                //obj1.prop("readOnly", true);
                 var obj2 = $("#" + privilege);
                 obj2.removeClass("active");
                 obj2.addClass("inactive");
-                obj2.prop("readOnly", true);
+                //obj2.prop("readOnly", true);
                 scope.$apply(function () {
                     scope.showEdit = true;
                 })
@@ -151,7 +163,7 @@ userModule.directive("delete", function ($document) {
         link: function (scope, element, attrs, ngModel) {
             element.bind("click", function () {
                 var name = ngModel.$modelValue.name;
-                alert("delete item where user's name:=" + name);
+                alert("用户：" + name + " 已删除");
                 scope.$apply(function () {
                     for (var i = 0; i < scope.userList.length; i++) {
                         if (scope.userList[i].name == name) {
@@ -184,7 +196,7 @@ userModule.directive("save", function ($document, $state, userService) {
 
                 scope.$apply(function () {
                     userService.save(scope.user, function (data) {
-                        console.log("add successful");
+                        console.log("用户：" + data.name + " 信息已保存");
                     });
                     scope.userList.push(scope.user);
                     scope.addState = false;

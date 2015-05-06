@@ -24,13 +24,13 @@
                         <td ng-show="showEdit" width="25%">{{user.privilege}}</td>
 
                         <td ng-show="!showEdit" width="25%">
-                            <input type="text" id='txt_name_{{user.name}}' ng-model="user.name" class="inactive" readonly />
+                            <input type="text" id='txt_name_{{user.name}}' ng-model="user.name" class="inactive" />
                         </td>
                         <td ng-show="!showEdit" width="25%">
-                            <input type="text" id='txt_password_{{user.password}}' ng-model="user.password" class="inactive" readonly />
+                            <input type="text" id='txt_password_{{user.password}}' ng-model="user.password" class="inactive" />
                         </td>
                         <td ng-show="!showEdit" width="25%">
-                            <input type="text" id='txt_privilege_{{user.privilege}}' ng-model="user.privilege" class="inactive" readonly />
+                            <input type="text" id='txt_privilege_{{user.privilege}}' ng-model="user.privilege" class="inactive" />
                         </td>
                         <td width="25%">
                             <edit ng-Model="user" ng-show="showEdit"><a>编辑</a></edit>
