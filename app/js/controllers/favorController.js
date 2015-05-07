@@ -328,9 +328,8 @@ favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,
                 "resource_id":$scope.$parent.currentId,"favorite_time":favorTime});
         });
     }
-
-
 });
+
 
 favorModule.controller('addFavorCtrlModalInstance', function ($scope,$modal,$modalInstance) {
 

@@ -107,12 +107,18 @@ settingModule.controller('SettingCtrl',['$scope','$http', function ($scope,$http
             }
         })
 
+        var typeTobeAdded = {"type_id":1,"name":$scope.literatureTypeAdded};
         $scope.Selected[$scope.literatureTypeAdded]=[]
         $scope.literatureFields[$scope.literatureTypeAdded] = []
-        $scope.literatureTypes.push({"type_id":1,"name":$scope.literatureTypeAdded})
-        $scope.newLiteratureTypes.push({"type_id":1,"name":$scope.literatureTypeAdded})
+        $scope.literatureTypes.push(typeTobeAdded)
+        $scope.newLiteratureTypes.push(typeTobeAdded)
         $scope.typeSelected = $scope.literatureTypes[$scope.literatureTypes.length-1]
-        alert("添加类型成功！")
+
+        $http.post('http://127.0.0.1:5000/api/v1/types',typeTobeAdded)
+            .success(function (data) {
+                alert("添加类型成功！")
+            })
+
     }
 
     $scope.deleteLiteratureType = function () {

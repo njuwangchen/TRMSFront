@@ -1,5 +1,5 @@
 <form action="" role="form" class="form-horizontal">
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('title')">
         <label for="title" class="col-md-2 control-label">篇名</label>
 
         <div class="col-md-10">
@@ -12,10 +12,10 @@
 
         <div class="col-md-10">
             <select class="form-control" id="type" ng-options="type as type.name for type in literatureTypeList"
-                    ng-model="$parent.selectedType"></select>
+                    ng-model="$parent.selectedType" ng-click="freshViews()"></select>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('published_year')">
         <label for="year" class="col-md-2 control-label">年份</label>
 
         <div class="col-md-10">
@@ -23,7 +23,7 @@
                    ng-model="literature.published_year">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('author')">
         <label for="author" class="col-md-2 control-label">作者</label>
 
         <div class="col-md-10">
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('publisher')">
         <label for="publisher" class="col-md-2 control-label">期刊/会议</label>
 
         <div class="col-md-10">
@@ -40,30 +40,21 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="publisher_abbreviation" class="col-md-2 control-label">期刊/会议缩写</label>
-
-        <div class="col-md-10">
-            <input type="text" class="form-control" id="publisher_abbreviation" placeholder="请输入期刊/会议缩写"
-                   ng-model="literature.publisher_abbreviation">
-        </div>
-    </div>
-
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('location')">
         <label for="location" class="col-md-2 control-label">地点</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="location" placeholder="请输入地点" ng-model="literature.location">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('institute')">
         <label for="institute" class="col-md-2 control-label">机构</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="institute" placeholder="请输入机构" ng-model="literature.institute">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('instructor')">
         <label for="instructor" class="col-md-2 control-label">导师</label>
 
         <div class="col-md-10">
@@ -71,7 +62,7 @@
                    ng-model="literature.instructor">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('editor')">
         <label for="editor" class="col-md-2 control-label">编辑</label>
 
         <div class="col-md-10">
@@ -80,21 +71,21 @@
     </div>
 
 
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('volume')">
         <label for="volume" class="col-md-2 control-label">卷数</label>
 
         <div class="col-md-10">
             <input type="number" class="form-control" id="volume" placeholder="请输入卷数" ng-model="literature.volume">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('issue')">
         <label for="issue" class="col-md-2 control-label">期数</label>
 
         <div class="col-md-10">
             <input type="number" class="form-control" id="issue" placeholder="请输入期数" ng-model="literature.issue">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('pages')">
         <label for="pages" class="col-md-2 control-label">页数</label>
 
         <div class="col-md-10">
@@ -108,14 +99,14 @@
     <!--<input type="number" class="form-control" id="section" placeholder="请输入分册" ng-model="literature.section">-->
     <!--</div>-->
     <!--</div>-->
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('edition')">
         <label for="edition" class="col-md-2 control-label">版本</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="edition" placeholder="请输入版本" ng-model="literature.edition">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('press')">
         <label for="press" class="col-md-2 control-label">出版社</label>
 
         <div class="col-md-10">
@@ -123,7 +114,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('ISBN')">
         <label for="ISBN" class="col-md-2 control-label">ISBN/ISSN</label>
 
         <div class="col-md-10">
@@ -137,14 +128,14 @@
     <!--<input type="text" class="form-control" id="ISSN" placeholder="请输入ISSN" ng-model="literature.ISSN">-->
     <!--</div>-->
     <!--</div>-->
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('DOI')">
         <label for="DOI" class="col-md-2 control-label">DOI</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="DOI" placeholder="请输入DOI" ng-model="literature.DOI">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('abstract')">
         <label for="abstract" class="col-md-2 control-label">摘要</label>
 
         <div class="col-md-10">
@@ -154,14 +145,14 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('key_words')">
         <label for="key_words" class="col-md-2 control-label">关键字</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="key_words" placeholder="请输入关键字" ng-model="literature.key_words">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('language')">
         <label for="language" class="col-md-2 control-label">语言</label>
 
         <div class="col-md-10">
@@ -169,21 +160,21 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('titleCN')">
         <label for="titleCN" class="col-md-2 control-label">中文篇名</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="titleCN" placeholder="请输入中文篇名" ng-model="literature.titleCN">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('authorCN')">
         <label for="authorCN" class="col-md-2 control-label">作者中文名</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="authorCN" placeholder="请输入作者中文名" ng-model="literature.authorCN">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('publisherCN')">
         <label for="publisherCN" class="col-md-2 control-label">期刊/会议中文名</label>
 
         <div class="col-md-10">
@@ -191,7 +182,7 @@
                    ng-model="literature.publisherCN">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('abstractCN')">
         <label for="abstractCN" class="col-md-2 control-label">中文摘要</label>
 
         <div class="col-md-10">
@@ -200,7 +191,7 @@
                       ng-model="literature.abstractCN"></textarea>
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('key_wordsCN')">
         <label for="key_wordsCN" class="col-md-2 control-label">中文关键字</label>
 
         <div class="col-md-10">
@@ -209,20 +200,29 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">标签</label>
-
-        <div class="col-md-10">
-            <input type="text" ng-model="tag_input">
-        </div>
-
-        <div class="col-md-10 col-md-offset-2">
-            <label class="checkbox-inline" ng-repeat="tag in allTags|filter:tag_input">
+    <accordion close-others="oneAtATime">
+        <accordion-group heading="Dynamic Body Content" ng-repeat="tags in tagsDivided">
+            <p>The body of the accordion group grows to fit the contents</p>
+            <label  class="checkbox-inline" ng-repeat="tag in tags">
                 <input type="checkbox" ng-model="tag.selected">
                 {{tag.name}}
             </label>
-        </div>
-    </div>
+        </accordion-group>
+    </accordion>
+
+    <!--<div class="form-group">-->
+        <!--<label class="col-md-2 control-label">标签</label>-->
+        <!--<div class="col-md-10">-->
+            <!--<input type="text" ng-model="tag_input">-->
+        <!--</div>-->
+
+        <!--<div class="col-md-10 col-md-offset-2">-->
+            <!--<label  class="checkbox-inline" ng-repeat="tag in allTags|filter:tag_input">-->
+                <!--<input type="checkbox" ng-model="tag.selected">-->
+                <!--{{tag.name}}-->
+            <!--</label>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">

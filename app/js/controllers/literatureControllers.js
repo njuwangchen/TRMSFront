@@ -95,6 +95,13 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', 
         $scope.allTags = data;
     });
 
+    //$scope.judgeSelected = function (item) {
+    //    if (item.selected)
+    //        return true;
+    //    else
+    //        return false;
+    //}
+
     $scope.submit = function () {
         for (var i = 0; i < $scope.allTags.length; i++) {
             if ($scope.allTags[i].selected)
@@ -111,10 +118,32 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', 
 literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$state', '$http', 'LiteratureService', 'tagService', 'Time', function ($scope, $rootScope, $state, $http, LiteratureService, tagService, Time) {
     $scope.literatureTypeList = [];
 
+    //check contain
+    Array.prototype.contains = function (element) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.freshViews = function () {
+        $scope.fieldsToBeShowed = $scope.configData[$scope.selectedType.name]
+    }
+
+    //read settings
+    $http.get('http://127.0.0.1:5000/api/v1/settings')
+        .success(function (data) {
+            $scope.configData = data;
+        });
+
     $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
         success(function (data) {
             $scope.literatureTypeList = data;
             $scope.selectedType = $scope.literatureTypeList[0];
+            $scope.fieldsToBeShowed = $scope.configData[$scope.selectedType.name];
+
         });
 
     tagService.query(function (data) {
@@ -259,6 +288,18 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                                             element.selected = true;
                                     });
                                 });
+
+                                //$scope.tagsDivided = [];
+
+                                //$scope.allTags.forEach(function (element) {
+                                //    if($scope.tagsDivided[element.type]==null)
+                                //    {
+                                //        $scope.tagsDivided[element.type] = [];
+                                //        $scope.tagsDivided[element.type].push(element);
+                                //    }
+                                //    else
+                                //        $scope.tagsDivided[element.type].push(element);
+                                //});
                             });
                     });
 
