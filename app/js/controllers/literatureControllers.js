@@ -239,7 +239,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
 
 }]);
 
-literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $rootScope, $stateParams, $http, LiteratureService, Time) {
+literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'LiteratureService', 'Time', function ($scope, $rootScope, $state, $stateParams, $http, LiteratureService, Time) {
     $scope.literatureTypeList = [];
     $scope.comment_type_id = 1;
 
@@ -273,7 +273,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                 $scope.tagIds = [];
                 data.forEach(function (single_tag_res) {
                     $scope.tagIds.push(single_tag_res.tag_id)
-                })
+                });
 
                 $http.get("http://127.0.0.1:5000/api/v1/tags")
                     .success(function (data) {
@@ -305,6 +305,12 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
 
             });
     });
+
+    $scope.delete = function () {
+        $scope.literature.$delete(function(){
+            $state.go('showAllLiterature');
+        });
+    };
 
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
@@ -348,7 +354,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.literature.id,
                     "type": $scope.currentType
-                })
+                });
                 $scope.tags.push($scope.allTags[i]);
             }
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {

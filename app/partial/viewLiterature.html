@@ -5,6 +5,7 @@
             <h2>{{literature.title}}</h2>
         </div>
         <div class="col-md-4">
+            <button class="btn btn-danger pull-right" type="button" ng-click="delete()">删除</button>
             <a class="btn btn-primary pull-right" type="button" download="export.txt" ng-href="{{exportUrl}}">导出</a>
             <button class="btn btn-primary pull-right" type="button" ng-controller="addFavorCtrl" ng-click="addFavor()">收藏</button>
             <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}"
