@@ -12,7 +12,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-controller="userLoginCtrl">
             <li>
-                <p class="navbar-text">欢迎您，{{$root.userName}}</p>
+                <p class="navbar-text" ng-click="changePassword($root.userId)">欢迎您，{{$root.userName}}</p>
             </li>
             <li>
                 <a class="navbar-link" href ng-click="logout()">登出</a>

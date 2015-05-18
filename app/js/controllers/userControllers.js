@@ -23,8 +23,8 @@ userModule.controller('userListCtrl', ['$scope', 'userService', function ($scope
     $scope.master = {};
 }]);
 
-userModule.controller('userLoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$window', 'authenticationSvc',
-    function ($scope, $rootScope, $http, $state, $window, authenticationSvc) {
+userModule.controller('userLoginCtrl', ['$scope', '$rootScope', '$http', '$state', '$window', 'authenticationSvc', '$modal',
+    function ($scope, $rootScope, $http, $state, $window, authenticationSvc, $modal) {
 
         $scope.userNotExist = false;
         $scope.passwdNotRight = false;
@@ -50,8 +50,64 @@ userModule.controller('userLoginCtrl', ['$scope', '$rootScope', '$http', '$state
                 }
             });
         };
+
+        $scope.changePassword = function(id){
+            var queryModalInstance = $modal.open({
+                templateUrl: 'partial/changePassword.html',
+                controller: 'changePasswordCtrl',
+                resolve: {
+                    userId: function () {
+                        return id;
+                    }
+                }
+            });
+
+
+        }
     }]);
 
+userModule.controller('changePasswordCtrl', ['$scope', '$modalInstance', 'userId', '$http',
+    function($scope, $modalInstance, userId, $http){
+        $scope.judge = {};
+        $scope.judge.isTrue = true;
+        $scope.judge.isSame = true;
+        $scope.judge.isValid = false;
+
+        $http.get('http://127.0.0.1:5000/api/v1/users/'+userId)
+            .success(function(data){
+                $scope.user = data;
+                $scope.submit = function(){
+                    $scope.judge.isTrue = true;
+                    $scope.judge.isSame = true;
+                    $scope.judge.isValid = false;
+                    if($scope.judge.oldPassword != data.password){
+                        $scope.judge.isTrue = false;
+                    }
+                    else{
+                        if($scope.judge.newPassword1 != $scope.judge.newPassword2){
+                            $scope.judge.isSame = false;
+                        }
+                        else{
+                            $scope.judge.isValid = true;
+                        }
+                    }
+                    if($scope.judge.isValid){
+                        $http.put('http://127.0.0.1:5000/api/v1/users/'+userId, {password: $scope.judge.newPassword1})
+                        .success(function(){
+                            console.log($scope.judge.newPassword1);
+                            alert("密码修改成功");
+                                $modalInstance.dismiss();
+                        });
+                    }
+
+                }
+            });
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+    }]
+);
 
 userModule.directive("edit", function ($document) {
     return {
