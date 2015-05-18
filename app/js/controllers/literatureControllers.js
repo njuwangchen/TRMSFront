@@ -131,7 +131,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
     $scope.tagsDivided = [];
 
     //获取分组的tag
-    $http.get("http://121.40.106.155:5000/api/v1/tags")
+    $http.get("http://127.0.0.1:5000/api/v1/tags")
         .success(function (data) {
             $scope.allTags = data;
             $scope.tagTypes = [];
@@ -197,7 +197,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
             $scope.tagsDivided.forEach(function (tagGroup) {
                 tagGroup.forEach(function (element) {
                     if (element.selected)
-                        $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
+                        $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                             "tag_id": element.id,
                             "resource_id": data.id,
                             "type": 1
@@ -206,7 +206,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
             })
             //for (var i = 0; i < $scope.allTags.length; i++) {
             //    if ($scope.allTags[i]['selected'])
-            //        $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
+            //        $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
             //            "tag_id": $scope.allTags[i]['id'],
             //            "resource_id": data.id,
             //            "type": 1
@@ -312,7 +312,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
     //$scope.tagsDivided = [];
     //
     ////获取分组的tag
-    //$http.get("http://121.40.106.155:5000/api/v1/tags")
+    //$http.get("http://127.0.0.1:5000/api/v1/tags")
     //    .success(function (data) {
     //        $scope.allTags = data;
     //        $scope.tagTypes = [] ;
@@ -337,7 +337,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
 
 
     //read settings
-    $http.get('http://121.40.106.155:5000/api/v1/settings')
+    $http.get('http://127.0.0.1:5000/api/v1/settings')
         .success(function (data) {
             $scope.configData = data;
         });
@@ -505,7 +505,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                                 $scope.tags.splice(j, 1);
                                 break;
 
-                                $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
+                                $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
                                 $scope.tagsDividedShown[$scope.allTags[i].type].forEach(function (tag) {
                                     if (tag.id == element.tag_id) {
                                         var m = $scope.tagsDividedShown[$scope.allTags[i].type].indexOf(tag);
@@ -525,7 +525,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                 }
             }
 
-            $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {
+            $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {
                 "resource_id": $scope.literature.id,
                 "type": $scope.currentType
             })
@@ -535,7 +535,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
         }
         ;
 
-        $http.post("http://121.40.106.155:5000/api/v1/literatures/export", {'id': id})
+        $http.post("http://127.0.0.1:5000/api/v1/literatures/export", {'id': id})
             .success(function (data) {
                 var content = data;
                 var blob = new Blob([content], {type: 'text/plain'});
