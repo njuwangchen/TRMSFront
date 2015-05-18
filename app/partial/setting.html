@@ -1,48 +1,51 @@
 <div class="row" ng-controller="SettingCtrl">
     <h3>系统配置</h3>
-    <div>
-    <div class="row">
-        <div class="col-md-9">
-            <h4><strong>文献配置</strong></h4>
-            <h6>当前文献种类：</h6>
-        </div>
-    </div>
+
     <div>
         <div class="row">
-            <div class="col-md-4">
-                <select class="form-control" ng-model="typeSelected" ng-options="type as type.name for type in literatureTypes"></select>
-            </div>
-            <dic class="col-md-2 col-md-offset-1">
-                <a class="btn btn-primary pull-right" ng-click="deleteLiteratureType()">删除已选中类型</a>
-            </dic>
-            <div class="col-md-3 ">
-                <input type="text"  class="form-control" id="literatureTypeAdded" ng-model="literatureTypeAdded" placeholder="请输入类型">
-            </div>
-            <div class="col-md-2">
-                <a class="btn btn-primary" ng-click="addLiteratureType()">添加</a>
+            <div class="col-md-9">
+                <h4><strong>文献配置</strong></h4>
+                <h6>当前文献种类：</h6>
             </div>
         </div>
-        <br>
         <div>
-            <div class="col-md-10">
-                <h5>可选择的文献属性：</h5>
-                <label class="checkbox-inline" ng-repeat="field in allFields">
-                    <input type="checkbox" id="titleCheckbox" ng-model="Selected[typeSelected.name][field]"> {{field}}
-                </label>
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-control" ng-model="typeSelected"
+                            ng-options="type as type.name for type in literatureTypes"></select>
+                </div>
+                <dic class="col-md-2 col-md-offset-1">
+                    <a class="btn btn-primary pull-right" ng-click="deleteLiteratureType()">删除已选中类型</a>
+                </dic>
+                <div class="col-md-3 ">
+                    <input type="text" class="form-control" id="literatureTypeAdded" ng-model="literatureTypeAdded"
+                           placeholder="请输入类型">
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-primary" ng-click="addLiteratureType()">添加</a>
+                </div>
+            </div>
+            <br>
+
+            <div>
+                <div class="col-md-10">
+                    <h5>可选择的文献属性：</h5>
+                    <label class="checkbox-inline" ng-repeat="field in allFields">
+                        <input type="checkbox" id="titleCheckbox" ng-model="Selected[typeSelected.name][field]">
+                        {{field}}
+                    </label>
+                </div>
+
+                <div class="col-md-2">
+                    <a class="btn btn-primary" ng-click="saveChange()">保存配置</a>
+                </div>
             </div>
 
-            <div class="col-md-2">
-                <a class="btn btn-primary" ng-click="saveChange()">保存配置</a>
+            <div class="col-md-12">
+                <hr/>
             </div>
+
         </div>
-
-        <div class="col-md-12">
-            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
-        </div>
-
-    </div>
-
-
 
 
     </div>
@@ -55,7 +58,8 @@
             <a class="btn btn-primary pull-right" ng-click="deleteCommentField()">删除已选中属性</a>
         </div>
         <div class="col-md-3 ">
-            <input type="text"  class="form-control" id="commentType" ng-model="commentFieldNameAdded" placeholder="请输入属性">
+            <input type="text" class="form-control" id="commentType" ng-model="commentFieldNameAdded"
+                   placeholder="请输入属性">
         </div>
         <div class="col-md-1">
             <a class="btn btn-primary pull-right" ng-click="addCommentField()">添加</a>
@@ -64,15 +68,16 @@
 
     <div>
         <div class="col-md-10">
-        <h5>可选择的评价属性：</h5>
-        <label class="checkbox-inline" ng-show="!isEdit_Comment" ng-repeat="commentField in commentFields">
-            <input type="checkbox" ng-model="commentField.selected"> {{commentField.name}}
-        </label>
-        <form class="form-inline" ng-show="isEdit_Comment">
-            <div class="form-group" ng-repeat="commentField in commentFields">
-                <input type="text" class="form-control" ng-model="commentField.name">
-            </div>
-        </form>
+            <h5>可选择的评价属性：</h5>
+            <label class="checkbox-inline" ng-show="!isEdit_Comment" ng-repeat="commentField in commentFields">
+                <input type="checkbox" ng-model="commentField.selected"> {{commentField.name}}
+            </label>
+
+            <form class="form-inline" ng-show="isEdit_Comment">
+                <div class="form-group" ng-repeat="commentField in commentFields">
+                    <input type="text" class="form-control" ng-model="commentField.name">
+                </div>
+            </form>
         </div>
 
         <div class="col-md-2">
@@ -80,7 +85,7 @@
         </div>
 
         <div class="col-md-12">
-            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+            <hr/>
         </div>
     </div>
 
@@ -93,7 +98,7 @@
             <a class="btn btn-primary pull-right" ng-click="deleteRefTypeField()">删除已选中属性</a>
         </div>
         <div class="col-md-3 ">
-            <input type="text"  class="form-control" id="refType" ng-model="refTypeFieldNameAdded" placeholder="请输入属性">
+            <input type="text" class="form-control" id="refType" ng-model="refTypeFieldNameAdded" placeholder="请输入属性">
         </div>
         <div class="col-md-1">
             <a class="btn btn-primary pull-right" ng-click="addRefTypeField()">添加</a>
@@ -107,6 +112,7 @@
             <label class="checkbox-inline" ng-show="!isEdit_RefType" ng-repeat="refTypeField in refTypeFields">
                 <input type="checkbox" ng-model="refTypeField.selected"> {{refTypeField.name}}
             </label>
+
             <form class="form-inline" ng-show="isEdit_RefType">
                 <div class="form-group" ng-repeat="refTypeField in refTypeFields">
                     <input type="text" class="form-control" ng-model="refTypeField.name">
@@ -119,7 +125,7 @@
         </div>
 
         <div class="col-md-12">
-            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+            <hr/>
         </div>
     </div>
 
@@ -128,7 +134,7 @@
             <h4><strong>便签类型配置(点击便签配置类型)</strong></h4>
         </div>
         <!--<div class="col-md-2 col-md-offset-6">-->
-            <!--<a class="btn btn-primary" ng-click="">保存配置</a>-->
+        <!--<a class="btn btn-primary" ng-click="">保存配置</a>-->
         <!--</div>-->
     </div>
     <div class="col-md-12">
@@ -141,6 +147,125 @@
                     <a class="btn" ng-click="changeTagType(tag)">{{tag.name}}</a>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <hr/>
+    </div>
+    <div class="row" ng-controller="KBSettingCtrl">
+        <div class="col-md-12">
+            <h4><strong>知识库配置</strong></h4>
+        </div>
+        <div class="col-md-12">
+            <table class="table">
+                <caption>期刊缩写-期刊全称</caption>
+                <thead>
+                <tr>
+                    <th>期刊缩写</th>
+                    <th>期刊全称</th>
+                    <th><a href ng-click="Is_KB_Journal_Add = true;">添加</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in KB_Journal_List">
+                    <td>{{item.abbreviation}}</td>
+                    <td>{{item.full}}</td>
+                    <td><a href ng-click="delete_journal(item)">删除</a></td>
+                </tr>
+                <tr ng-show="Is_KB_Journal_Add">
+                    <td><input ng-model="KB_Journal_Add.abbreviation" type="text" placeholder="请输入期刊缩写"/></td>
+                    <td><input ng-model="KB_Journal_Add.full" type="text" placeholder="请输入期刊全称"/></td>
+                    <td><a href ng-click="add_journal(KB_Journal_Add)">确定</a> | <a href ng-click="cancel_journal(KB_Journal_Add)">取消</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-md-12">
+            <table class="table">
+                <caption>期刊缩写+年份+期数-编辑</caption>
+                <thead>
+                <tr>
+                    <th>期刊缩写</th>
+                    <th>年份</th>
+                    <th>期数</th>
+                    <th>编辑</th>
+                    <th><a href ng-click="Is_KB_Journal_Year_Issue_Add = true;">添加</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in KB_Journal_Year_Issue_List">
+                    <td>{{item.abbreviation}}</td>
+                    <td>{{item.year}}</td>
+                    <td>{{item.issue}}</td>
+                    <td>{{item.editor}}</td>
+                    <td><a href ng-click="delete_journal_year_issue(item)">删除</a></td>
+                </tr>
+                <tr ng-show="Is_KB_Journal_Year_Issue_Add">
+                    <td><input type="text" ng-model="KB_Journal_Year_Issue_Add.abbreviation" placeholder="请输入期刊缩写"/></td>
+                    <td><input type="text" ng-model="KB_Journal_Year_Issue_Add.year" placeholder="请输入年份"/></td>
+                    <td><input type="text" ng-model="KB_Journal_Year_Issue_Add.issue" placeholder="请输入期数"/></td>
+                    <td><input type="text" ng-model="KB_Journal_Year_Issue_Add.editor" placeholder="请输入编辑"/></td>
+                    <td><a href ng-click="add_journal_year_issue(KB_Journal_Year_Issue_Add)">确定</a> | <a href ng-click="cancel_journal_year_issue(KB_Journal_Year_Issue_Add)">取消</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-md-12">
+            <table class="table">
+                <caption>会议缩写-会议全称</caption>
+                <thead>
+                <tr>
+                    <th>会议缩写</th>
+                    <th>会议全称</th>
+                    <th><a href ng-click="Is_KB_Conference_Add = true;">添加</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in KB_Conference_List">
+                    <td>{{item.abbreviation}}</td>
+                    <td>{{item.full}}</td>
+                    <td><a href ng-click="delete_conference(item)">删除</a></td>
+                </tr>
+                <tr ng-show="Is_KB_Conference_Add">
+                    <td><input ng-model="KB_Conference_Add.abbreviation" type="text" placeholder="请输入会议缩写"/></td>
+                    <td><input ng-model="KB_Conference_Add.full" type="text" placeholder="请输入会议全称"/></td>
+                    <td><a href ng-click="add_conference(KB_Conference_Add)">确定</a> | <a href ng-click="cancel_conference(KB_Conference_Add)">取消</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-md-12">
+            <table class="table">
+                <caption>会议缩写+年份-地点+编辑</caption>
+                <thead>
+                <tr>
+                    <th>会议缩写</th>
+                    <th>年份</th>
+                    <th>地点</th>
+                    <th>编辑</th>
+                    <th><a href ng-click="Is_KB_Conference_Year_Add = true;">添加</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in KB_Conference_Year_List">
+                    <td>{{item.abbreviation}}</td>
+                    <td>{{item.year}}</td>
+                    <td>{{item.location}}</td>
+                    <td>{{item.editor}}</td>
+                    <td><a href ng-click="delete_conference_year(item)">删除</a></td>
+                </tr>
+                <tr ng-show="Is_KB_Conference_Year_Add">
+                    <td><input type="text" ng-model="KB_Conference_Year_Add.abbreviation" placeholder="请输入会议缩写"/></td>
+                    <td><input type="text" ng-model="KB_Conference_Year_Add.year" placeholder="请输入年份"/></td>
+                    <td><input type="text" ng-model="KB_Conference_Year_Add.location" placeholder="请输入地点"/></td>
+                    <td><input type="text" ng-model="KB_Conference_Year_Add.editor" placeholder="请输入编辑"/></td>
+                    <td><a href ng-click="add_conference_year(KB_Conference_Year_Add)">确定</a> | <a href ng-click="cancel_conference_year(KB_Conference_Year_Add)">取消</a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

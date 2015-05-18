@@ -8,7 +8,7 @@
             <li><a ui-sref="showAllLiterature">资源</a></li>
             <li><a ui-sref="showFavorLiterature">收藏</a></li>
             <li><a ui-sref="showStatistics">统计</a></li>
-            <li><a ui-sref="showAllUser">管理</a> </li>
+            <li><a ui-sref="showAllUser" ng-show="$root.userPrivilege == 1">管理</a> </li>
         </ul>
         <ul class="nav navbar-nav navbar-right" ng-controller="userLoginCtrl">
             <li>
