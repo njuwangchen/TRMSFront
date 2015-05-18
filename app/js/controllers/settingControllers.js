@@ -9,10 +9,10 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
     $scope.isEdit_Comment = false;
     $scope.isEditTexts = "编辑";
 
-    $http.get('http://127.0.0.1:5000/api/v1/literatures/settings')
+    $http.get('http://121.40.106.155:5000/api/v1/literatures/settings')
 
     $scope.isEditTexts_RefType = "编辑";
-    $http.get('http://127.0.0.1:5000/api/v1/literatures/settings')
+    $http.get('http://121.40.106.155:5000/api/v1/literatures/settings')
 
         .success(function (data) {
             $scope.literatureTypes = data.literatureTypes
@@ -20,7 +20,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
             $scope.allFields = data.fields
             $scope.newLiteratureTypes = []
 
-            $http.get('http://127.0.0.1:5000/api/v1/settings')
+            $http.get('http://121.40.106.155:5000/api/v1/settings')
                 .success(function (data) {
                     $scope.configData = data;
                     //文献配置部分
@@ -42,7 +42,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
                     })
 
                     //评论配置部分
-                    $http.get('http://127.0.0.1:5000/api/v1/commentSettings')
+                    $http.get('http://121.40.106.155:5000/api/v1/commentSettings')
                         .success(function (data) {
                             $scope.commentFields = data;
                             $scope.commentFields.forEach(function (element) {
@@ -55,7 +55,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
                         });
 
                     //配置引用类型部分
-                    $http.get('http://127.0.0.1:5000/api/v1/refTypeSettings')
+                    $http.get('http://121.40.106.155:5000/api/v1/refTypeSettings')
                         .success(function (data) {
                             $scope.refTypeFields = data;
                             $scope.refTypeFields.forEach(function (element) {
@@ -106,7 +106,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         //$scope.configData['journalFields'] = journalFields;
         var newSetting = {"newSetting":$scope.configData,"newLiteratureTypes":$scope.newLiteratureTypes}
 
-        $http.post('http://127.0.0.1:5000/api/v1/settings',newSetting)
+        $http.post('http://121.40.106.155:5000/api/v1/settings',newSetting)
             .success(function (data) {
                 if(data=='success')
                 alert("保存配置成功！")
@@ -131,7 +131,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         $scope.newLiteratureTypes.push(typeTobeAdded)
         $scope.typeSelected = $scope.literatureTypes[$scope.literatureTypes.length-1]
 
-        $http.post('http://127.0.0.1:5000/api/v1/types',typeTobeAdded)
+        $http.post('http://121.40.106.155:5000/api/v1/types',typeTobeAdded)
             .success(function (data) {
                 alert("添加类型成功！")
             })
@@ -141,10 +141,10 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
     $scope.deleteLiteratureType = function () {
         alert("外键太多不好删除...")
 
-        //$http.delete("http://127.0.0.1:5000/api/v1/types/"+$scope.typeSelected.id)
+        //$http.delete("http://121.40.106.155:5000/api/v1/types/"+$scope.typeSelected.id)
         //    .success(function (data) {
         //        $scope.configData[$scope.typeSelected.name] = null;
-        //        $http.post('http://127.0.0.1:5000/api/v1/commentSettings',{"newSetting":$scope.configData});
+        //        $http.post('http://121.40.106.155:5000/api/v1/commentSettings',{"newSetting":$scope.configData});
         //        for(var i =0;i<$scope.literatureTypes.length;i++)
         //            if($scope.literatureTypes[i].name==$scope.typeSelected.name)
         //                $scope.literatureTypes.splice(i,1);
@@ -162,7 +162,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         });
 
         $scope.configData['commentFieldsIds'] = commentChanges;
-        $http.post('http://127.0.0.1:5000/api/v1/commentSettings',{"newSetting":$scope.configData})
+        $http.post('http://121.40.106.155:5000/api/v1/commentSettings',{"newSetting":$scope.configData})
             .success(function (data) {
                 if(data=='success')
                     alert("保存配置成功！")
@@ -181,7 +181,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         });
 
         $scope.configData['refTypesIds'] = refTypeChanges;
-        $http.post('http://127.0.0.1:5000/api/v1/refTypeSettings',{"newSetting":$scope.configData})
+        $http.post('http://121.40.106.155:5000/api/v1/refTypeSettings',{"newSetting":$scope.configData})
             .success(function (data) {
                 if(data=='success')
                     alert("保存配置成功！")
@@ -193,7 +193,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
 
     $scope.addCommentField = function () {
         var commentFieldAdded = {"type":2,"name":$scope.commentFieldNameAdded}
-        $http.post("http://127.0.0.1:5000/api/v1/attributes",commentFieldAdded)
+        $http.post("http://121.40.106.155:5000/api/v1/attributes",commentFieldAdded)
             .success(function (data) {
                 $scope.commentFields.push(data);
             })
@@ -201,7 +201,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
 
     $scope.addRefTypeField = function () {
         var refTypeAdded = {"type":3,"name":$scope.refTypeFieldNameAdded}
-        $http.post("http://127.0.0.1:5000/api/v1/attributes",refTypeAdded)
+        $http.post("http://121.40.106.155:5000/api/v1/attributes",refTypeAdded)
             .success(function (data) {
                 $scope.refTypeFields.push(data);
             })
@@ -215,7 +215,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         }else
         {
             $scope.commentFields.forEach(function (element) {
-                $http.put("http://127.0.0.1:5000/api/v1/attributes/"+element.id,element)
+                $http.put("http://121.40.106.155:5000/api/v1/attributes/"+element.id,element)
             });
             $scope.isEditTexts = "编辑"
         }
@@ -230,7 +230,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         }else
         {
             $scope.refTypeFields.forEach(function (element) {
-                $http.put("http://127.0.0.1:5000/api/v1/attributes/"+element.id,element)
+                $http.put("http://121.40.106.155:5000/api/v1/attributes/"+element.id,element)
             });
             $scope.isEditTexts_Ref = "编辑"
         }
@@ -244,7 +244,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         {
             if($scope.commentFields[i].selected)
             {
-                $http.delete("http://127.0.0.1:5000/api/v1/attributes/"+$scope.commentFields[i].id);
+                $http.delete("http://121.40.106.155:5000/api/v1/attributes/"+$scope.commentFields[i].id);
                 $scope.commentFields.splice(i,1);
             }
         }
@@ -255,7 +255,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
         {
             if($scope.refTypeFields[i].selected)
             {
-                $http.delete("http://127.0.0.1:5000/api/v1/attributes/"+$scope.refTypeFields[i].id);
+                $http.delete("http://121.40.106.155:5000/api/v1/attributes/"+$scope.refTypeFields[i].id);
                 $scope.refTypeFields.splice(i,1);
             }
         }
@@ -274,7 +274,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
     $scope.tagsDivided = [];
 
     //获取分组的tag
-    $http.get("http://127.0.0.1:5000/api/v1/tags")
+    $http.get("http://121.40.106.155:5000/api/v1/tags")
         .success(function (data) {
             $scope.allTags = data;
             $scope.tagTypes = [] ;
@@ -321,7 +321,7 @@ settingModule.controller('SettingCtrl',['$scope','$http','$modal', function ($sc
             tag.type = tagType;
             $scope.tagsDivided[tag.type].push(tag);
 
-            $http.put('http://127.0.0.1:5000/api/v1/tags/'+tag.id,tag).
+            $http.put('http://121.40.106.155:5000/api/v1/tags/'+tag.id,tag).
                 success(function (data) {
 
                 });
