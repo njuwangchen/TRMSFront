@@ -1,7 +1,7 @@
 var commentModule = angular.module('CommentModule', []);
 
 commentModule.factory('CommentService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/comments');
+    return $resource('http://127.0.0.1:5000/api/v1/comments');
 }]);
 
 commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'Time', 'CommentService', function ($scope, $rootScope, $stateParams, $http, Time, CommentService) {
@@ -19,10 +19,10 @@ commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams',
     $scope.attrsShown = [];
     $scope.attrmodels = [];
 
-    $http.get("http://121.40.106.155:5000/api/v1/commentSettings")
+    $http.get("http://127.0.0.1:5000/api/v1/commentSettings")
         .success(function (commentFields) {
             $scope.commentFields = commentFields;
-            $http.get('http://121.40.106.155:5000/api/v1/settings')
+            $http.get('http://127.0.0.1:5000/api/v1/settings')
                 .success(function (data) {
                     var commentFieldsIds = data['commentFieldsIds']
                     commentFieldsIds.forEach(function (element) {
@@ -35,7 +35,7 @@ commentModule.controller('CommentCtrl', ['$scope', '$rootScope', '$stateParams',
         })
 
     var updateCommentList = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/comments/query', $scope.commentQuery).
+        $http.post('http://127.0.0.1:5000/api/v1/comments/query', $scope.commentQuery).
             success(function (data) {
                 $scope.commentList = data;
             });

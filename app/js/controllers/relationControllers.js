@@ -1,27 +1,27 @@
 var relationModule = angular.module('RelationModule', []);
 
 relationModule.factory('Data_set_literature_service', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/data_set_literatures/:id');
+    return $resource('http://127.0.0.1:5000/api/v1/data_set_literatures/:id');
 }]);
 
 relationModule.factory('Code_literature_service', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/code_literatures/:id');
+    return $resource('http://127.0.0.1:5000/api/v1/code_literatures/:id');
 }]);
 
 relationModule.factory('Report_literature_service', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/report_literatures/:id');
+    return $resource('http://127.0.0.1:5000/api/v1/report_literatures/:id');
 }]);
 
 relationModule.factory('Report_code_service', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/report_codes/:id');
+    return $resource('http://127.0.0.1:5000/api/v1/report_codes/:id');
 }]);
 
 relationModule.factory('Report_data_set_service', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/report_data_sets/:id');
+    return $resource('http://127.0.0.1:5000/api/v1/report_data_sets/:id');
 }]);
 
 relationModule.factory('Cite_service', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/cites/:id');
+    return $resource('http://127.0.0.1:5000/api/v1/cites/:id');
 }]);
 
 relationModule.controller('Literature_data_set_controller', ['$scope', '$stateParams', '$modal', '$http', 'Data_set_literature_service', function ($scope, $stateParams, $modal, $http, Data_set_literature_service) {
@@ -32,7 +32,7 @@ relationModule.controller('Literature_data_set_controller', ['$scope', '$statePa
     $scope.data_set_list = [];
 
     $scope.update_data_set_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/data_set_literatures/query', {literature_id: literatureId}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/data_set_literatures/query', {literature_id: literatureId}).success(function (data) {
             $scope.data_set_list = data;
         });
     };
@@ -62,7 +62,7 @@ relationModule.controller('Literature_data_set_controller', ['$scope', '$statePa
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/data_set_literatures/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/data_set_literatures/del', {
             literature_id: $stateParams.id,
             data_set_id: id
         }).success(function (data) {
@@ -119,7 +119,7 @@ relationModule.controller('Literature_code_controller', ['$scope', '$stateParams
     $scope.code_list = [];
 
     $scope.update_code_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/code_literatures/query', {literature_id: literatureId}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/code_literatures/query', {literature_id: literatureId}).success(function (data) {
             $scope.code_list = data;
         });
     };
@@ -149,7 +149,7 @@ relationModule.controller('Literature_code_controller', ['$scope', '$stateParams
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/code_literatures/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/code_literatures/del', {
             literature_id: $stateParams.id,
             code_id: id
         }).success(function (data) {
@@ -211,14 +211,14 @@ relationModule.controller('Cite_controller', ['$scope', '$stateParams', '$modal'
     });
 
     $scope.update_cite_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/cites/query', {literature_id: literatureId}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/cites/query', {literature_id: literatureId}).success(function (data) {
             $scope.cite_list = data;
 
             var ids = new Array();
             for (var i = 0; i < data.length; i++) {
                 ids.push(data[i].cited_id);
             }
-            $http.post('http://121.40.106.155:5000/api/v1/literatures/batch', {ids: ids}).success(function (data) {
+            $http.post('http://127.0.0.1:5000/api/v1/literatures/batch', {ids: ids}).success(function (data) {
                 $scope.cite_literature_list = data;
             });
         });
@@ -268,7 +268,7 @@ relationModule.controller('Cite_modal_controller', ['$scope', '$modalInstance', 
         $scope.citeList = result;
     });
 
-    $http.post('http://121.40.106.155:5000/api/v1/types/query', {name: "", type_id: 3}).
+    $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 3}).
         success(function (data) {
             $scope.cite_type_list = data;
             $scope.selectedType = $scope.cite_type_list[0];
@@ -325,14 +325,14 @@ relationModule.controller('Cited_controller', ['$scope', '$stateParams', '$modal
     });
 
     $scope.update_cited_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/cites/query', {cited_id: literatureId}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/cites/query', {cited_id: literatureId}).success(function (data) {
             $scope.cited_list = data;
 
             var ids = new Array();
             for (var i = 0; i < data.length; i++) {
                 ids.push(data[i].literature_id);
             }
-            $http.post('http://121.40.106.155:5000/api/v1/literatures/batch', {ids: ids}).success(function (data) {
+            $http.post('http://127.0.0.1:5000/api/v1/literatures/batch', {ids: ids}).success(function (data) {
                 $scope.cited_literature_list = data;
             });
         });
@@ -382,7 +382,7 @@ relationModule.controller('Cited_modal_controller', ['$scope', '$modalInstance',
         $scope.citedList = result;
     });
 
-    $http.post('http://121.40.106.155:5000/api/v1/types/query', {name: "", type_id: 3}).
+    $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 3}).
         success(function (data) {
             $scope.cite_type_list = data;
             $scope.selectedType = $scope.cite_type_list[0];
@@ -433,7 +433,7 @@ relationModule.controller('Data_set_literature_controller', ['$scope', '$statePa
     $scope.literature_list = [];
 
     $scope.update_literature_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/data_set_literatures/query', {data_set_id: data_set_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/data_set_literatures/query', {data_set_id: data_set_id}).success(function (data) {
             $scope.literature_list = data;
         });
     };
@@ -462,7 +462,7 @@ relationModule.controller('Data_set_literature_controller', ['$scope', '$statePa
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/data_set_literatures/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/data_set_literatures/del', {
             literature_id: id,
             data_set_id: $stateParams.id
         }).success(function (data) {
@@ -522,7 +522,7 @@ relationModule.controller('Code_literature_controller', ['$scope', '$stateParams
     $scope.literature_list = [];
 
     $scope.update_literature_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/code_literatures/query', {code_id: code_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/code_literatures/query', {code_id: code_id}).success(function (data) {
             $scope.literature_list = data;
         });
     };
@@ -552,7 +552,7 @@ relationModule.controller('Code_literature_controller', ['$scope', '$stateParams
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/code_literatures/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/code_literatures/del', {
             literature_id: id,
             code_id: $stateParams.id
         }).success(function (data) {
@@ -611,7 +611,7 @@ relationModule.controller('Report_data_set_controller', ['$scope', '$stateParams
     $scope.data_set_list = [];
 
     $scope.update_data_set_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/report_data_sets/query', {report_id: report_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/report_data_sets/query', {report_id: report_id}).success(function (data) {
             $scope.data_set_list = data;
         });
     };
@@ -641,7 +641,7 @@ relationModule.controller('Report_data_set_controller', ['$scope', '$stateParams
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/report_data_sets/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/report_data_sets/del', {
             report_id: $stateParams.id,
             data_set_id: id
         }).success(function (data) {
@@ -698,7 +698,7 @@ relationModule.controller('Report_code_controller', ['$scope', '$stateParams', '
     $scope.code_list = [];
 
     $scope.update_code_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/report_codes/query', {report_id: report_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/report_codes/query', {report_id: report_id}).success(function (data) {
             $scope.code_list = data;
         });
     };
@@ -728,7 +728,7 @@ relationModule.controller('Report_code_controller', ['$scope', '$stateParams', '
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/report_codes/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/report_codes/del', {
             report_id: $stateParams.id,
             code_id: id
         }).success(function (data) {
@@ -785,7 +785,7 @@ relationModule.controller('Report_literature_controller', ['$scope', '$statePara
     $scope.literature_list = [];
 
     $scope.update_literature_list = function () {
-        $http.post('http://121.40.106.155:5000/api/v1/report_literatures/query', {report_id: report_id}).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/report_literatures/query', {report_id: report_id}).success(function (data) {
             $scope.literature_list = data;
         });
     };
@@ -815,7 +815,7 @@ relationModule.controller('Report_literature_controller', ['$scope', '$statePara
     };
 
     $scope.delete = function (id) {
-        $http.post('http://121.40.106.155:5000/api/v1/report_literatures/del', {
+        $http.post('http://127.0.0.1:5000/api/v1/report_literatures/del', {
             literature_id: id,
             report_id: $stateParams.id
         }).success(function (data) {

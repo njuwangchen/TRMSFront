@@ -4,7 +4,7 @@
 var codeModule = angular.module('codeModule', ['tagModule']);
 
 codeModule.factory('codeService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/codes/:codeId', {codeId: '@id'}, {
+    return $resource('http://127.0.0.1:5000/api/v1/codes/:codeId', {codeId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -55,7 +55,7 @@ codeModule.controller('codeListCtrl', ['$scope', '$http', '$modal', 'codeService
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://121.40.106.155:5000/api/v1/codes/query', query).
+            $http.post('http://127.0.0.1:5000/api/v1/codes/query', query).
                 success(function (data) {
                     $scope.codeList = data;
                 });
@@ -96,7 +96,7 @@ codeModule.controller('codeAddCtrl', ['$scope', '$rootScope', '$state', '$modal'
             console.log("add successful");
             for (var i = 0; i < $scope.allTags.length; i++) {
                 if ($scope.allTags[i]['selected'])
-                    $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
+                    $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                         "tag_id": $scope.allTags[i]['id'],
                         "resource_id": data.id,
                         "type": 5
@@ -117,7 +117,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
     codeService.get({codeId: id}, function (data) {
         $scope.currentId = data.id;
         $scope.code = data;
-        $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type": 5})
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type": 5})
             .success(function (data) {
                 $scope.tag_res = data;
                 $scope.tagIds = [];
@@ -125,10 +125,10 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
                     $scope.tagIds.push(single_tag_res.tag_id)
                 });
 
-                $http.get("http://121.40.106.155:5000/api/v1/tags")
+                $http.get("http://127.0.0.1:5000/api/v1/tags")
                     .success(function (data) {
                         $scope.allTags = data;
-                        $http.post("http://121.40.106.155:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
+                        $http.post("http://127.0.0.1:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
                             .success(function (data) {
                                 $scope.tags = data;
 
@@ -185,7 +185,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
             });
 
             if (not_found_in_tags_existed && $scope.allTags[i]['selected']) {
-                $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
+                $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.code.id,
                     "type": 5
@@ -195,7 +195,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
                 $scope.tag_res.forEach(function (element) {
                     if (element.tag_id == $scope.allTags[i]['id'] && element.type == 5) {
-                        $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
+                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
                         for (var j = 0; j < $scope.tags.length; j++)
                             if ($scope.tags[j]['id'] == element['tag_id']) {
                                 console.log("delete tag");
@@ -208,7 +208,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
             }
         }
 
-        $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {"resource_id": $scope.code.id, "type": 5})
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": $scope.code.id, "type": 5})
             .success(function (data) {
                 $scope.tag_res = data;
             });
