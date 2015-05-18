@@ -7,7 +7,7 @@ literatureModule.config(['$compileProvider',
 
 
 literatureModule.factory('LiteratureService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/literatures/:literatureId', {literatureId: '@id'}, {
+    return $resource('http://127.0.0.1:5000/api/v1/literatures/:literatureId', {literatureId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -15,7 +15,7 @@ literatureModule.factory('LiteratureService', ['$resource', function ($resource)
 }]);
 
 literatureModule.factory('VideoService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/videos/:videoId', {videoId: '@id'}, {
+    return $resource('http://127.0.0.1:5000/api/v1/videos/:videoId', {videoId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -23,7 +23,7 @@ literatureModule.factory('VideoService', ['$resource', function ($resource) {
 }]);
 
 literatureModule.factory('PptService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/ppts/:pptId', {pptId: '@id'}, {
+    return $resource('http://127.0.0.1:5000/api/v1/ppts/:pptId', {pptId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -77,7 +77,7 @@ literatureModule.controller('LiteratureListCtrl', ['$scope', '$rootScope', '$mod
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://121.40.106.155:5000/api/v1/literatures/fuzzysearch', query).
+            $http.post('http://127.0.0.1:5000/api/v1/literatures/fuzzysearch', query).
                 success(function (data) {
                     $scope.literatureList = data;
                 });
@@ -95,12 +95,12 @@ literatureModule.controller('LiteratureQueryCtrl', ['$scope', '$modalInstance', 
         $scope.allTags = data;
     });
 
-    //$scope.judgeSelected = function (item) {
-    //    if (item.selected)
-    //        return true;
-    //    else
-    //        return false;
-    //}
+    $scope.judgeSelected = function (item) {
+        if (item.selected)
+            return true;
+        else
+            return false;
+    }
 
     $scope.submit = function () {
         for (var i = 0; i < $scope.allTags.length; i++) {
@@ -128,17 +128,42 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
         return false;
     }
 
+    $scope.tagsDivided = [];
+
+    //获取分组的tag
+    $http.get("http://127.0.0.1:5000/api/v1/tags")
+        .success(function (data) {
+            $scope.allTags = data;
+            $scope.tagTypes = [];
+            $scope.allTags.forEach(function (tag) {
+                if ($scope.tagsDivided[tag.type] == null) {
+                    $scope.tagsDivided[tag.type] = new Array();
+                    $scope.tagsDivided[tag.type].push(tag);
+                }
+                else {
+                    $scope.tagsDivided[tag.type].push(tag);
+                }
+
+
+                if ($scope.tagTypes.contains(tag.type))
+                    ;
+                else
+                    $scope.tagTypes.push(tag.type);
+            })
+
+        });
+
     $scope.freshViews = function () {
         $scope.fieldsToBeShowed = $scope.configData[$scope.selectedType.name]
     }
 
     //read settings
-    $http.get('http://121.40.106.155:5000/api/v1/settings')
+    $http.get('http://127.0.0.1:5000/api/v1/settings')
         .success(function (data) {
             $scope.configData = data;
         });
 
-    $http.post('http://121.40.106.155:5000/api/v1/types/query', {name: "", type_id: 1}).
+    $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: 1}).
         success(function (data) {
             $scope.literatureTypeList = data;
             $scope.selectedType = $scope.literatureTypeList[0];
@@ -157,15 +182,36 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
     $scope.literature = {};
 
     $scope.save = function () {
+        console.log($scope.tagsDivided)
         LiteratureService.save($scope.literature, function (data) {
+
             for (var i = 0; i < $scope.allTags.length; i++) {
                 if ($scope.allTags[i]['selected'])
-                    $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
+                    $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                         "tag_id": $scope.allTags[i]['id'],
                         "resource_id": data.id,
                         "type": 1
                     })
             }
+
+            $scope.tagsDivided.forEach(function (tagGroup) {
+                tagGroup.forEach(function (element) {
+                    if (element.selected)
+                        $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                            "tag_id": element.id,
+                            "resource_id": data.id,
+                            "type": 1
+                        })
+                })
+            })
+            //for (var i = 0; i < $scope.allTags.length; i++) {
+            //    if ($scope.allTags[i]['selected'])
+            //        $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+            //            "tag_id": $scope.allTags[i]['id'],
+            //            "resource_id": data.id,
+            //            "type": 1
+            //        })
+            //}
             $state.go('viewLiterature', {id: data.id});
         });
     };
@@ -192,7 +238,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
     function KB_Conference(abbreviation) {
         var query = {};
         query.abbreviation = abbreviation;
-        $http.post('http://121.40.106.155:5000/api/v1/kb_conference/query', query).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/kb_conference/query', query).success(function (data) {
             $scope.literature.publisher = data.full;
             $scope.save();
         }).error(function (data) {
@@ -204,7 +250,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
         var query = {};
         query.abbreviation = abbreviation;
         query.year = year;
-        $http.post('http://121.40.106.155:5000/api/v1/kb_conference_year/query', query).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/kb_conference_year/query', query).success(function (data) {
             $scope.literature.location = data.location;
             $scope.literature.editor = data.editor;
             $scope.save();
@@ -216,7 +262,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
     function KB_Journal(abbreviation) {
         var query = {};
         query.abbreviation = abbreviation;
-        $http.post('http://121.40.106.155:5000/api/v1/kb_journal/query', query).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/kb_journal/query', query).success(function (data) {
             $scope.literature.publisher = data.full;
             $scope.save();
         }).error(function (data) {
@@ -229,7 +275,7 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
         query.abbreviation = abbreviation;
         query.year = year;
         query.issue = issue;
-        $http.post('http://121.40.106.155:5000/api/v1/kb_journal_year_issue/query', query).success(function (data) {
+        $http.post('http://127.0.0.1:5000/api/v1/kb_journal_year_issue/query', query).success(function (data) {
             $scope.literature.editor = data.editor;
             $scope.save();
         }).error(function (data) {
@@ -249,22 +295,71 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
 
     var id = $stateParams.id;
 
+    $scope.freshViews = function () {
+        $scope.fieldsToBeShowed = $scope.configData[$scope.selectedType.name]
+    }
+
+
+    Array.prototype.contains = function (element) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //$scope.tagsDivided = [];
+    //
+    ////获取分组的tag
+    //$http.get("http://127.0.0.1:5000/api/v1/tags")
+    //    .success(function (data) {
+    //        $scope.allTags = data;
+    //        $scope.tagTypes = [] ;
+    //        $scope.allTags.forEach(function (tag) {
+    //            if($scope.tagsDivided[tag.type] == null)
+    //            {
+    //                $scope.tagsDivided[tag.type] = new Array();
+    //                $scope.tagsDivided[tag.type].push(tag);
+    //            }
+    //            else
+    //            {
+    //                $scope.tagsDivided[tag.type].push(tag);
+    //            }
+    //
+    //            if($scope.tagTypes.contains(tag.type))
+    //                ;
+    //            else
+    //                $scope.tagTypes.push(tag.type);
+    //        })
+    //
+    //    });
+
+
+    //read settings
+    $http.get('http://127.0.0.1:5000/api/v1/settings')
+        .success(function (data) {
+            $scope.configData = data;
+        });
+
+
     LiteratureService.get({literatureId: id}, function (data) {
         $scope.literature = data;
 
-        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name: "", type_id: $scope.currentType}).
+        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name: "", type_id: $scope.currentType}).
             success(function (data) {
                 $scope.literatureTypeList = data;
 
                 for (var i = 0; i < $scope.literatureTypeList.length; i++) {
                     if ($scope.literatureTypeList[i].id == $scope.literature.literature_type_id) {
                         $scope.selectedType = $scope.literatureTypeList[i];
+                        $scope.fieldsToBeShowed = $scope.configData[$scope.selectedType.name];
                         break;
                     }
                 }
             });
 
-        $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {
+        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {
             "resource_id": data.id,
             "type": $scope.currentType
         })
@@ -275,10 +370,10 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                     $scope.tagIds.push(single_tag_res.tag_id)
                 });
 
-                $http.get("http://121.40.106.155:5000/api/v1/tags")
+                $http.get("http://127.0.0.1:5000/api/v1/tags")
                     .success(function (data) {
                         $scope.allTags = data;
-                        $http.post("http://121.40.106.155:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
+                        $http.post("http://127.0.0.1:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
                             .success(function (data) {
                                 $scope.tags = data;
 
@@ -289,17 +384,42 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                                     });
                                 });
 
-                                //$scope.tagsDivided = [];
+                                $scope.tagsDividedShown = [];
+                                $scope.tagsDivided = [];
+                                $scope.tagTypes = [];
+                                $scope.tagTypesShown = [];
 
-                                //$scope.allTags.forEach(function (element) {
-                                //    if($scope.tagsDivided[element.type]==null)
-                                //    {
-                                //        $scope.tagsDivided[element.type] = [];
-                                //        $scope.tagsDivided[element.type].push(element);
-                                //    }
-                                //    else
-                                //        $scope.tagsDivided[element.type].push(element);
-                                //});
+                                $scope.allTags.forEach(function (element) {
+                                    if (element.selected) {
+                                        if ($scope.tagsDividedShown[element.type] == null) {
+                                            $scope.tagsDividedShown[element.type] = [];
+                                            $scope.tagsDividedShown[element.type].push(element);
+                                        }
+                                        else
+                                            $scope.tagsDividedShown[element.type].push(element);
+
+                                        if ($scope.tagTypesShown.contains(element.type))
+                                            ;
+                                        else
+                                            $scope.tagTypesShown.push(element.type);
+                                    }
+
+
+                                    if ($scope.tagsDivided[element.type] == null) {
+                                        $scope.tagsDivided[element.type] = [];
+                                        $scope.tagsDivided[element.type].push(element);
+                                    }
+                                    else
+                                        $scope.tagsDivided[element.type].push(element);
+
+                                    if ($scope.tagTypes.contains(element.type))
+                                        ;
+                                    else
+                                        $scope.tagTypes.push(element.type);
+
+                                });
+
+                                console.log($scope.tagsDividedShown);
                             });
                     });
 
@@ -307,7 +427,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
     });
 
     $scope.delete = function () {
-        $scope.literature.$delete(function(){
+        $scope.literature.$delete(function () {
             $state.go('showAllLiterature');
         });
     };
@@ -342,6 +462,14 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
             $scope.isEdit = !$scope.isEdit;
         });
 
+        //$scope.allTags = [];
+
+        //$scope.tagsDivided.forEach(function (tagGroup) {
+        //    tagGroup.foreach(function (tag) {
+        //        $scope.allTags.push(tag);
+        //    })
+        //})
+
         for (var i = 0; i < $scope.allTags.length; i++) {
             var not_found_in_tags_existed = true;
             $scope.tags.forEach(function (tag_existed) {
@@ -350,43 +478,70 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
             });
 
             if (not_found_in_tags_existed && $scope.allTags[i]['selected']) {
-                $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
+                $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.literature.id,
                     "type": $scope.currentType
                 });
                 $scope.tags.push($scope.allTags[i]);
+                if ($scope.tagsDividedShown[$scope.allTags[i].type]) {
+                    $scope.tagsDividedShown[$scope.allTags[i].type].push($scope.allTags[i]);
+                    $scope.tagTypesShown.push($scope.allTags[i].type);
+                }
+                else {
+                    $scope.tagsDividedShown[$scope.allTags[i].type] = [];
+                    $scope.tagsDividedShown[$scope.allTags[i].type].push($scope.allTags[i]);
+                    $scope.tagTypesShown.push($scope.allTags[i].type);
+                }
             }
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
                 $scope.tag_res.forEach(function (element) {
                     if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
-                        $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
+                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
                         for (var j = 0; j < $scope.tags.length; j++)
                             if ($scope.tags[j]['id'] == element['tag_id']) {
                                 console.log("delete tag")
                                 console.log($scope.tags[j]['name']);
                                 $scope.tags.splice(j, 1);
                                 break;
+
+                                $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id))
+                                $scope.tagsDividedShown[$scope.allTags[i].type].forEach(function (tag) {
+                                    if (tag.id == element.tag_id) {
+                                        var m = $scope.tagsDividedShown[$scope.allTags[i].type].indexOf(tag);
+                                        $scope.tagsDividedShown[$scope.allTags[i].type].splice(m, 1);
+                                        if ($scope.tagsDividedShown[$scope.allTags[i].type].length == 0) {
+                                            var n = $scope.tagTypesShown.indexOf($scope.allTags[i].type);
+                                            $scope.tagTypesShown.splice(n, 1);
+                                        }
+                                    }
+
+                                });
+
                             }
                     }
-                })
+                    }
+                    )
+                }
             }
+
+            $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {
+                "resource_id": $scope.literature.id,
+                "type": $scope.currentType
+            })
+                .success(function (data) {
+                    $scope.tag_res = data;
+                });
         }
+        ;
 
-        $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {
-            "resource_id": $scope.literature.id,
-            "type": $scope.currentType
-        })
+        $http.post("http://127.0.0.1:5000/api/v1/literatures/export", {'id': id})
             .success(function (data) {
-                $scope.tag_res = data;
-            });
-    };
+                var content = data;
+                var blob = new Blob([content], {type: 'text/plain'});
+                $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+            })
 
-    $http.post("http://121.40.106.155:5000/api/v1/literatures/export", {'id': id})
-        .success(function (data) {
-            var content = data;
-            var blob = new Blob([content], {type: 'text/plain'});
-            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-        })
-
-}]);
+    }
+    ])
+    ;

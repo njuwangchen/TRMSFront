@@ -200,15 +200,6 @@
         </div>
     </div>
 
-    <accordion close-others="oneAtATime">
-        <accordion-group heading="Dynamic Body Content" ng-repeat="tags in tagsDivided">
-            <p>The body of the accordion group grows to fit the contents</p>
-            <label  class="checkbox-inline" ng-repeat="tag in tags">
-                <input type="checkbox" ng-model="tag.selected">
-                {{tag.name}}
-            </label>
-        </accordion-group>
-    </accordion>
 
     <!--<div class="form-group">-->
         <!--<label class="col-md-2 control-label">标签</label>-->
@@ -223,6 +214,21 @@
             <!--</label>-->
         <!--</div>-->
     <!--</div>-->
+    <div class="col-md-12">
+        <div ng-repeat="tagType in tagTypes">
+            <div class="col-md-2">
+                <label>{{tagType}}</label>
+            </div>
+            <div class="col-md-10">
+                <div class="col-md-3" ng-repeat="tag in tagsDivided[tagType]">
+                    <label  class="checkbox-inline" >
+                        <input type="checkbox" ng-model="tag.selected">
+                        {{tag.name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">

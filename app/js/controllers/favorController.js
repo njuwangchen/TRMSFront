@@ -313,7 +313,6 @@ favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,
         });
 
     $scope.addFavor = function () {
-        console.log($rootScope.favorites);
         var modalInstance = $modal.open({
             templateUrl:"partial/showAndAddFavorites.html",
             controller:'addFavorCtrlModalInstance',

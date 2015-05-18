@@ -163,10 +163,17 @@
 <div class="row">
     <h4>
         <span class="col-md-2 label-default label">标签</span>
-            <span class="col-md-10">
-                <div class="row">
-                    <label ng-repeat="tag in tags" class="col-md-2">{{tag.name}}</label>
+        <div class="col-md-12">
+            <div ng-repeat="tagType in tagTypesShown">
+                <div class="col-md-2">
+                    <label class="btn-primary">{{tagType}}</label>
                 </div>
-            </span>
+                <div class="col-md-10">
+                    <div class="col-md-3" ng-repeat="tag in tagsDividedShown[tagType]">
+                        <label>{{tag.name}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </h4>
 </div>
