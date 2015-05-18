@@ -86,30 +86,63 @@
 
     <div class="row">
         <div class="col-md-4">
-            <h4><strong>引用配置</strong></h4>
+            <h4><strong>详细引用类型配置</strong></h4>
         </div>
         <div class="col-md-3">
-            <a class="btn btn-primary">编辑</a>
-            <a class="btn btn-primary pull-right">删除已选中类型</a>
+            <a class="btn btn-primary" ng-click="editRefType()">{{isEditTexts_RefType}}</a>
+            <a class="btn btn-primary pull-right" ng-click="deleteRefTypeField()">删除已选中属性</a>
         </div>
-        <div class="col-md-3">
-            <input type="text"  class="form-control" id="citeType" placeholder="请输入类型">
+        <div class="col-md-3 ">
+            <input type="text"  class="form-control" id="refType" ng-model="refTypeFieldNameAdded" placeholder="请输入属性">
         </div>
         <div class="col-md-1">
-            <a class="btn btn-primary pull-right">添加</a>
+            <a class="btn btn-primary pull-right" ng-click="addRefTypeField()">添加</a>
         </div>
     </div>
-    <div class="col-md-10">
-        <h5>可选择的引用类型：</h5>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="cite1"> 提及
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="cite2"> 同意
-        </label>
+
+
+    <div>
+        <div class="col-md-10">
+            <h5>可选择的引用类型：</h5>
+            <label class="checkbox-inline" ng-show="!isEdit_RefType" ng-repeat="refTypeField in refTypeFields">
+                <input type="checkbox" ng-model="refTypeField.selected"> {{refTypeField.name}}
+            </label>
+            <form class="form-inline" ng-show="isEdit_RefType">
+                <div class="form-group" ng-repeat="refTypeField in refTypeFields">
+                    <input type="text" class="form-control" ng-model="refTypeField.name">
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-2">
+            <a class="btn btn-primary" ng-click="saveRefTypeChanges()">保存配置</a>
+        </div>
+
+        <div class="col-md-12">
+            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3>
+        </div>
     </div>
 
-    <div class="col-md-2">
-        <a class="btn btn-primary">保存配置</a>
+    <div class="row">
+        <div class="col-md-4">
+            <h4><strong>便签类型配置(点击便签配置类型)</strong></h4>
+        </div>
+        <!--<div class="col-md-2 col-md-offset-6">-->
+            <!--<a class="btn btn-primary" ng-click="">保存配置</a>-->
+        <!--</div>-->
     </div>
+    <div class="col-md-12">
+        <div ng-repeat="tagType in tagTypes">
+            <div class="col-md-2">
+                <label>{{tagType}}</label>
+            </div>
+            <div class="col-md-10">
+                <div class="col-md-2" ng-repeat="tag in tagsDivided[tagType]">
+                    <a class="btn" ng-click="changeTagType(tag)">{{tag.name}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
