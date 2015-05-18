@@ -1,7 +1,7 @@
 var userModule = angular.module('userModule', ['ui.bootstrap']);
 
 userModule.factory('userService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/users/:userId', {userId: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/users/:userId', {userId: '@id'}, {
         update: {
             method: 'PUT'
         }

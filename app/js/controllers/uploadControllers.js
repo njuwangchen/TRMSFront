@@ -1,7 +1,7 @@
 var uploadModule = angular.module('UploadModule', []);
 
 uploadModule.factory('personalizeService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/personalize/:personalizeId', {personalizeId: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/personalize/:personalizeId', {personalizeId: '@id'}, {
             update: {
                 method: 'PUT'
             }
@@ -83,7 +83,7 @@ uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', '
     ];
 
     $scope.getVideos = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.videoFiles = data;
 
@@ -94,7 +94,7 @@ uploadModule.controller('VideoUploadCtrl', ['$scope', '$stateParams', '$http', '
     };
 
     $scope.uploaded = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/videos/query', {literature_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.videoFiles = data;
 
@@ -144,7 +144,7 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Pp
     ];
 
     $scope.getPpts = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.pptFiles = data;
 
@@ -155,7 +155,7 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Pp
     };
 
     $scope.uploaded = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/ppts/query', {literature_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.pptFiles = data;
 
@@ -334,7 +334,7 @@ uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams',
     ];
 
     $scope.getReportattachments = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.reportattachmentFiles = data;
 
@@ -345,7 +345,7 @@ uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams',
     };
 
     $scope.uploaded = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/report_attachments/query', {report_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.reportattachmentFiles = data;
 
@@ -395,7 +395,7 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
     ];
 
     $scope.getReportrecordings = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.reportrecordingFiles = data;
 
@@ -406,7 +406,7 @@ uploadModule.controller('reportrecordingUploadCtrl', ['$scope', '$stateParams', 
     };
 
     $scope.uploaded = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
+        $http.post('http://121.40.106.155:5000/api/v1/report_recordings/query', {report_id: $stateParams.id}).
             success(function (data, status, headers, config) {
                 $scope.reportrecordingFiles = data;
 
@@ -448,7 +448,7 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
         'user_id': $rootScope.userId
     };
 
-    $http.post("http://127.0.0.1:5000/api/v1/personalize/query", {
+    $http.post("http://121.40.106.155:5000/api/v1/personalize/query", {
         literature_id: $stateParams.id,
         user_id: $rootScope.userId
     })
@@ -461,7 +461,7 @@ uploadModule.controller('LiteraturePersonalizedUploadCtrl', ['$scope', '$statePa
         });
 
     $scope.uploaded = function () {
-        $http.post('http://127.0.0.1:5000/api/v1/personalize/query', {
+        $http.post('http://121.40.106.155:5000/api/v1/personalize/query', {
             literature_id: $stateParams.id,
             user_id: $rootScope.userId
         })

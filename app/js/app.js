@@ -30,7 +30,7 @@ routerApp.run(function ($rootScope, $state, $stateParams, authenticationSvc) {
 
 routerApp.factory('RootURL', function () {
     var rootURL = function getRootURL() {
-        return 'http://127.0.0.1:5000';
+        return 'http://121.40.106.155:5000';
     };
     return {
         rootURL: rootURL()
@@ -86,7 +86,7 @@ routerApp.factory("authenticationSvc", function ($http, $q, $window, $rootScope)
     function login(userName, password) {
         var deferred = $q.defer();
 
-        $http.post("http://127.0.0.1:5000/api/v1/users/login", {
+        $http.post("http://121.40.106.155:5000/api/v1/users/login", {
             username: userName,
             password: password
         }).then(function (result) {

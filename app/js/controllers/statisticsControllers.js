@@ -54,7 +54,7 @@ statisticsModule.controller('statisticsCtrl', ['$scope', 'userService', '$http',
     }
 
     function count(days){
-        $http.get('http://127.0.0.1:5000/api/v1/statistics/'+ days)
+        $http.get('http://121.40.106.155:5000/api/v1/statistics/'+ days)
             .success(function(data){
                 $scope.statisticsList = data;
             });
@@ -165,10 +165,10 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
     $scope.literatureList = [];
 
     $scope.getDetails = function (userId, days){
-        $http.post('http://127.0.0.1:5000/api/v1/literatures/query', {creator_id: userId})
+        $http.post('http://121.40.106.155:5000/api/v1/literatures/query', {creator_id: userId})
                         .success(function (data) {
                 literatureList = data;
-                $http.post('http://127.0.0.1:5000/api/v1/literatures/query', {updater_id: userId})
+                $http.post('http://121.40.106.155:5000/api/v1/literatures/query', {updater_id: userId})
                     .success(function(data){
                         literatureList.concat(literatureList, data);
                         $scope.updateLiteratureList(days);
@@ -265,10 +265,10 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
     $scope.dataSetList = [];
 
     $scope.getDetails = function (userId, days){
-        $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', {creator_id: userId})
+        $http.post('http://121.40.106.155:5000/api/v1/data_sets/query', {creator_id: userId})
                         .success(function (data) {
                 dataSetList = data;
-                $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', {updater_id: userId})
+                $http.post('http://121.40.106.155:5000/api/v1/data_sets/query', {updater_id: userId})
                     .success(function(data){
                         dataSetList.concat(dataSetList, data);
                         $scope.updateDataSetList(days);
@@ -360,10 +360,10 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
     $scope.codeList = [];
 
     $scope.getDetails = function (userId, days){
-        $http.post('http://127.0.0.1:5000/api/v1/codes/query', {creator_id: userId})
+        $http.post('http://121.40.106.155:5000/api/v1/codes/query', {creator_id: userId})
                         .success(function (data) {
                 codeList = data;
-                $http.post('http://127.0.0.1:5000/api/v1/codes/query', {updater_id: userId})
+                $http.post('http://121.40.106.155:5000/api/v1/codes/query', {updater_id: userId})
                     .success(function(data){
                         codeList.concat(codeList, data);
                         $scope.updateCodeList(days);
@@ -455,10 +455,10 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
     $scope.reportList = [];
 
     $scope.getDetails = function (userId, days){
-        $http.post('http://127.0.0.1:5000/api/v1/reports/query', {creator_id: userId})
+        $http.post('http://121.40.106.155:5000/api/v1/reports/query', {creator_id: userId})
                         .success(function (data) {
                 reportList = data;
-                $http.post('http://127.0.0.1:5000/api/v1/reports/query', {updater_id: userId})
+                $http.post('http://121.40.106.155:5000/api/v1/reports/query', {updater_id: userId})
                     .success(function(data){
                         reportList.concat(reportList, data);
                         $scope.updateReportList(days);
@@ -552,7 +552,7 @@ statisticsModule.controller('simpleComment_modal_controller', ['$scope', '$modal
     $scope.commentList = [];
 
     $scope.getDetails = function(userId, days){
-        $http.post('http://127.0.0.1:5000/api/v1/comments/query', {commenter_id: userId}).success(function(data){
+        $http.post('http://121.40.106.155:5000/api/v1/comments/query', {commenter_id: userId}).success(function(data){
             commentList = data;
             var today=new Date();
             today = today.setDate(today.getDate()-days);
@@ -614,7 +614,7 @@ statisticsModule.controller('complexComment_modal_controller', ['$scope', '$moda
     $scope.commentList = [];
 
     $scope.getDetails = function(userId, days){
-        $http.post('http://127.0.0.1:5000/api/v1/comments/query', {commenter_id: userId}).success(function(data){
+        $http.post('http://121.40.106.155:5000/api/v1/comments/query', {commenter_id: userId}).success(function(data){
             commentList = data;
             var today=new Date();
             today = today.setDate(today.getDate()-days);

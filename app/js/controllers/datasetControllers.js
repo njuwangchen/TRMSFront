@@ -4,7 +4,7 @@
 var datasetModule = angular.module('datasetModule',['tagModule']);
 
 datasetModule.factory('datasetService',['$resource',function($resource){
-    return $resource('http://127.0.0.1:5000/api/v1/data_sets/:datasetId', {datasetId: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/data_sets/:datasetId', {datasetId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -56,7 +56,7 @@ datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datase
 
         queryModalInstance.result.then(function (query) {
             console.log(query);
-            $http.post('http://127.0.0.1:5000/api/v1/data_sets/query', query).
+            $http.post('http://121.40.106.155:5000/api/v1/data_sets/query', query).
                 success(function (data) {
                     $scope.datasetList = data;
                 });
@@ -72,7 +72,7 @@ datasetModule.controller('datasetQueryCtrl', ['$scope', '$http', '$modalInstance
     $scope.dataset = {};
 
     $scope.getDataSetTypes = function(){
-        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
+        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = 0;
@@ -97,7 +97,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$rootScope', '$http', '$s
     $scope.dataSetTypeList = [];
 
     $scope.getDataSetTypes = function(){
-        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
+        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = $scope.dataSetTypeList[0];
@@ -121,7 +121,7 @@ datasetModule.controller('datasetAddCtrl', ['$scope', '$rootScope', '$http', '$s
 
             for (var i = 0; i < $scope.allTags.length; i++) {
                 if ($scope.allTags[i]['selected'])
-                    $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                    $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
                         "tag_id": $scope.allTags[i]['id'],
                         "resource_id": data.id,
                         "type": 4
@@ -142,7 +142,7 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$
     var id = $stateParams.id;
 
     $scope.getDataSetTypes = function(){
-        $http.post('http://127.0.0.1:5000/api/v1/types/query', {name:"", type_id: 2}).
+        $http.post('http://121.40.106.155:5000/api/v1/types/query', {name:"", type_id: 2}).
             success(function(data, status, headers, config){
                 $scope.dataSetTypeList = data;
                 $scope.selectedType = $scope.dataSetTypeList[0];
@@ -153,7 +153,7 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$
     datasetService.get({datasetId:id}, function (data) {
         $scope.dataset = data;
 
-        $http.post("http://127.0.0.1:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type": $scope.currentType})
+        $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {"resource_id": data.id, "type": $scope.currentType})
             .success(function (data) {
                 $scope.tag_res = data;
                 $scope.tagIds = [];
@@ -161,10 +161,10 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$
                     $scope.tagIds.push(single_tag_res.tag_id)
                 })
 
-                $http.get("http://127.0.0.1:5000/api/v1/tags")
+                $http.get("http://121.40.106.155:5000/api/v1/tags")
                     .success(function (data) {
                         $scope.allTags = data;
-                        $http.post("http://127.0.0.1:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
+                        $http.post("http://121.40.106.155:5000/api/v1/tags/batch", {"ids": $scope.tagIds})
                             .success(function (data) {
                                 $scope.tags = data;
 
@@ -223,7 +223,7 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$
             });
 
             if (not_found_in_tags_existed && $scope.allTags[i]['selected'] ) {
-                $http.post('http://127.0.0.1:5000/api/v1/tag_resources', {
+                $http.post('http://121.40.106.155:5000/api/v1/tag_resources', {
                     "tag_id": $scope.allTags[i]['id'],
                     "resource_id": $scope.dataset.id,
                     "type": $scope.currentType
@@ -233,7 +233,7 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
                 $scope.tag_res.forEach(function (element) {
                     if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
-                        $http.delete('http://127.0.0.1:5000/api/v1/tag_resources/'.concat(element.id));
+                        $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id));
                         for (var j = 0; j < $scope.tags.length; j++)
                             if ($scope.tags[j]['id'] == element['tag_id']) {
                                 console.log("delete tag");
