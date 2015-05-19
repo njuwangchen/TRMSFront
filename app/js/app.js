@@ -587,8 +587,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
             url: '/showStatistics',
             views: {
                 '': {
-                    //templateUrl: 'partial/manageList.html'
-                    templateUrl: 'partial/statistics.html',
+                    templateUrl: 'partial/statistics.html'
                 },
                 'nav@showStatistics': {
                     templateUrl: 'partial/nav.html'
@@ -599,6 +598,23 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                 'statisticsGrid@showStatistics': {
                     templateUrl: 'partial/statisticsGrid.html',
                     controller: 'statisticsCtrl'
+                }
+            }
+        })
+        .state('fileRecovery', {
+            url: '/fileRecovery',
+            views: {
+                '': {
+                    templateUrl: 'partial/manageList.html'
+                },
+                'nav@fileRecovery': {
+                    templateUrl: 'partial/nav.html'
+                },
+                'manageFunction@fileRecovery': {
+                    templateUrl: 'partial/manageFunction.html'
+                },
+                'manageGrid@fileRecovery': {
+                    templateUrl: 'partial/recovery.html'
                 }
             }
         })
@@ -615,7 +631,7 @@ routerApp.config(['$stateProvider', '$urlRouterProvider', 'plUploadServiceProvid
                     templateUrl: 'partial/manageFunction.html'
                 },
                 'manageGrid@showSetting': {
-                    templateUrl: 'partial/setting.html',
+                    templateUrl: 'partial/setting.html'
                     //controller: 'settingCtrl'
                 }
             }

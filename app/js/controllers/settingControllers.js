@@ -375,7 +375,7 @@ settingModule.controller('KBSettingCtrl', function ($scope, KB_Journal_Service, 
 
     $scope.delete_journal = function (KB_Journal) {
         KB_Journal_Service.delete(KB_Journal, function (data) {
-           $scope.get_journal_list();
+            $scope.get_journal_list();
         });
     };
 
@@ -406,10 +406,10 @@ settingModule.controller('KBSettingCtrl', function ($scope, KB_Journal_Service, 
 
     $scope.delete_journal_year_issue = function (KB_Journal_Year_Issue) {
         KB_Journal_Year_Issue_Service.delete(KB_Journal_Year_Issue, function (data) {
-           $scope.get_journal_year_issue_list();
+            $scope.get_journal_year_issue_list();
         });
     };
-    
+
     $scope.Is_KB_Conference_Add = false;
 
     $scope.get_conference_list = function () {
@@ -435,10 +435,10 @@ settingModule.controller('KBSettingCtrl', function ($scope, KB_Journal_Service, 
 
     $scope.delete_conference = function (KB_Conference) {
         KB_Conference_Service.delete(KB_Conference, function (data) {
-           $scope.get_conference_list();
+            $scope.get_conference_list();
         });
     };
-    
+
     $scope.Is_KB_Conference_Year_Add = false;
 
     $scope.get_conference_year_list = function () {
@@ -466,8 +466,67 @@ settingModule.controller('KBSettingCtrl', function ($scope, KB_Journal_Service, 
 
     $scope.delete_conference_year = function (KB_Conference_Year) {
         KB_Conference_Year_Service.delete(KB_Conference_Year, function (data) {
-           $scope.get_conference_year_list();
+            $scope.get_conference_year_list();
         });
+    };
+
+});
+
+settingModule.controller('FileRecoveryCtrl', function ($scope, LiteratureService, RootURL) {
+    LiteratureService.query(function (data) {
+        $scope.literatureList = data;
+    });
+
+    $scope.getFullDownloadURL = function (uri) {
+        return RootURL.rootURL + uri;
+    };
+
+    $scope.recovery = function (literature) {
+        var history = literature.upload_history;
+
+        if (history) {
+            var history_array = history.split(';');
+            var length = history_array.length;
+            if (length > 1) {
+                var history_item = history_array[length - 2];
+                if (history_item) {
+                    history_item_array = history_item.split(',');
+                    if (history_item_array.length == 2) {
+                        console.log('file_name: ' + history_item_array[0]);
+                        console.log('file_uri: ' + history_item_array[1]);
+
+                        var old_uri = literature.uri;
+                        var old_uri_array = old_uri.split('/');
+                        old_uri_array[old_uri_array.length - 1] = history_item_array[1];
+                        var new_uri = old_uri_array[0];
+                        for (var i = 1; i < old_uri_array.length; i++) {
+                            new_uri = new_uri + '/' + old_uri_array[i];
+                        }
+                        console.log(new_uri);
+                        literature.uri = new_uri;
+                        literature.file_name = history_item_array[0];
+
+                        var last_history = history_array[history_array.length - 1];
+                        last_history_length = last_history.length;
+                        var new_history = history.slice(0, -last_history_length - 1);
+                        console.log(new_history);
+                        literature.upload_history = new_history;
+
+                        LiteratureService.update(literature, function (data) {
+                            alert('恢复成功！');
+                        });
+                    } else {
+                        alert('该文献并无历史上传记录，因此无法恢复到上一版本！');
+                    }
+                } else {
+                    alert('该文献并无历史上传记录，因此无法恢复到上一版本！');
+                }
+            } else {
+                alert('该文献并无历史上传记录，因此无法恢复到上一版本！');
+            }
+        } else {
+            alert('该文献并无历史上传记录，因此无法恢复到上一版本！');
+        }
     };
 
 });
