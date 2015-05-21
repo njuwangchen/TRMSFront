@@ -1,26 +1,122 @@
-<div class="row">
+<div class="row" ng-controller="HomeController">
 	<div class="col-md-12">
-		<h1>这里是首页</h1>
-        <!--<form class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label" contenteditable="true" for="inputAccount">账号</label>
-                <div class="controls">
-                    <input id="inputAccount" placeholder="Account" type="text" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" contenteditable="true" for="inputPassword">密码</label>
-                <div class="controls">
-                    <input id="inputPassword" placeholder="Password" type="password" />
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <label class="checkbox" contenteditable="true">
-                        <input type="checkbox" /> Remember me </label>
-                    <button class="btn btn-primary" contenteditable="true" type="submit">登录</button>
-                </div>
-            </div>
-        </form>-->
+		<h1>欢迎您，{{$root.userName}}</h1>
+    </div>
+    <div class="col-md-12">
+        <table class="table">
+            <caption>我最近创建的资源</caption>
+            <thead>
+            <tr>
+                <th>标题</th>
+                <th>类型</th>
+                <th>最新修改者</th>
+                <th>最新修改时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in literatures_create">
+                <td><a href ui-sref="viewLiterature({id: item.id})">{{item.title}}</a></td>
+                <td>文献</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in data_sets_create">
+                <td><a href ui-sref="viewDataSet({id: item.id})">{{item.title}}</a></td>
+                <td>数据集</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in codes_create">
+                <td><a href ui-sref="viewCode({id: item.id})">{{item.title}}</a></td>
+                <td>代码</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in reports_create">
+                <td><a href ui-sref="viewReport({id: item.id})">{{item.title}}</a></td>
+                <td>报告</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <table class="table">
+            <caption>我最近更新的资源</caption>
+            <thead>
+            <tr>
+                <th>标题</th>
+                <th>类型</th>
+                <th>最新修改者</th>
+                <th>最新修改时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in literatures_update">
+                <td><a href ui-sref="viewLiterature({id: item.id})">{{item.title}}</a></td>
+                <td>文献</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in data_sets_update">
+                <td><a href ui-sref="viewDataSet({id: item.id})">{{item.title}}</a></td>
+                <td>数据集</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in codes_update">
+                <td><a href ui-sref="viewCode({id: item.id})">{{item.title}}</a></td>
+                <td>代码</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in reports_update">
+                <td><a href ui-sref="viewReport({id: item.id})">{{item.title}}</a></td>
+                <td>报告</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <table class="table">
+            <caption>我最近评论的资源</caption>
+            <thead>
+            <tr>
+                <th>标题</th>
+                <th>类型</th>
+                <th>最新修改者</th>
+                <th>最新修改时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in literatures_comment">
+                <td><a href ui-sref="viewLiterature({id: item.id})">{{item.title}}</a></td>
+                <td>文献</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in data_sets_comment">
+                <td><a href ui-sref="viewDataSet({id: item.id})">{{item.title}}</a></td>
+                <td>数据集</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in codes_comment">
+                <td><a href ui-sref="viewCode({id: item.id})">{{item.title}}</a></td>
+                <td>代码</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            <tr ng-repeat="item in reports_comment">
+                <td><a href ui-sref="viewReport({id: item.id})">{{item.title}}</a></td>
+                <td>报告</td>
+                <td>{{item.updater_name}}</td>
+                <td>{{item.update_time}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
