@@ -242,7 +242,7 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
             displayName: "标题",
             width: 300,
             //cellTemplate: '<div class="ui-grid-cell-contents"><a target="_blank" ui-sref="viewLiterature({id:row.entity.id})" >{{grid.getCellValue(row, col)}}</a></div>'
-            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"
@@ -340,7 +340,7 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "publisher",
             displayName: "发布者"
@@ -435,7 +435,7 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "publisher",
             displayName: "发布者"
@@ -529,7 +529,7 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "reporter",
             displayName: "报告人"
@@ -570,16 +570,16 @@ statisticsModule.controller('simpleComment_modal_controller', ['$scope', '$modal
 
     function getUrl(type){
         if(type==1){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
         else if(type==2){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
         else if(type==3){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
         else if(type==4){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
     }
 
@@ -632,16 +632,16 @@ statisticsModule.controller('complexComment_modal_controller', ['$scope', '$moda
 
     function getUrl(type){
         if(type==1){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewLiterature/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
         else if(type==2){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewDataSet/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
         else if(type==3){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewCode/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
         else if(type==4){
-            return '<div class="ui-grid-cell-contents"><a href="http://localhost:63342/TRMSFront/app/index.html#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
+            return '<div class="ui-grid-cell-contents"><a href="http://121.40.106.155/#/viewReport/{{row.entity.id}}" target="_blank">{{grid.getCellValue(row, col)}}</a></div>'
         }
     }
 
