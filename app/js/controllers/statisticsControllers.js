@@ -160,7 +160,6 @@ statisticsModule.controller('statisticsCtrl', ['$scope', 'userService', '$http',
 }]);
 
 statisticsModule.controller('literature_modal_controller', ['$scope', '$modalInstance', '$http', 'LiteratureService', 'Utility', 'userId', 'days', function ($scope, $modalInstance, $http, LiteratureService, Utility, userId, days) {
-
     var literatureList = [];
     $scope.literatureList = [];
 
@@ -170,7 +169,9 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
                 literatureList = data;
                 $http.post('http://121.40.106.155:5000/api/v1/literatures/query', {updater_id: userId})
                     .success(function(data){
-                        literatureList.concat(literatureList, data);
+                        for(var i=0;i<data.length;i++){
+                            literatureList.push(data[i]);
+                        }
                         $scope.updateLiteratureList(days);
                 });
             });
@@ -179,7 +180,7 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
 
     function isContain(list,obj){
         for(var i=0;i<list.length;i++){
-            if(list[i]==obj){
+            if(list[i]['title']==obj){
                 return true;
             }
         }
@@ -192,8 +193,11 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
         today = today.setDate(today.getDate()-days);
         for(var i=0;i<literatureList.length;i++){
             var createTime = new Date(Date.parse(literatureList[i]['create_time'].replace(/-/g, "/")));
-            if(createTime >= today){
-                $scope.literatureList.push(literatureList[i]);
+            var temp = $scope.literatureList;
+            if(createTime >= today&&literatureList[i]['creator_id'] == userId){
+                if(!isContain(temp,literatureList[i]['title'])){
+                    $scope.literatureList.push(literatureList[i]);
+                }
             }
         }
         if($scope.literatureList.length>0) {
@@ -203,9 +207,9 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
                 }
                 var temp = $scope.literatureList;
                 var updateTime = new Date(Date.parse(literatureList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today && literatureList[i]['updater_id'] == userId) {
 
-                    if(isContain(temp,literatureList[i])){
+                    if(isContain(temp,literatureList[i]['title'])){
                         continue;
                     }
                     else{
@@ -221,12 +225,15 @@ statisticsModule.controller('literature_modal_controller', ['$scope', '$modalIns
                     continue;
                 }
                 var updateTime = new Date(Date.parse(literatureList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today&&literatureList[i]['updater_id'] == userId) {
+                    if(!isContain(temp,literatureList[i]['title'])) {
                         $scope.literatureList.push(literatureList[i]);
+                    }
                 }
             }
         }
     }
+
 
     $scope.gridOptions = {
         data: $scope.literatureList,
@@ -270,7 +277,9 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
                 dataSetList = data;
                 $http.post('http://121.40.106.155:5000/api/v1/data_sets/query', {updater_id: userId})
                     .success(function(data){
-                        dataSetList.concat(dataSetList, data);
+                        for(var i=0;i<data.length;i++){
+                            dataSetList.push(data[i]);
+                        }
                         $scope.updateDataSetList(days);
                 });
             });
@@ -279,7 +288,7 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
 
     function isContain(list,obj){
         for(var i=0;i<list.length;i++){
-            if(list[i]==obj){
+            if(list[i]['title']==obj){
                 return true;
             }
         }
@@ -291,8 +300,11 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
         today = today.setDate(today.getDate()-days);
         for(var i=0;i<dataSetList.length;i++){
             var createTime = new Date(Date.parse(dataSetList[i]['create_time'].replace(/-/g, "/")));
-            if(createTime >= today){
-                $scope.dataSetList.push(dataSetList[i]);
+            var temp = $scope.dataSetList;
+            if(createTime >= today&&dataSetList[i]['creator_id'] == userId){
+                if(!isContain(temp, dataSetList[i]['title'])) {
+                    $scope.dataSetList.push(dataSetList[i]);
+                }
             }
         }
         if($scope.dataSetList.length>0) {
@@ -302,12 +314,8 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
                 }
                 var temp = $scope.dataSetList;
                 var updateTime = new Date(Date.parse(dataSetList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
-
-                    if(isContain(temp,dataSetList[i])){
-                        continue;
-                    }
-                    else{
+                if (updateTime >= today&&dataSetList[i]['updater_id'] == userId) {
+                    if(!isContain(temp,dataSetList[i]['title'])){
                         $scope.dataSetList.push(dataSetList[i]);
                     }
 
@@ -320,8 +328,10 @@ statisticsModule.controller('dataSet_modal_controller', ['$scope', '$modalInstan
                     continue;
                 }
                 var updateTime = new Date(Date.parse(dataSetList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today&&dataSetList[i]['updater_id'] == userId) {
+                    if(!isContain(temp,dataSetList[i]['title'])) {
                         $scope.dataSetList.push(dataSetList[i]);
+                    }
                 }
             }
         }
@@ -365,7 +375,9 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
                 codeList = data;
                 $http.post('http://121.40.106.155:5000/api/v1/codes/query', {updater_id: userId})
                     .success(function(data){
-                        codeList.concat(codeList, data);
+                        for(var i=0;i<data.length;i++){
+                            codeList.push(data[i]);
+                        }
                         $scope.updateCodeList(days);
                 });
             });
@@ -374,7 +386,7 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
 
     function isContain(list,obj){
         for(var i=0;i<list.length;i++){
-            if(list[i]==obj){
+            if(list[i]['title']==obj){
                 return true;
             }
         }
@@ -386,8 +398,11 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
         today = today.setDate(today.getDate()-days);
         for(var i=0;i<codeList.length;i++){
             var createTime = new Date(Date.parse(codeList[i]['create_time'].replace(/-/g, "/")));
-            if(createTime >= today){
-                $scope.codeList.push(codeList[i]);
+            var temp = $scope.codeList;
+            if(createTime >= today&&codeList[i]['creator_id'] == userId){
+                if(!isContain(temp, codeList[i]['title'])){
+                    $scope.codeList.push(codeList[i]);
+                }
             }
         }
         if($scope.codeList.length>0) {
@@ -397,9 +412,9 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
                 }
                 var temp = $scope.codeList;
                 var updateTime = new Date(Date.parse(codeList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today&&codeList[i]['updater_id'] == userId) {
 
-                    if(isContain(temp,codeList[i])){
+                    if(isContain(temp,codeList[i]['title'])){
                         continue;
                     }
                     else{
@@ -415,8 +430,10 @@ statisticsModule.controller('code_modal_controller', ['$scope', '$modalInstance'
                     continue;
                 }
                 var updateTime = new Date(Date.parse(codeList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today&&codeList[i]['updater_id'] == userId) {
+                    if(!isContain(temp, codeList[i]['title'])){
                         $scope.codeList.push(codeList[i]);
+                    }
                 }
             }
         }
@@ -460,7 +477,9 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
                 reportList = data;
                 $http.post('http://121.40.106.155:5000/api/v1/reports/query', {updater_id: userId})
                     .success(function(data){
-                        reportList.concat(reportList, data);
+                        for(var i=0;i<data.length;i++){
+                            reportList.push(data[i]);
+                        }
                         $scope.updateReportList(days);
                 });
             });
@@ -469,7 +488,7 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
 
     function isContain(list,obj){
         for(var i=0;i<list.length;i++){
-            if(list[i]==obj){
+            if(list[i]['title']==obj){
                 return true;
             }
         }
@@ -481,8 +500,11 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
         today = today.setDate(today.getDate()-days);
         for(var i=0;i<reportList.length;i++){
             var createTime = new Date(Date.parse(reportList[i]['create_time'].replace(/-/g, "/")));
-            if(createTime >= today){
-                $scope.reportList.push(reportList[i]);
+            var temp = $scope.reportList;
+            if(createTime >= today&&reportList[i]['creator_id'] == userId){
+                if(!isContain(temp, reportList[i]['title'])) {
+                    $scope.reportList.push(reportList[i]);
+                }
             }
         }
         if($scope.reportList.length>0) {
@@ -492,9 +514,9 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
                 }
                 var temp = $scope.reportList;
                 var updateTime = new Date(Date.parse(reportList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today&&reportList[i]['updater_id'] == userId) {
 
-                    if(isContain(temp,reportList[i])){
+                    if(isContain(temp,reportList[i]['title'])){
                         continue;
                     }
                     else{
@@ -509,8 +531,10 @@ statisticsModule.controller('report_modal_controller', ['$scope', '$modalInstanc
                     continue;
                 }
                 var updateTime = new Date(Date.parse(reportList[i]['update_time'].replace(/-/g, "/")));
-                if (updateTime >= today) {
+                if (updateTime >= today&&reportList[i]['updater_id'] == userId) {
+                    if(!isContain(temp, reportList[i]['title'])) {
                         $scope.reportList.push(reportList[i]);
+                    }
                 }
             }
         }
