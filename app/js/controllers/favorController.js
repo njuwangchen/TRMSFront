@@ -45,7 +45,7 @@ favorModule.controller('favorDatasetListCtrl', ['$scope','$rootScope','$http', f
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"
@@ -92,7 +92,7 @@ favorModule.controller('favorCodeListCtrl', ['$scope','$rootScope','$http', func
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"
@@ -135,7 +135,7 @@ favorModule.controller('favorReportListCtrl', ['$scope','$rootScope','$http', fu
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewReport({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewReport({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "reporter",
             displayName: "报告人"
@@ -202,7 +202,7 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"
