@@ -4,71 +4,71 @@
         <span class="col-md-10 ">{{selectedType.name}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('published_year')">
     <h4>
         <span class="col-md-2 label-default label">年份</span>
         <span class="col-md-10 ">{{literature.published_year}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('author')">
     <h4>
         <span class="col-md-2 label-default label">作者</span>
         <span class="col-md-10 ">{{literature.author}}</span>
     </h4>
 </div>
 
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('publisher')">
     <h4>
         <span class="col-md-2 label-default label">期刊/会议</span>
         <span class="col-md-10 ">{{literature.publisher}}</span>
     </h4>
 </div>
 
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('publisher')">
     <h4>
         <span class="col-md-2 label-default label">期刊/会议缩写</span>
         <span class="col-md-10 ">{{literature.publisher_abbreviation}}</span>
     </h4>
 </div>
 
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('location')">
     <h4>
         <span class="col-md-2 label-default label">地点</span>
         <span class="col-md-10 ">{{literature.location}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('institute')">
     <h4>
         <span class="col-md-2 label-default label">机构</span>
         <span class="col-md-10 ">{{literature.institute}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('instructor')">
     <h4>
         <span class="col-md-2 label-default label">导师</span>
         <span class="col-md-10 ">{{literature.instructor}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('editor')">
     <h4>
         <span class="col-md-2 label-default label">编辑</span>
         <span class="col-md-10 ">{{literature.editor}}</span>
     </h4>
 </div>
 
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('volume')">
     <h4>
         <span class="col-md-2 label-default label">卷数</span>
         <span class="col-md-10 ">{{literature.volume}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('issue')">
     <h4>
         <span class="col-md-2 label-default label">期数</span>
         <span class="col-md-10 ">{{literature.issue}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('pages')">
     <h4>
         <span class="col-md-2 label-default label">页数</span>
         <span class="col-md-10 ">{{literature.pages}}</span>
@@ -80,20 +80,20 @@
 <!--<span class="col-md-10 ">{{literature.section}}</span>-->
 <!--</h4>-->
 <!--</div>-->
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('edition')">
     <h4>
         <span class="col-md-2 label-default label">版本</span>
         <span class="col-md-10 ">{{literature.edition}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('press')">
     <h4>
         <span class="col-md-2 label-default label">出版社</span>
         <span class="col-md-10 ">{{literature.press}}</span>
     </h4>
 </div>
 
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('ISBN')">
     <h4>
         <span class="col-md-2 label-default label">ISBN/ISSN</span>
         <span class="col-md-10 ">{{literature.ISBN}}</span>
@@ -105,56 +105,56 @@
 <!--<span class="col-md-10 ">{{literature.ISSN}}</span>-->
 <!--</h4>-->
 <!--</div>-->
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('DOI')">
     <h4>
         <span class="col-md-2 label-default label">DOI</span>
         <span class="col-md-10 ">{{literature.DOI}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('abstract')">
     <h4>
         <span class="col-md-2 label-default label">摘要</span>
         <span class="col-md-10 ">{{literature.abstract}}</span>
     </h4>
 </div>
 
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('key_words')">
     <h4>
         <span class="col-md-2 label-default label">关键字</span>
         <span class="col-md-10 ">{{literature.key_words}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('language')">
     <h4>
         <span class="col-md-2 label-default label">语言</span>
         <span class="col-md-10 ">{{literature.language}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('titleCN')">
     <h4>
         <span class="col-md-2 label-default label">中文篇名</span>
         <span class="col-md-10 ">{{literature.titleCN}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('authorCN')">
     <h4>
         <span class="col-md-2 label-default label">作者中文名</span>
         <span class="col-md-10 ">{{literature.authorCN}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('publisherCN')">
     <h4>
         <span class="col-md-2 label-default label">期刊/会议中文</span>
         <span class="col-md-10">{{literature.publisherCN}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('abstractCN')">
     <h4>
         <span class="col-md-2 label-default label">中文摘要</span>
         <span class="col-md-10 ">{{literature.abstractCN}}</span>
     </h4>
 </div>
-<div class="row">
+<div class="row" ng-show="fieldsToBeShowed.contains('key_words_CN')">
     <h4>
         <span class="col-md-2 label-default label">中文关键字</span>
         <span class="col-md-10 ">{{literature.key_words_CN}}</span>

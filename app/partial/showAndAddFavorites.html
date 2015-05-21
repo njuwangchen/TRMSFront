@@ -4,7 +4,7 @@
             <div ng-repeat="favor in favorites">
                 <div class="row">
                     <a href class="col-md-8"  ui-sref-active="active" ng-click="chooseOne(favor)">{{favor.name}}</a>
-                    <a href class="col-md-4" ui-sref-active="active" >删除</a>
+                    <a href class="col-md-4" ui-sref-active="active" ng-click="deleteFavor(favor)" >删除</a>
                 </div>
             </div>
         <a href ng-click="cancel()" ui-sref-active="active">取消</a>

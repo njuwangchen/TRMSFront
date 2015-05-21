@@ -1,7 +1,7 @@
 var userModule = angular.module('userModule', ['ui.bootstrap']);
 
 userModule.factory('userService', ['$resource', function ($resource) {
-    return $resource('http://127.0.0.1:5000/api/v1/users/:userId', {userId: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/users/:userId', {userId: '@id'}, {
         update: {
             method: 'PUT'
         }
@@ -73,7 +73,7 @@ userModule.controller('changePasswordCtrl', ['$scope', '$modalInstance', 'userId
         $scope.judge.isSame = true;
         $scope.judge.isValid = false;
 
-        $http.get('http://127.0.0.1:5000/api/v1/users/'+userId)
+        $http.get('http://121.40.106.155:5000/api/v1/users/'+userId)
             .success(function(data){
                 $scope.user = data;
                 $scope.submit = function(){
@@ -92,7 +92,7 @@ userModule.controller('changePasswordCtrl', ['$scope', '$modalInstance', 'userId
                         }
                     }
                     if($scope.judge.isValid){
-                        $http.put('http://127.0.0.1:5000/api/v1/users/'+userId, {password: $scope.judge.newPassword1})
+                        $http.put('http://121.40.106.155:5000/api/v1/users/'+userId, {password: $scope.judge.newPassword1})
                         .success(function(){
                             console.log($scope.judge.newPassword1);
                             alert("密码修改成功");

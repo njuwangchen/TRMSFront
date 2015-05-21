@@ -6,7 +6,7 @@ var favorModule = angular.module('favorModule',[]);
 //addFavorResService = angular.factory('addFavorResService', function ($http) {
 //
 //    var addFavor = function (resource_id,type,favorite_id) {
-//        $http.post("http://127.0.0.1:5000/api/v1/favorite_resource")
+//        $http.post("http://121.40.106.155:5000/api/v1/favorite_resource")
 //    }
 //})
 
@@ -20,12 +20,12 @@ favorModule.controller('favorDatasetListCtrl', ['$scope','$rootScope','$http', f
     $rootScope.isFavor = true;
 
 
-    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+    $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
-            $http.post("http://127.0.0.1:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":4})
+            $http.post("http://121.40.106.155:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":4})
                 .success(function (data) {
-                    $http.post("http://127.0.0.1:5000/api/v1/data_sets/batch",{"ids":data})
+                    $http.post("http://121.40.106.155:5000/api/v1/data_sets/batch",{"ids":data})
                         .success(function (data) {
                             $scope.favorDatasetList = data;
                         });
@@ -45,7 +45,7 @@ favorModule.controller('favorDatasetListCtrl', ['$scope','$rootScope','$http', f
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewDataSet({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"
@@ -67,12 +67,12 @@ favorModule.controller('favorCodeListCtrl', ['$scope','$rootScope','$http', func
     $rootScope.isFavor = true;
 
 
-    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+    $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
-            $http.post("http://127.0.0.1:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":5})
+            $http.post("http://121.40.106.155:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":5})
                 .success(function (data) {
-                    $http.post("http://127.0.0.1:5000/api/v1/codes/batch",{"ids":data})
+                    $http.post("http://121.40.106.155:5000/api/v1/codes/batch",{"ids":data})
                         .success(function (data) {
                             $scope.favorCodeList = data;
                         });
@@ -92,7 +92,7 @@ favorModule.controller('favorCodeListCtrl', ['$scope','$rootScope','$http', func
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewCode({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "size",
             displayName: "大小"
@@ -110,12 +110,12 @@ favorModule.controller('favorReportListCtrl', ['$scope','$rootScope','$http', fu
     $rootScope.isFavor = true;
 
 
-    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+    $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
-            $http.post("http://127.0.0.1:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":5})
+            $http.post("http://121.40.106.155:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":5})
                 .success(function (data) {
-                    $http.post("http://127.0.0.1:5000/api/v1/reports/batch",{"ids":data})
+                    $http.post("http://121.40.106.155:5000/api/v1/reports/batch",{"ids":data})
                         .success(function (data) {
                             $scope.favorReportList = data;
                         });
@@ -135,7 +135,7 @@ favorModule.controller('favorReportListCtrl', ['$scope','$rootScope','$http', fu
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewReport({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewReport({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "reporter",
             displayName: "报告人"
@@ -163,14 +163,14 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
     $rootScope.isFavor = true;
 
 
-    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+    $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
-            $http.post("http://127.0.0.1:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":1})
+            $http.post("http://121.40.106.155:5000/api/v1/favorite_resource/query",{"favorites":$rootScope.favorites,"type":1})
                 .success(function (data) {
                     //准备导出按钮
                     $scope.favorLiteratureIds = data;
-                    $http.post('http://127.0.0.1:5000/api/v1/literatures/exportBatch',{"ids":$scope.favorLiteratureIds}).
+                    $http.post('http://121.40.106.155:5000/api/v1/literatures/exportBatch',{"ids":$scope.favorLiteratureIds}).
                         success(function (data) {
                             if(data!="")
                             {
@@ -181,7 +181,7 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
 
                         });
 
-                    $http.post("http://127.0.0.1:5000/api/v1/literatures/batch",{"ids":data})
+                    $http.post("http://121.40.106.155:5000/api/v1/literatures/batch",{"ids":data})
                         .success(function (data) {
                             $scope.favorLiteratureList = data;
                         });
@@ -202,7 +202,7 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope','$rootScope','$http'
             field: "title",
             displayName: "标题",
             width: 300,
-            cellTemplate: '<div class="ui-grid-cell-contents"><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
+            cellTemplate: '<div><a ui-sref="viewLiterature({id:row.entity.id})">{{grid.getCellValue(row, col)}}</a></div>'
         }, {
             field: "author",
             displayName: "作者"
@@ -230,17 +230,27 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
     $rootScope.isFavor = true;
 
 
-    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+    $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
         });
 
     $scope.favorList = [];
-    $http.post('http://127.0.0.1:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":1})
+    $http.post('http://121.40.106.155:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":1})
         .success(function (data) {
             $scope.favorLiteratureIds = data;
 
-                $http.post('http://127.0.0.1:5000/api/v1/literatures/batch',{"ids":data})
+                //初始化导出按钮
+                if(data.length!=0)
+                 $http.post("http://121.40.106.155:5000/api/v1/literatures/exportBatch", {'ids': data})
+                .success(function (data) {
+                    var content = data;
+                    var blob = new Blob([content], {type: 'text/plain'});
+                    $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+                })
+
+                //在收藏列表中添加内容
+                $http.post('http://121.40.106.155:5000/api/v1/literatures/batch',{"ids":data})
                 .success(function (data) {
                     $scope.favorLiteratureList = data;
                     for(var i =0 ;i <$scope.favorLiteratureList.length;i++)
@@ -249,9 +259,9 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
                 })
         });
 
-    $http.post('http://127.0.0.1:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":4})
+    $http.post('http://121.40.106.155:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":4})
         .success(function (data) {
-            $http.post('http://127.0.0.1:5000/api/v1/data_sets/batch',{"ids":data})
+            $http.post('http://121.40.106.155:5000/api/v1/data_sets/batch',{"ids":data})
                 .success(function (data) {
                     $scope.favorDatasetList = data;
                     for(var i =0 ;i <$scope.favorDatasetList.length;i++)
@@ -260,9 +270,9 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
 
         });
 
-    $http.post('http://127.0.0.1:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":5})
+    $http.post('http://121.40.106.155:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":5})
         .success(function (data) {
-            $http.post('http://127.0.0.1:5000/api/v1/codes/batch',{"ids":data})
+            $http.post('http://121.40.106.155:5000/api/v1/codes/batch',{"ids":data})
                 .success(function (data) {
                     $scope.favorCodeList = data;
 
@@ -272,9 +282,9 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
                 })
         });
 
-    $http.post('http://127.0.0.1:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":6})
+    $http.post('http://121.40.106.155:5000/api/v1/favorite_resource/query',{"favorites":[{"id":$stateParams.favorId}],"type":6})
         .success(function (data) {
-            $http.post('http://127.0.0.1:5000/api/v1/reports/batch',{"ids":data})
+            $http.post('http://121.40.106.155:5000/api/v1/reports/batch',{"ids":data})
                 .success(function (data) {
                     $scope.favorReportList = data;
 
@@ -307,7 +317,7 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
 
 favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,Time) {
 
-    $http.post("http://127.0.0.1:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
+    $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
         });
@@ -323,14 +333,14 @@ favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,
         modalInstance.result.then(function (selectedFavor) {
             $scope.selectedFavor = selectedFavor;
             var favorTime = Time.currentTime(new Date());
-            $http.post('http://127.0.0.1:5000/api/v1/favorite_resources',{"favorite_id":selectedFavor.id,"type":$scope.$parent.currentType,
+            $http.post('http://121.40.106.155:5000/api/v1/favorite_resources',{"favorite_id":selectedFavor.id,"type":$scope.$parent.currentType,
                 "resource_id":$scope.$parent.currentId,"favorite_time":favorTime});
         });
     }
 });
 
 
-favorModule.controller('addFavorCtrlModalInstance', function ($scope,$modal,$modalInstance) {
+favorModule.controller('addFavorCtrlModalInstance', function ($scope,$modal,$modalInstance,$rootScope,$http) {
 
     $scope.chooseOne = function (favor) {
         $modalInstance.close(favor);
@@ -353,6 +363,13 @@ favorModule.controller('addFavorCtrlModalInstance', function ($scope,$modal,$mod
         });
     }
 
+    $scope.deleteFavor = function (favor) {
+        $http.delete("http://121.40.106.155:5000/api/v1/favorites/"+favor.id)
+            .success(function (data) {
+                $rootScope.favorites.splice($rootScope.favorites.indexOf(favor),1);
+            })
+    }
+
 })
 
 favorModule.controller('newFavorModalInsCtrl', function ($scope,$modalInstance,$http,$rootScope) {
@@ -360,7 +377,7 @@ favorModule.controller('newFavorModalInsCtrl', function ($scope,$modalInstance,$
     $scope.submit = function () {
 
         $rootScope.userId = 1;
-        $http.post("http://127.0.0.1:5000/api/v1/favorites",{"user_id":$rootScope.userId,"name":this.favorName})
+        $http.post("http://121.40.106.155:5000/api/v1/favorites",{"user_id":$rootScope.userId,"name":this.favorName})
             .success(function (data) {
                 $rootScope.favorites.push(data);
             })
