@@ -103,9 +103,20 @@ userModule.controller('changePasswordCtrl', ['$scope', '$modalInstance', 'userId
                 }
             });
 
+        $http.get("http://121.40.106.155:5000/api/v1/users/export/"+userId)
+            .success(function (data) {
+                if(data!="")
+                {
+                    var content = data;
+                    var blob = new Blob([ content ], { type : 'text/plain' });
+                    $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL( blob );
+                }
+            });
+
         $scope.cancel = function () {
             $modalInstance.dismiss();
         };
+
     }]
 );
 
