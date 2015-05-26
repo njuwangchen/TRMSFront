@@ -461,7 +461,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                 $scope.tags.push($scope.allTags[i]);
                 if ($scope.tagsDividedShown[$scope.allTags[i].type]) {
                     $scope.tagsDividedShown[$scope.allTags[i].type].push($scope.allTags[i]);
-                    $scope.tagTypesShown.push($scope.allTags[i].type);
+                    //$scope.tagTypesShown.push($scope.allTags[i].type);
                 }
                 else {
                     $scope.tagsDividedShown[$scope.allTags[i].type] = [];
@@ -475,12 +475,12 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
                         $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
                         for (var j = 0; j < $scope.tags.length; j++)
                             if ($scope.tags[j]['id'] == element['tag_id']) {
-                                console.log("delete tag")
-                                console.log($scope.tags[j]['name']);
-                                $scope.tags.splice(j, 1);
-                                break;
+                            //    console.log("delete tag")
+                            //    console.log($scope.tags[j]['name']);
+                            //    $scope.tags.splice(j, 1);
+                            //    break;
 
-                                $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
+                                //$http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
                                 $scope.tagsDividedShown[$scope.allTags[i].type].forEach(function (tag) {
                                     if (tag.id == element.tag_id) {
                                         var m = $scope.tagsDividedShown[$scope.allTags[i].type].indexOf(tag);

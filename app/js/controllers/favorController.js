@@ -387,10 +387,10 @@ favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,
                 "resource_id":$scope.$parent.currentId,"favorite_time":favorTime})
                 .success(function (data) {
                     $scope.fav_res = data;
+                    $scope.isFavorited = true;
                 })
         });
 
-        $scope.isFavorited = true;
 
         //if(!$scope.isFavorited)
         //{//收藏
