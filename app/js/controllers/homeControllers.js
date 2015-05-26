@@ -6,6 +6,102 @@ var homeModule = angular.module('homeModule', []);
 homeModule.controller('HomeController', ['$scope', '$rootScope', '$http', 'RootURL', function ($scope, $rootScope, $http, RootURL) {
     $http({
         method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 0,
+            resource_type: 0
+        }
+    }).success(function (data) {
+        $scope.literatures_create_recent = data;
+    });
+
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 0,
+            resource_type: 1
+        }
+    }).success(function (data) {
+        $scope.data_sets_create_recent = data;
+    });
+
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 0,
+            resource_type: 2
+        }
+    }).success(function (data) {
+        $scope.codes_create_recent = data;
+    });
+
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 0,
+            resource_type: 3
+        }
+    }).success(function (data) {
+        $scope.reports_create_recent = data;
+    });
+    
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 1,
+            resource_type: 0
+        }
+    }).success(function (data) {
+        $scope.literatures_update_recent = data;
+    });
+
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 1,
+            resource_type: 1
+        }
+    }).success(function (data) {
+        $scope.data_sets_update_recent = data;
+    });
+
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 1,
+            resource_type: 2
+        }
+    }).success(function (data) {
+        $scope.codes_update_recent = data;
+    });
+
+    $http({
+        method: 'POST',
+        url: RootURL.rootURL + '/api/v1/users/recent',
+        data: {
+            
+            query_type: 1,
+            resource_type: 3
+        }
+    }).success(function (data) {
+        $scope.reports_update_recent = data;
+    });
+    
+    $http({
+        method: 'POST',
         url: RootURL.rootURL + '/api/v1/users/resources',
         data: {
             user_id: $rootScope.userId,
