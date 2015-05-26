@@ -9,7 +9,7 @@
             <p class="pull-right">&nbsp;</p>
             <a class="btn btn-primary pull-right" type="button" download="export.txt" ng-href="{{exportUrl}}">导出</a>
             <p class="pull-right">&nbsp;</p>
-            <button class="btn btn-primary pull-right" type="button" ng-controller="addFavorCtrl" ng-click="addFavor()">
+            <button class="btn btn-primary pull-right" type="button" ng-show="!isFavorited" ng-controller="addFavorCtrl" ng-click="addFavor()">
                 收藏
             </button>
             <p class="pull-right">&nbsp;</p>

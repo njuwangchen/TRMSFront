@@ -293,6 +293,7 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
     $scope.currentType = 1;
     $scope.currentId = $stateParams.id;
 
+
     var id = $stateParams.id;
 
     $scope.freshViews = function () {

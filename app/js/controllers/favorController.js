@@ -254,7 +254,7 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
                 .success(function (data) {
                     $scope.favorLiteratureList = data;
                     for(var i =0 ;i <$scope.favorLiteratureList.length;i++)
-                            $scope.favorList.push({"title":$scope.favorLiteratureList[i]['title'],"type":"文献"});
+                            $scope.favorList.push({"title":$scope.favorLiteratureList[i]['title'],"type":"文献","id":$scope.favorLiteratureList[i]['id']});
 
                 })
         });
@@ -265,7 +265,7 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
                 .success(function (data) {
                     $scope.favorDatasetList = data;
                     for(var i =0 ;i <$scope.favorDatasetList.length;i++)
-                        $scope.favorList.push({"title":$scope.favorDatasetList[i]['title'],"type":"数据集"});
+                        $scope.favorList.push({"title":$scope.favorDatasetList[i]['title'],"type":"数据集","id":$scope.favorDatasetList[i]['id']});
                 })
 
         });
@@ -277,7 +277,7 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
                     $scope.favorCodeList = data;
 
                     for(var i =0 ;i <$scope.favorCodeList.length;i++)
-                        $scope.favorList.push({"title":$scope.favorCodeList[i]['title'],"type":"代码"});
+                        $scope.favorList.push({"title":$scope.favorCodeList[i]['title'],"type":"代码","id":$scope.favorCodeList[i]['id']});
 
                 })
         });
@@ -289,10 +289,39 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
                     $scope.favorReportList = data;
 
                     for(var i =0 ;i <$scope.favorReportList.length;i++)
-                        $scope.favorList.push({"title":$scope.favorReportList[i]['title'],"type":"报告"});
+                        $scope.favorList.push({"title":$scope.favorReportList[i]['title'],"type":"报告","id":$scope.favorReportList[i]['id']});
 
                 })
         });
+
+    $scope.deleteFavorRes = function (data) {
+        console.log(data);
+        var type =0;
+        if(data.type=="文献")
+            type = 1;
+        else if(data.type=="数据集")
+            type = 4;
+        else if(data.type=='代码')
+            type = 5;
+        else
+            type = 6;
+
+        $http.post('http://121.40.106.155:5000/api/v1/favorite_resources/delete',{"resource_id":data.id,"type":type,"favorite_id":$stateParams.favorId})
+            .success(function (response) {
+                if(response=="success")
+                {
+                    alert("删除收藏成功");
+                    for(var i=0;i<$scope.favorList.length;i++)
+                    {
+                        if($scope.favorList[i]['id'] == data.id && $scope.favorList[i]['type'] == data.type)
+                            $scope.favorList.splice(i,1);
+                    }
+
+                }
+
+            });
+    };
+
 
     $scope.gridOptions = {
         data: 'favorList',
@@ -310,19 +339,40 @@ favorModule.controller('someFavorController', function ($scope, $http, $statePar
         },{
             field:"type",
             displayName:"类型"
+        },{
+            field:'id',
+            displayName:'删除收藏',
+            cellTemplate:'<div class="ui-grid-cell-contents"><a ng-click="grid.appScope.deleteFavorRes(row.entity)">删除</a></div>'
         }]
     };
+
+
 
 });
 
 favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,Time) {
+    //
+    $scope.isFavorited = false;
+    //$scope.labelName = "收藏"
+
 
     $http.post("http://121.40.106.155:5000/api/v1/favorites/query",{"user_id":$rootScope.userId})
         .success(function(data){
             $rootScope.favorites = data;
         });
 
+    $http.post('http://121.40.106.155:5000/api/v1/favorite_resource/query',{"type":$scope.$parent.currentType,"resource_id":$scope.$parent.currentId})
+        .success(function (data) {
+            if(data.length != 0)
+            {
+                $scope.isFavorited = true;
+                //$scope.labelName = "已收藏";
+            }
+        });
+
+
     $scope.addFavor = function () {
+
         var modalInstance = $modal.open({
             templateUrl:"partial/showAndAddFavorites.html",
             controller:'addFavorCtrlModalInstance',
@@ -334,8 +384,25 @@ favorModule.controller('addFavorCtrl', function ($modal,$http,$scope,$rootScope,
             $scope.selectedFavor = selectedFavor;
             var favorTime = Time.currentTime(new Date());
             $http.post('http://121.40.106.155:5000/api/v1/favorite_resources',{"favorite_id":selectedFavor.id,"type":$scope.$parent.currentType,
-                "resource_id":$scope.$parent.currentId,"favorite_time":favorTime});
+                "resource_id":$scope.$parent.currentId,"favorite_time":favorTime})
+                .success(function (data) {
+                    $scope.fav_res = data;
+                })
         });
+
+        $scope.isFavorited = true;
+
+        //if(!$scope.isFavorited)
+        //{//收藏
+        //
+        //
+        //    $scope.labelName = "取消收藏";
+        //}
+        //else
+        //{//取消收藏
+        //
+        //    $http.post('http://121.40.106.155:5000/api/v1/favorite_resources/delete',{}
+        //}
     }
 });
 
@@ -376,7 +443,6 @@ favorModule.controller('newFavorModalInsCtrl', function ($scope,$modalInstance,$
 
     $scope.submit = function () {
 
-        $rootScope.userId = 1;
         $http.post("http://121.40.106.155:5000/api/v1/favorites",{"user_id":$rootScope.userId,"name":this.favorName})
             .success(function (data) {
                 $rootScope.favorites.push(data);
