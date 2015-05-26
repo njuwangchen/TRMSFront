@@ -5,18 +5,60 @@
         <div class="col-md-11">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="col-md-2">
-                        <span class="panel-title">评分：{{comment.star}}</span>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="panel-title">评分：{{comment.star}}</span>
+                        </div>
+                        <div class="col-md-1">
+                            <a href ng-click="delete(comment.id)" ng-show="comment.commenter_id == $root.userId">删除</a>
+                        </div>
+                        <div class="col-md-1">
+                            <a href ng-click="edit(comment)" ng-show="comment.commenter_id == $root.userId">编辑</a>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="panel-title pull-right">评论人：{{comment.commenter_name}}</span>
+                        </div>
+                        <span class="panel-title pull-right">{{comment.comment_time}}</span>
                     </div>
-                    <span class="panel-title">评论人：{{comment.commenter_name}}</span>
-                    <span class="panel-title pull-right">{{comment.comment_time}}</span>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-12" ng-show="comment.is_simple">
-                        <span>{{comment.content}}</span>
+                    <div ng-hide="comment.isEdit">
+                        <div class="col-md-12" ng-show="comment.is_simple">
+                            <span>{{comment.content}}</span>
+                        </div>
+                        <div class="col-md-12" ng-hide="comment.is_simple">
+                            <p ng-repeat="attr in comment.content.split('&') track by $index">
+                                {{attrsShown[$index].name}}{{' : '+attr}}</p>
+                        </div>
                     </div>
-                    <div class="col-md-12" ng-hide="comment.is_simple">
-                        <p ng-repeat="attr in comment.content.split('&') track by $index">{{attr}}</p>
+                    <div ng-show="comment.isEdit">
+                        <div class="col-md-12" ng-show="comment.is_simple">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="输入您的简单评论..."
+                                          ng-model="comment.content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary pull-right" type="submit" ng-click="simpleEdit(comment)">提交
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-hide="comment.is_simple">
+                            <div class="form-group" ng-repeat="attr in comment.attrs track by $index">
+                                <label class="control-label col-md-2">{{attrsShown[$index].name}}</label>
+
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" ng-model="comment.attrs[$index]">
+                                </div>
+                                <br/>
+                                <br/>
+                            </div>
+                            <br/>
+                            <div class="form-group">
+                                    <button class="btn btn-primary pull-right" type="submit" ng-click="detailEdit(comment)">
+                                        提交
+                                    </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
