@@ -1,7 +1,7 @@
 var commentModule = angular.module('CommentModule', []);
 
 commentModule.factory('CommentService', ['$resource', function ($resource) {
-    return $resource('http://121.40.106.155:5000/api/v1/comments', {id: '@id'}, {
+    return $resource('http://121.40.106.155:5000/api/v1/comments/:id', {id: '@id'}, {
         update: {
             method: 'PUT'
         }
