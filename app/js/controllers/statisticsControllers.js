@@ -56,7 +56,11 @@ statisticsModule.controller('statisticsCtrl', ['$scope', 'userService', '$http',
     function count(days){
         $http.get('http://121.40.106.155:5000/api/v1/statistics/'+ days)
             .success(function(data){
+                var sort = function (a, b) {
+                    return a.userName.localeCompare(b.userName);
+                };
                 $scope.statisticsList = data;
+                $scope.statisticsList.sort(sort);
             });
     }
 
