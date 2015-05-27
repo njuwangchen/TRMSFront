@@ -445,10 +445,10 @@ favorModule.controller('addFavorCtrl', function ($modal, $http, $scope, $rootSco
             })
                 .success(function (data) {
                     $scope.fav_res = data;
+                    $scope.isFavorited = true;
                 })
         });
 
-        $scope.isFavorited = true;
 
         //if(!$scope.isFavorited)
         //{//收藏
