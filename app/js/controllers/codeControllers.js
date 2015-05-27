@@ -162,7 +162,7 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
 
     $scope.getEditLabel = function () {
         if ($scope.isEdit) {
-            return "取消";
+            return "取消编辑";
         } else {
             return "编辑/上传";
         }
