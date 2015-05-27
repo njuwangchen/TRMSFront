@@ -187,9 +187,11 @@ uploadModule.controller('PptUploadCtrl', ['$scope', '$stateParams', '$http', 'Pp
 
 }]);
 
-uploadModule.controller('codeUploadCtrl', ['$scope', '$rootScope', '$stateParams', 'codeService', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, codeService, RootURL, Time) {
+uploadModule.controller('codeUploadCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'Code_file_Service', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, $http, Code_file_Service, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
+    
+    $scope.codeFiles = '';
 
     $scope.params = {
         'code_id': $stateParams.id
@@ -201,60 +203,56 @@ uploadModule.controller('codeUploadCtrl', ['$scope', '$rootScope', '$stateParams
             extensions: 'zip,rar,7z'
         }
     ];
+    
+    $scope.getCode_files = function () {
+        $http.post('http://121.40.106.155:5000/api/v1/code_files/query', {code_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.codeFiles = data;
 
-    codeService.get({codeId: $stateParams.id}, function (data) {
-        $scope.codeFile = data;
-        $scope.getFullDownloadURL = function () {
-            return RootURL.rootURL + $scope.codeFile.uri;
-        };
-    });
+                $scope.getFullDownloadURL = function (uri) {
+                    return RootURL.rootURL + uri;
+                };
+            });
+    };
 
     $scope.uploaded = function () {
-        var file = $scope.files.pop();
-        console.log(file);
-        var file_name = file.name;
-        var size = file.size;
-        var target_name = file.target_name;
+        $http.post('http://121.40.106.155:5000/api/v1/code_files/query', {code_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.codeFiles = data;
 
-        var updatedInfo = {};
-        updatedInfo.id = $stateParams.id;
-        updatedInfo.updater_id = $rootScope.userId;
-        updatedInfo.update_time = Time.currentTime(new Date());
-        updatedInfo.create_time = $scope.codeFile.create_time;
-        updatedInfo.file_name = file_name;
-        updatedInfo.size = size;
-        updatedInfo.upload_history = $scope.codeFile.upload_history + ';' + file_name + ',' + target_name + ',' + size;
+                var file = $scope.files.pop();
+                var last_code = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                var size = file.size;
+                last_code.file_name = file_name;
+                last_code.size = file.size;
 
-        codeService.update(updatedInfo, function (data) {
-            codeService.get({codeId: $stateParams.id}, function (data) {
-                $scope.codeFile = data;
+                var updatedInfo = {};
+                updatedInfo.id = last_code.id;
+                updatedInfo.size = size;
+                updatedInfo.file_name = file_name;
+                Code_file_Service.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
             });
+    };
+
+    $scope.delete = function (id) {
+        Code_file_Service.delete({code_fileId: id}, function (data) {
+            $scope.getCode_files();
         });
     };
 
-    $scope.delete = function () {
-        var deleteInfo = {};
-        deleteInfo.id = $stateParams.id;
-        deleteInfo.updater_id = $rootScope.userId;
-        deleteInfo.update_time = Time.currentTime(new Date());
-        deleteInfo.create_time = $scope.codeFile.create_time;
-        deleteInfo.file_name = '';
-        deleteInfo.size = 0;
-        deleteInfo.uri = '';
-
-        codeService.update(deleteInfo, function (data) {
-            console.log('delete success!');
-            codeService.get({codeId: $stateParams.id}, function (data) {
-                $scope.codeFile = data;
-            });
-        });
-    };
+    $scope.getCode_files();
 
 }]);
 
-uploadModule.controller('datasetUploadCtrl', ['$scope', '$rootScope', '$stateParams', 'datasetService', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams, datasetService, RootURL, Time) {
+uploadModule.controller('datasetUploadCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'Data_set_file_Service', 'RootURL', 'Time', function ($scope, $rootScope, $stateParams,  $http, Data_set_file_Service, RootURL, Time) {
     $scope.percent = 0;
     $scope.files = [];
+    
+    $scope.data_setFiles = '';
 
     $scope.params = {
         'data_set_id': $stateParams.id
@@ -267,53 +265,47 @@ uploadModule.controller('datasetUploadCtrl', ['$scope', '$rootScope', '$statePar
         }
     ];
 
-    datasetService.get({datasetId: $stateParams.id}, function (data) {
-        $scope.datasetFile = data;
-        $scope.getFullDownloadURL = function () {
-            return RootURL.rootURL + $scope.datasetFile.uri;
-        };
-    });
+    $scope.getData_set_files = function () {
+        $http.post('http://121.40.106.155:5000/api/v1/data_set_files/query', {data_set_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.data_setFiles = data;
+
+                $scope.getFullDownloadURL = function (uri) {
+                    return RootURL.rootURL + uri;
+                };
+            });
+    };
 
     $scope.uploaded = function () {
-        var file = $scope.files.pop();
-        console.log(file);
-        var file_name = file.name;
-        var size = file.size;
-        var target_name = file.target_name;
+        $http.post('http://121.40.106.155:5000/api/v1/data_set_files/query', {data_set_id: $stateParams.id}).
+            success(function (data, status, headers, config) {
+                $scope.data_setFiles = data;
 
-        var updatedInfo = {};
-        updatedInfo.id = $stateParams.id;
-        updatedInfo.updater_id = $rootScope.userId;
-        updatedInfo.update_time = Time.currentTime(new Date());
-        updatedInfo.create_time = $scope.datasetFile.create_time;
-        updatedInfo.file_name = file_name;
-        updatedInfo.size = size;
-        updatedInfo.upload_history = $scope.datasetFile.upload_history + ';' + file_name + ',' + target_name + ',' + size;
+                var file = $scope.files.pop();
+                var last_data_set = data[data.length - 1];
+                console.log(file);
+                var file_name = file.name;
+                var size = file.size;
+                last_data_set.file_name = file_name;
+                last_data_set.size = file.size;
 
-        datasetService.update(updatedInfo, function (data) {
-            datasetService.get({datasetId: $stateParams.id}, function (data) {
-                $scope.datasetFile = data;
+                var updatedInfo = {};
+                updatedInfo.id = last_data_set.id;
+                updatedInfo.size = size;
+                updatedInfo.file_name = file_name;
+                Data_set_file_Service.update(updatedInfo, function (data) {
+                    console.log('update success!');
+                });
             });
+    };
+
+    $scope.delete = function (id) {
+        Data_set_file_Service.delete({data_set_fileId: id}, function (data) {
+            $scope.getData_set_files();
         });
     };
 
-    $scope.delete = function () {
-        var deleteInfo = {};
-        deleteInfo.id = $stateParams.id;
-        deleteInfo.updater_id = $rootScope.userId;
-        deleteInfo.update_time = Time.currentTime(new Date());
-        deleteInfo.create_time = $scope.datasetFile.create_time;
-        deleteInfo.file_name = '';
-        deleteInfo.size = 0;
-        deleteInfo.uri = '';
-
-        datasetService.update(deleteInfo, function (data) {
-            console.log('delete success!');
-            datasetService.get({datasetId: $stateParams.id}, function (data) {
-                $scope.datasetFile = data;
-            });
-        });
-    };
+    $scope.getData_set_files();
 }]);
 
 uploadModule.controller('reportattachmentUploadCtrl', ['$scope', '$stateParams', '$http', 'AttachmentService', 'RootURL', function ($scope, $stateParams, $http, AttachmentService, RootURL) {

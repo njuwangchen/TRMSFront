@@ -11,6 +11,14 @@ datasetModule.factory('datasetService',['$resource',function($resource){
     });
 }]);
 
+datasetModule.factory('Data_set_file_Service', ['$resource', function ($resource) {
+    return $resource('http://121.40.106.155:5000/api/v1/data_set_files/:data_set_fileId', {data_set_fileId: '@id'}, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}]);
+
 datasetModule.controller('datasetListCtrl',['$scope', '$http', '$modal', 'datasetService',function($scope, $http, $modal, datasetService)
 {
     datasetService.query(function (data) {

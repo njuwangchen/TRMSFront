@@ -11,6 +11,14 @@ codeModule.factory('codeService', ['$resource', function ($resource) {
     });
 }]);
 
+codeModule.factory('Code_file_Service', ['$resource', function ($resource) {
+    return $resource('http://121.40.106.155:5000/api/v1/code_files/:code_fileId', {code_fileId: '@id'}, {
+        update: {
+            method: 'PUT'
+        }
+    });
+}]);
+
 codeModule.controller('codeListCtrl', ['$scope', '$http', '$modal', 'codeService', function ($scope, $http, $modal, codeService) {
     codeService.query(function (data) {
         $scope.codeList = data;
