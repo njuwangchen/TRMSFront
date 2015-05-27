@@ -11,7 +11,7 @@ var favorModule = angular.module('favorModule', []);
 //})
 
 
-favorModule.controller('favorDatasetListCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+favorModule.controller('favorDatasetListCtrl', ['$scope', '$rootScope', '$http','$modal', function ($scope, $rootScope, $http,$modal) {
     $rootScope.showAll = "showFavorLiterature";
     $rootScope.showDataSet = "showFavorDataSet";
     $rootScope.showCode = "showFavorCode";
@@ -60,9 +60,18 @@ favorModule.controller('favorDatasetListCtrl', ['$scope', '$rootScope', '$http',
             displayName: "评分/人数"
         }]
     };
+
+    $scope.editFavorites = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: "partial/editFav.html",
+            controller: 'editFavorModalInstance',
+            size: 'sm'
+        });
+    }
 }]);
 
-favorModule.controller('favorCodeListCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+favorModule.controller('favorCodeListCtrl', ['$scope', '$rootScope', '$http','$modal', function ($scope, $rootScope, $http,$modal) {
     $rootScope.showAll = "showFavorLiterature";
     $rootScope.showDataSet = "showFavorDataSet";
     $rootScope.showCode = "showFavorCode";
@@ -110,9 +119,19 @@ favorModule.controller('favorCodeListCtrl', ['$scope', '$rootScope', '$http', fu
             displayName: "评分/人数"
         }]
     };
+
+
+    $scope.editFavorites = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: "partial/editFav.html",
+            controller: 'editFavorModalInstance',
+            size: 'sm'
+        });
+    }
 }]);
 
-favorModule.controller('favorReportListCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+favorModule.controller('favorReportListCtrl', ['$scope', '$rootScope', '$http','$modal', function ($scope, $rootScope, $http,$modal) {
     $rootScope.isFavor = true;
 
 
@@ -159,10 +178,19 @@ favorModule.controller('favorReportListCtrl', ['$scope', '$rootScope', '$http', 
             displayName: "评分/人数"
         }]
     };
+
+    $scope.editFavorites = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: "partial/editFav.html",
+            controller: 'editFavorModalInstance',
+            size: 'sm'
+        });
+    }
 }]);
 
 
-favorModule.controller('favorLiteratureListCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+favorModule.controller('favorLiteratureListCtrl', ['$scope', '$rootScope', '$http','$modal', function ($scope, $rootScope, $http,$modal) {
     $rootScope.showAll = "showFavorLiterature";
     $rootScope.showDataSet = "showFavorDataSet";
     $rootScope.showCode = "showFavorCode";
@@ -228,16 +256,36 @@ favorModule.controller('favorLiteratureListCtrl', ['$scope', '$rootScope', '$htt
         }]
     };
 
+
+    $scope.editFavorites = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: "partial/editFav.html",
+            controller: 'editFavorModalInstance',
+            size: 'sm'
+        });
+    }
+
 }]);
 
 
-favorModule.controller('someFavorController', function ($scope, $http, $state, $stateParams, $rootScope) {
+favorModule.controller('someFavorController', function ($scope, $http, $state, $stateParams, $rootScope,$modal) {
     $rootScope.showAll = "showFavorLiterature";
     $rootScope.showDataSet = "showFavorDataSet";
     $rootScope.showCode = "showFavorCode";
     $rootScope.showReport = "showFavorReport";
 
     $rootScope.isFavor = true;
+
+
+    $scope.editFavorites = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: "partial/editFav.html",
+            controller: 'editFavorModalInstance',
+            size: 'sm'
+        });
+    }
 
 
     $http.post("http://121.40.106.155:5000/api/v1/favorites/query", {"user_id": $rootScope.userId})
@@ -515,5 +563,43 @@ favorModule.controller('newFavorModalInsCtrl', function ($scope, $modalInstance,
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+
+})
+
+favorModule.controller('editFavorModalInstance', function ($scope, $modal, $rootScope, $modalInstance, $http) {
+
+    $scope.renameArray = [];
+    for(var i =0 ;i<$rootScope.favorites.length;i++)
+        $scope.renameArray.push("重命名");
+
+
+    $scope.deleteFavor = function (favor) {
+        $http.delete("http://121.40.106.155:5000/api/v1/favorites/" + favor.id)
+            .success(function (data) {
+                $rootScope.favorites.splice($rootScope.favorites.indexOf(favor), 1);
+            })
+    }
+
+    $scope.rename = function (favor) {
+        if($scope.renameArray[$rootScope.favorites.indexOf(favor)] == "重命名")
+            $scope.renameArray[$rootScope.favorites.indexOf(favor)] = "应用";
+        else if($scope.renameArray[$rootScope.favorites.indexOf(favor)] == "应用")
+        {
+            $http.put("http://121.40.106.155:5000/api/v1/favorites/"+favor.id,favor)
+                .success(function (data) {
+
+                })
+            $scope.renameArray[$rootScope.favorites.indexOf(favor)] = "重命名";
+        }
+
+    }
+
+    $scope.judgeRename = function (favor) {
+        if($scope.renameArray[$rootScope.favorites.indexOf(favor)] == "应用")
+            return true;
+        else
+            return false;
+    }
+
 
 })

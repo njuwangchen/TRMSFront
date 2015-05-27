@@ -6,7 +6,7 @@
             <a ui-sref={{showDataSet}} class="list-group-item" ui-sref-active="active">数据集</a>
             <a ui-sref={{showCode}} class="list-group-item" ui-sref-active="active">代码</a>
             <a ui-sref={{showReport}} class="list-group-item" ui-sref-active="active">报告</a>
-     <h4 ng-show="isFavor">收藏夹</h4>
+     <h4 ng-show="isFavor">收藏夹&nbsp&nbsp&nbsp<a href ng-click="editFavorites()">编辑</a></h4>
             <a ng-repeat="favor in favorites" class="list-group-item" ui-sref="showSomeFavor({favorId:favor.id})" ui-sref-active="active">{{favor.name}}</a>
         </div>
 	</div>
