@@ -5,7 +5,16 @@
             <h2>{{report.title}}</h2>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-primary pull-right" type="button" ng-controller="addFavorCtrl" ng-click="addFavor()">收藏</button>
+            <div ng-controller="addFavorCtrl">
+                <button class="btn btn-primary pull-right" type="button" ng-show="!isFavorited"
+                        ng-click="addFavor()">
+                    收藏
+                </button>
+                <button class="btn btn-danger pull-right" type="button" ng-show="isFavorited"
+                        ng-click="deleteFavorRes(6)">
+                    取消收藏
+                </button>
+            </div>
             <p class="pull-right">&nbsp;</p>
             <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}"
                     ng-click="changeState()">{{getEditLabel()}}

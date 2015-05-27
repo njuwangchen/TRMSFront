@@ -404,28 +404,27 @@ favorModule.controller('someFavorController', function ($scope, $http, $state, $
 
 });
 
-favorModule.controller('addFavorCtrl', function ($modal, $http, $scope, $rootScope, Time) {
-    //
+favorModule.controller('addFavorCtrl', function ($modal, $http, $scope, $stateParams, $rootScope, Time) {
     $scope.isFavorited = false;
-    //$scope.labelName = "收藏"
-
 
     $http.post("http://121.40.106.155:5000/api/v1/favorites/query", {"user_id": $rootScope.userId})
         .success(function (data) {
             $rootScope.favorites = data;
         });
 
-    $http.post('http://121.40.106.155:5000/api/v1/favorite_resource/query', {
+    $http.put('http://121.40.106.155:5000/api/v1/favorite_resource/query', {
         "type": $scope.$parent.currentType,
-        "resource_id": $scope.$parent.currentId
+        "resource_id": $stateParams.id,
+        "user_id": $rootScope.userId
     })
         .success(function (data) {
-            if (data.length != 0) {
                 $scope.isFavorited = true;
-                //$scope.labelName = "已收藏";
-            }
+                $scope.fav_res = data;
+        })
+        .error(function (data) {
+            $scope.isFavorited = false;
+            $scope.fav_res = null;
         });
-
 
     $scope.addFavor = function () {
 
@@ -434,7 +433,6 @@ favorModule.controller('addFavorCtrl', function ($modal, $http, $scope, $rootSco
             controller: 'addFavorCtrlModalInstance',
             size: 'sm'
         });
-
 
         modalInstance.result.then(function (selectedFavor) {
             $scope.selectedFavor = selectedFavor;
@@ -448,20 +446,23 @@ favorModule.controller('addFavorCtrl', function ($modal, $http, $scope, $rootSco
                     $scope.isFavorited = true;
                 })
         });
+    };
 
+    $scope.deleteFavorRes = function (type) {
 
-        //if(!$scope.isFavorited)
-        //{//收藏
-        //
-        //
-        //    $scope.labelName = "取消收藏";
-        //}
-        //else
-        //{//取消收藏
-        //
-        //    $http.post('http://121.40.106.155:5000/api/v1/favorite_resources/delete',{}
-        //}
-    }
+        $http.post('http://121.40.106.155:5000/api/v1/favorite_resources/delete', {
+            "resource_id": $scope.fav_res.resource_id,
+            "type": type,
+            "favorite_id": $scope.fav_res.favorite_id
+        })
+            .success(function (response) {
+                if (response == "success") {
+                    alert("删除收藏成功");
+                    $scope.fav_res = null;
+                    $scope.isFavorited = false;
+                }
+            });
+    };
 });
 
 

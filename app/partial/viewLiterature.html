@@ -8,10 +8,20 @@
             <button class="btn btn-danger pull-right" type="button" ng-click="delete()">删除</button>
             <p class="pull-right">&nbsp;</p>
             <a class="btn btn-primary pull-right" type="button" download="export.txt" ng-href="{{exportUrl}}">导出</a>
+
             <p class="pull-right">&nbsp;</p>
-            <button class="btn btn-primary pull-right" type="button" ng-show="!isFavorited" ng-controller="addFavorCtrl" ng-click="addFavor()">
-                收藏
-            </button>
+
+            <div ng-controller="addFavorCtrl">
+                <button class="btn btn-primary pull-right" type="button" ng-show="!isFavorited"
+                        ng-click="addFavor()">
+                    收藏
+                </button>
+                <button class="btn btn-danger pull-right" type="button" ng-show="isFavorited"
+                        ng-click="deleteFavorRes(1)">
+                    取消收藏
+                </button>
+            </div>
+
             <p class="pull-right">&nbsp;</p>
             <button class="btn pull-right" type="button" ng-class="{'btn-primary': !isEdit, 'btn-info': isEdit}"
                     ng-click="changeState()">{{getEditLabel()}}
