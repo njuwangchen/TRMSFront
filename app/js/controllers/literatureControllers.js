@@ -221,18 +221,17 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
         $scope.literature.create_time = Time.currentTime(new Date());
         $scope.literature.literature_type_id = $scope.selectedType.id;
 
-        if ($scope.literature.literature_type_id == 1 && !$scope.literature.published_year) {
+        if ($scope.literature.literature_type_id == 2 && !$scope.literature.published_year) {
             KB_Conference($scope.literature.publisher_abbreviation);
-        } else if ($scope.literature.literature_type_id == 1 && $scope.literature.published_year) {
+        } else if ($scope.literature.literature_type_id == 2 && $scope.literature.published_year) {
             KB_Conference_Year($scope.literature.publisher_abbreviation, $scope.literature.published_year);
-        } else if ($scope.literature.published_year && $scope.literature.issue && $scope.literature.literature_type_id == 0) {
+        } else if ($scope.literature.published_year && $scope.literature.issue && $scope.literature.literature_type_id == 1) {
             KB_Journal_Year_Issue($scope.literature.publisher_abbreviation, $scope.literature.published_year, $scope.literature.issue);
-        } else if ($scope.literature.literature_type_id == 0) {
+        } else if ($scope.literature.literature_type_id == 1) {
             KB_Journal($scope.literature.publisher_abbreviation);
         } else {
             $scope.save();
         }
-
     };
 
     function KB_Conference(abbreviation) {
@@ -253,7 +252,12 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
         $http.post('http://121.40.106.155:5000/api/v1/kb_conference_year/query', query).success(function (data) {
             $scope.literature.location = data.location;
             $scope.literature.editor = data.editor;
-            $scope.save();
+            $http.post('http://121.40.106.155:5000/api/v1/kb_conference/query', query).success(function (data) {
+                $scope.literature.publisher = data.full;
+                $scope.save();
+            }).error(function (data) {
+                $scope.save();
+            });
         }).error(function (data) {
             $scope.save();
         });
@@ -277,7 +281,12 @@ literatureModule.controller('LiteratureAddCtrl', ['$scope', '$rootScope', '$stat
         query.issue = issue;
         $http.post('http://121.40.106.155:5000/api/v1/kb_journal_year_issue/query', query).success(function (data) {
             $scope.literature.editor = data.editor;
-            $scope.save();
+            $http.post('http://121.40.106.155:5000/api/v1/kb_journal/query', query).success(function (data) {
+                $scope.literature.publisher = data.full;
+                $scope.save();
+            }).error(function (data) {
+                $scope.save();
+            });
         }).error(function (data) {
             $scope.save();
         });
@@ -471,52 +480,52 @@ literatureModule.controller('LiteratureShowCtrl', ['$scope', '$rootScope', '$sta
             }
             else if (!not_found_in_tags_existed && !$scope.allTags[i]['selected']) {
                 $scope.tag_res.forEach(function (element) {
-                    if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
-                        $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
-                        for (var j = 0; j < $scope.tags.length; j++)
-                            if ($scope.tags[j]['id'] == element['tag_id']) {
-                            //    console.log("delete tag")
-                            //    console.log($scope.tags[j]['name']);
-                            //    $scope.tags.splice(j, 1);
-                            //    break;
+                        if (element.tag_id == $scope.allTags[i]['id'] && element.type == $scope.currentType) {
+                            $http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
+                            for (var j = 0; j < $scope.tags.length; j++)
+                                if ($scope.tags[j]['id'] == element['tag_id']) {
+                                    //    console.log("delete tag")
+                                    //    console.log($scope.tags[j]['name']);
+                                    //    $scope.tags.splice(j, 1);
+                                    //    break;
 
-                                //$http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
-                                $scope.tagsDividedShown[$scope.allTags[i].type].forEach(function (tag) {
-                                    if (tag.id == element.tag_id) {
-                                        var m = $scope.tagsDividedShown[$scope.allTags[i].type].indexOf(tag);
-                                        $scope.tagsDividedShown[$scope.allTags[i].type].splice(m, 1);
-                                        if ($scope.tagsDividedShown[$scope.allTags[i].type].length == 0) {
-                                            var n = $scope.tagTypesShown.indexOf($scope.allTags[i].type);
-                                            $scope.tagTypesShown.splice(n, 1);
+                                    //$http.delete('http://121.40.106.155:5000/api/v1/tag_resources/'.concat(element.id))
+                                    $scope.tagsDividedShown[$scope.allTags[i].type].forEach(function (tag) {
+                                        if (tag.id == element.tag_id) {
+                                            var m = $scope.tagsDividedShown[$scope.allTags[i].type].indexOf(tag);
+                                            $scope.tagsDividedShown[$scope.allTags[i].type].splice(m, 1);
+                                            if ($scope.tagsDividedShown[$scope.allTags[i].type].length == 0) {
+                                                var n = $scope.tagTypesShown.indexOf($scope.allTags[i].type);
+                                                $scope.tagTypesShown.splice(n, 1);
+                                            }
                                         }
-                                    }
 
-                                });
+                                    });
 
-                            }
+                                }
+                        }
                     }
-                    }
-                    )
-                }
+                )
             }
-
-            $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {
-                "resource_id": $scope.literature.id,
-                "type": $scope.currentType
-            })
-                .success(function (data) {
-                    $scope.tag_res = data;
-                });
         }
-        ;
 
-        $http.post("http://121.40.106.155:5000/api/v1/literatures/export", {'id': id})
+        $http.post("http://121.40.106.155:5000/api/v1/tag_resources/query", {
+            "resource_id": $scope.literature.id,
+            "type": $scope.currentType
+        })
             .success(function (data) {
-                var content = data;
-                var blob = new Blob([content], {type: 'text/plain'});
-                $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-            })
-
+                $scope.tag_res = data;
+            });
     }
-    ])
     ;
+
+    $http.post("http://121.40.106.155:5000/api/v1/literatures/export", {'id': id})
+        .success(function (data) {
+            var content = data;
+            var blob = new Blob([content], {type: 'text/plain'});
+            $scope.exportUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+        })
+
+}
+])
+;

@@ -31,6 +31,15 @@
         </div>
     </div>
 
+    <div class="form-group" ng-show="fieldsToBeShowed.contains('publisher_abbreviation')">
+        <label for="publisher_abbreviation" class="col-md-2 control-label">期刊/会议缩写</label>
+
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="publisher_abbreviation" placeholder="请输入期刊/会议缩写"
+                   ng-model="literature.publisher_abbreviation">
+        </div>
+    </div>
+
     <div class="form-group" ng-show="fieldsToBeShowed.contains('publisher')">
         <label for="publisher" class="col-md-2 control-label">期刊/会议</label>
 
