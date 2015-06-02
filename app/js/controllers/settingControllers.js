@@ -295,6 +295,11 @@ settingModule.controller('SettingCtrl', ['$scope', '$http', '$modal', function (
                     .success(function (data) {
                         var i = $scope.tagsDivided[tag.type].indexOf(tag);
                         $scope.tagsDivided[tag.type].splice(i, 1);
+                        if($scope.tagsDivided[tag.type].length == 0)
+                        {
+                            $scope.tagsDivided[tag.type] = null;
+                            $scope.tagTypes.splice($scope.tagTypes.indexOf(tag.type),1);
+                        }
                         alert("删除标签成功");
                     })
             }
@@ -322,7 +327,13 @@ settingModule.controller('SettingCtrl', ['$scope', '$http', '$modal', function (
             $http.post("http://121.40.106.155:5000/api/v1/tags", $scope.newTag)
                 .success(function (data) {
                     alert("增加标签成功");
-                    $scope.tagsDivided[data.type].push(data);
+                    if(!$scope.tagsDivided.contains(data.type))
+                    {
+                        $scope.tagsDivided[data.type] = [];
+                        $scope.tagTypes.push(data.type);
+                    }
+
+                        $scope.tagsDivided[data.type].push(data);
                 })
         else
             alert("请输入便签类型和名称");
