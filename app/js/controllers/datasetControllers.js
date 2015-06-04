@@ -188,6 +188,12 @@ datasetModule.controller('datasetShowCtrl',['$scope', '$rootScope', '$modal', '$
             });
     });
 
+    $scope.delete = function () {
+        $scope.dataset.$delete(function () {
+            $state.go('showAllDataSet');
+        });
+    };
+
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
 

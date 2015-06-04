@@ -128,7 +128,7 @@ reportModule.controller('reportAddCtrl', ['$scope', '$rootScope', '$state', '$ht
 ])
 ;
 
-reportModule.controller('reportShowCtrl', ['$scope', '$rootScope', '$stateParams', '$http', 'reportService', 'Time', function ($scope, $rootScope, $stateParams, $http, reportService, Time) {
+reportModule.controller('reportShowCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$http', 'reportService', 'Time', function ($scope, $rootScope, $state, $stateParams, $http, reportService, Time) {
     $scope.isEdit = false;
     $scope.comment_type_id = 4;
     $scope.currentType = 6;
@@ -168,6 +168,11 @@ reportModule.controller('reportShowCtrl', ['$scope', '$rootScope', '$stateParams
             });
     });
 
+    $scope.delete = function () {
+        $scope.report.$delete(function () {
+            $state.go('showAllReport');
+        });
+    };
 
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;

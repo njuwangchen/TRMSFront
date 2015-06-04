@@ -152,6 +152,12 @@ codeModule.controller('codeShowCtrl', ['$scope', '$rootScope', '$modal', '$state
             });
     });
 
+    $scope.delete = function () {
+        $scope.code.$delete(function () {
+            $state.go('showAllCode');
+        });
+    };
+
     $scope.changeState = function () {
         $scope.isEdit = !$scope.isEdit;
 
